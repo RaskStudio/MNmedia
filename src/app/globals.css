@@ -1,26 +1,190 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------
+   MNmedia design-tokens
+   Sort/hvid som fundament, lilla udelukkende til primære CTA'er.
+   Ændrer du en farve her, ændrer den sig på hele sitet.
+   --------------------------------------------------------------- */
+@theme {
+  --color-paper: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #16161a;
+  --color-grey-400: #8a8a92;
+  --color-grey-600: #4a4a52;
+  --color-grey-800: #232328;
+  --color-accent: #6e3bff;
+  --color-accent-hover: #5a2ee0;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Bevidst ikke kaldt --font-display: next/font ejer allerede det navn på
+     <html>, og to erklæringer på samme element ville slås om rækkefølgen. */
+  --font-headline: var(--font-display), "Archivo", ui-sans-serif, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid typeskala — headlines skalerer med viewport uden breakpoints */
+  --text-display: clamp(2.25rem, 4.2vw, 3.5rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.015em;
+
+  --text-h1: clamp(1.5rem, 5vw, 3rem);
+  --text-h1--line-height: 0.96;
+  --text-h1--letter-spacing: -0.012em;
+
+  --text-h2: clamp(1.375rem, 2.3vw, 2rem);
+  --text-h2--line-height: 1.02;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: clamp(1.25rem, 2vw, 1.5rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+
+  --text-lead: clamp(1.0625rem, 1.5vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  /* Sektionsluft — det vigtigste enkeltelement i det minimalistiske look */
+  --spacing-section: clamp(5rem, 11vw, 10rem);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---------------------------------------------------------------
+   Overskrifts-snittet. Bredde-aksen (wdth) er dét der giver det
+   plakat-agtige udtryk — sættes her ét sted, så alle overskrifter
+   på tværs af sitet flytter sig sammen hvis vi justerer den.
+   --------------------------------------------------------------- */
+@utility headline {
+  font-family: var(--font-headline);
+  /* Danske sammensatte ord ("samarbejdspartner") er lange nok til at sprænge
+     en telefonskærm. To niveauer af nødløsning, i den rækkefølge:
+       1. hyphens sætter en bindestreg. Chrome vælger ikke altid det pæneste
+          punkt ("samarbejdspart-ner"), men en delt streg er stadig bedre end
+          et ord der bare hakkes over.
+       2. break-word bryder uden bindestreg og er sidste udvej mod at teksten
+          løber ud over kanten.
+     Begge bør kun ramme under ~360 px. Bemærk at break-word deler ordet dér
+     hvor det står frem for at flytte det ned på egen linje — se AboutBlock,
+     hvor den derfor er slået fra på den ene overskrift med et meget langt ord. */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-variation-settings: "wdth" 112;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Mono-label: sektionsmarkører, tællere, tags. Altid versaler, altid spærret. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tastaturfokus skal altid være synligt — men kun ved tastaturbrug */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-paper);
+}
+
+/* ---------------------------------------------------------------
+   Filmkorn. Et fladt #08080a-lærred ser digitalt og billigt ud; et
+   næsten umærkeligt kornlag får det til at ligne graderet materiale.
+   SVG'en er inline som data-URI — ingen ekstra netværkskald.
+   --------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Overskrifter kører op bag en maske ved sideindlæsning — ét orkestreret
+   moment på forsiden frem for animation spredt ud over hele sitet. */
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 1.1s var(--ease-out-soft) both;
+}
+
+/* Brødtekst og knapper i heroen ligger ikke bag en maske, så de skal løfte
+   sig blidt frem i stedet for at køre op nedefra. */
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-lift {
+  animation: lift 0.9s var(--ease-out-soft) both;
+}
+
+/* Klip-tælleren under heroen: stregen fyldes op mens klippet spiller. */
+@keyframes scrub {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-scrub {
+  transform-origin: left;
+  animation: scrub var(--scrub-duration, 5s) linear both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scrub {
+    animation: none;
+  }
+
+  /* Indholdet skal stå — ikke bare animere hurtigt forbi */
+  .animate-rise,
+  .animate-lift {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
