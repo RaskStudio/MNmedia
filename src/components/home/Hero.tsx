@@ -107,6 +107,17 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
               aria-hidden
               className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20 lg:hidden"
             />
+
+            {/* Og headeren gør det samme. Mærket og burgeren er hvide
+                hårstreger, og klippet er ofte himmel i toppen — dér forsvinder
+                de. Gradienten ovenfor kan ikke løse det: den skal være lys
+                foroven, for ellers dæmper den motivet væk. Så toppen får sin
+                egen. Højden dækker headerens 80 px plus en blød udtoning, så
+                kanten ikke tegner en streg tværs over billedet. */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-ink/85 via-ink/45 to-transparent lg:hidden"
+            />
           </div>
 
           {/* På desktop står vinklerne uden for videorammen på sitets sorte

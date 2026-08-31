@@ -23,7 +23,22 @@
     var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* Fluid typeskala — headlines skalerer med viewport uden breakpoints */
-  --text-display: clamp(2.25rem, 4.2vw, 3.5rem);
+
+  /* Forsidens overskrift er brudt i linjer i hånden (se Hero.tsx), så den kan
+     ikke ombryde sig ud af en for smal spalte — den bliver bare klippet af.
+     Den længste linje, "FOR VIRKSOMHEDER", måler 11.75 em i Archivo wdth 112
+     med sitets sporing. Derfor loftet: graden må aldrig overstige den, hvor
+     linjen netop går ind i spalten.
+
+     Uden det er overskriften klippet af på hver eneste telefon — clamp'ens
+     bund på 2.25rem kræver 471 px viewport for at gå op, og så langt når
+     ingen af dem. Loftet bider kun dernede; over ~471 px er det clamp'en,
+     der bestemmer.
+
+     De 4.5rem er spaltens 3rem sidepolstring plus 1.5rem luft, så versalerne
+     ikke lander på selve kanten. Ændrer du linjerne i Hero.tsx, skal 11.75
+     måles om — det er den længste linjes bredde i em, målt i browseren. */
+  --text-display: min(clamp(2.25rem, 4.2vw, 3.5rem), (100vw - 4.5rem) / 11.75);
   --text-display--line-height: 0.9;
   --text-display--letter-spacing: -0.015em;
 
