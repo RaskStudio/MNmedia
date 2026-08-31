@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "brand": "python3 brand/byg.py && cp brand/svg/*.svg brand/pdf/*.pdf brand/png/*.png public/brand/"
+    "brand": "python3 brand/byg.py && python3 brand/social.py && cp brand/svg/*.svg brand/pdf/*.pdf brand/png/*.png public/brand/ && rm -rf public/brand/social && mkdir -p public/brand/social && cp -R brand/social/profil brand/social/cover brand/social/highlights public/brand/social/"
   },
   "dependencies": {
     "next": "16.3.1",

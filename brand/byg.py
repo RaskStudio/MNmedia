@@ -211,11 +211,24 @@ def skud(html, ud, bredde, hoejde, gennemsigtig=False):
     subprocess.run(args + [f"file://{html}"], capture_output=True)
 
 
+# Chrome stempler tidspunktet ind i hver PDF. Uden det her ville seks filer
+# ændre sig ved hver eneste kørsel — en falsk diff, der skjuler de rigtige
+# ændringer og lokker folk til at committe ingenting. Datoen har samme længde
+# som den, der erstattes, så byte-positionerne i xref-tabellen holder.
+FAST_DATO = b"D:20000101000000+00'00'"
+
+
 def til_pdf(html, ud):
     subprocess.run(
         [CHROME, "--headless", "--disable-gpu", "--no-sandbox",
          "--no-pdf-header-footer", "--virtual-time-budget=4000",
          f"--print-to-pdf={ud}", f"file://{html}"], capture_output=True)
+    if not os.path.exists(ud):
+        return
+    raa = open(ud, "rb").read()
+    fast = re.sub(rb"D:\d{14}\+00'00'", FAST_DATO, raa)
+    if fast != raa:
+        open(ud, "wb").write(fast)
 
 
 def side(krop, bredde, hoejde, papir=None, bg="transparent"):

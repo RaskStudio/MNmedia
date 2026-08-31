@@ -25,8 +25,12 @@ ikke er plads til ordet — ikonet, profilbilledet, et broderi på et bryst.
 ## Når tegningen ændrer sig
 
 ```
-python3 brand/byg.py
+npm run brand
 ```
+
+Det kører `byg.py` og `social.py` og lægger resultatet i `public/brand/`, så
+styleguiden på sitet serverer de nye filer. Vil du kun have vektorerne, er det
+`python3 brand/byg.py` alene.
 
 Scriptet læser stregmål og baner ud af `Logo.tsx` — det gentager dem ikke, så
 der kan ikke opstå to sandheder. Kan det ikke finde tallene, stopper det frem
@@ -37,6 +41,19 @@ sammen, og så er der aldrig en kopi tilbage, der viser et gammelt mærke.
 Det kræver Python med `fontTools` og `Pillow`, netadgang (Archivo hentes, så
 MEDIA kan lægges ud i konturer) og Google Chrome til PNG og PDF. Mangler
 Chrome, skrives SVG'erne alligevel, og resten springes over med en besked.
+
+## Sociale profiler
+
+`brand/social/` rummer profilbillede, bannere og highlight-omslag, skåret til
+hver platforms egne mål og sikre zoner. Bygges med:
+
+```
+python3 brand/social.py
+```
+
+Kør `byg.py` først — social.py bruger de færdige SVG'er som kilde, så
+profilbilledet viser præcis det samme mærke som sitet. Se
+`brand/social/README.md` for hvad der er hvad.
 
 ## Designguiden
 

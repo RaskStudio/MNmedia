@@ -105,6 +105,48 @@ const MAAL: [string, string, string][] = [
   ],
 ];
 
+/** Bannere. Målene er platformenes egne; zonen er dét, der overlever
+ *  beskæring og de profilbilleder, platformene lægger oven i hjørnet. */
+const BANNERE: { fil: string; navn: string; maal: string; zone: string; om: string }[] = [
+  {
+    fil: "facebook-cover-1640x664",
+    navn: "Facebook-cover",
+    maal: "1640 × 664",
+    zone: "1090 × 500",
+    om: "Telefonen beskærer til et smallere udsnit end computeren. Zonen er fællesmængden.",
+  },
+  {
+    fil: "linkedin-firmacover-1128x376",
+    navn: "LinkedIn, firmaside",
+    maal: "1128 × 376",
+    zone: "720 × 300",
+    om: "Firmalogoet dækker cirka 160 px inde fra venstre kant — zonen er sat smallere, så den går fri.",
+  },
+  {
+    fil: "linkedin-banner-1584x396",
+    navn: "LinkedIn, personlig",
+    maal: "1584 × 396",
+    zone: "1100 × 320",
+    om: "Profilbilledet lægger sig oven i venstre hjørne.",
+  },
+  {
+    fil: "youtube-kanalbanner-2560x1440",
+    navn: "YouTube-kanalbanner",
+    maal: "2560 × 1440",
+    zone: "1546 × 423",
+    om: "Fjernsyn viser hele fladen, telefonen kun midterfeltet.",
+  },
+];
+
+const HIGHLIGHTS = [
+  "some",
+  "video",
+  "annoncer",
+  "branding",
+  "cases",
+  "om-os",
+];
+
 const SKALA = [
   {
     k: "text-display",
@@ -742,6 +784,132 @@ export default function StyleguidePage() {
             ]}
           />
         </div>
+      </Blok>
+
+      {/* ---------------- 09 Sociale profiler ---------------- */}
+      <Blok
+        id="social"
+        nr="09"
+        titel="Sociale profiler"
+        intro="Profilbillede, bannere og highlight-omslag, skåret til hver platforms egne mål. Alt er bygget af de samme filer som resten — det er det samme mærke, ikke en variant til lejligheden."
+      >
+        <Under>Profilbillede</Under>
+        <div className="grid gap-10 md:grid-cols-[auto_minmax(0,1fr)]">
+          <div className="flex flex-wrap gap-8">
+            {[
+              { fil: "profil-sort-1080", navn: "Sort", brug: "Standard" },
+              { fil: "profil-hvid-1080", navn: "Hvid", brug: "Kun hvor lys bund kræves" },
+            ].map((p) => (
+              <div key={p.fil} className="flex flex-col items-center gap-4">
+                {/* Vist som cirkel, fordi det er sådan hver eneste platform
+                    viser det. En firkantet prøve ville skjule spørgsmålet om,
+                    hvorvidt mærket overlever beskæringen. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/brand/social/profil/${p.fil}.png`}
+                  alt={`Profilbillede, ${p.navn.toLowerCase()}`}
+                  className="size-32 rounded-full border border-grey-800"
+                />
+                <div className="text-center">
+                  <p className="text-sm font-medium">{p.navn}</p>
+                  <p className="label-mono mt-1 text-grey-600">{p.brug}</p>
+                </div>
+                <a
+                  href={`/brand/social/profil/${p.fil}.png`}
+                  download
+                  className="label-mono border border-grey-800 px-3 py-2 text-grey-400 transition-colors hover:border-accent hover:bg-accent hover:text-paper"
+                >
+                  Hent
+                </a>
+              </div>
+            ))}
+          </div>
+          <div className="text-sm leading-relaxed text-grey-400">
+            <p>
+              Ét billede på 1080 × 1080 rækker til Instagram, Facebook,
+              LinkedIn, TikTok og YouTube. Platformene skalerer selv ned.
+            </p>
+            <p className="mt-4">
+              Alle beskærer til en cirkel, og mærket overlever det: dets hjørner
+              ligger 0,418 gange sidelængden fra midten, cirklen 0,5. Derfor er
+              der ingen særskilt rund udgave — den firkantede{" "}
+              <em className="text-paper not-italic">er</em> den runde.
+            </p>
+            <p className="mt-4">
+              Den sorte er standarden. Den hvide er til de få steder, hvor en
+              lys bund er påkrævet — brandet står på sort.
+            </p>
+          </div>
+        </div>
+
+        <Under>Bannere</Under>
+        <ul className="grid gap-px border border-grey-800 bg-grey-800">
+          {BANNERE.map((b) => (
+            <li
+              key={b.fil}
+              className="grid gap-6 bg-ink p-6 md:grid-cols-[16rem_minmax(0,1fr)_auto] md:items-center"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/brand/social/cover/${b.fil}.png`}
+                alt={b.navn}
+                className="w-full border border-grey-800"
+              />
+              <div>
+                <h4 className="text-sm font-medium">{b.navn}</h4>
+                <p className="label-mono mt-2 text-grey-600">
+                  {b.maal} · sikker zone {b.zone}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-grey-400">
+                  {b.om}
+                </p>
+              </div>
+              <a
+                href={`/brand/social/cover/${b.fil}.png`}
+                download
+                className="label-mono justify-self-start border border-grey-800 px-3 py-2 text-grey-400 transition-colors hover:border-accent hover:bg-accent hover:text-paper"
+              >
+                Hent
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-grey-400">
+          Låsen står midt i dem alle. Det er ikke en æstetisk beslutning: midten
+          er det eneste sted, der overlever både telefonens beskæring og det
+          profilbillede, platformene lægger oven i venstre hjørne. Vinklerne
+          markerer den sikre zone og sidder 28 px inde i den — lå de på kanten,
+          ville beskæringen skære lige igennem dem.
+        </p>
+
+        <Under>Instagram-highlights</Under>
+        <Proeve className="gap-8">
+          {HIGHLIGHTS.map((h) => (
+            <a
+              key={h}
+              href={`/brand/social/highlights/highlight-${h}-1080.png`}
+              download
+              className="group flex flex-col items-center gap-3"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/brand/social/highlights/highlight-${h}-1080.png`}
+                alt={`Highlight-omslag: ${h}`}
+                className="size-24 rounded-full border border-grey-800 transition-colors group-hover:border-accent"
+              />
+              <span className="label-mono text-grey-600 transition-colors group-hover:text-paper">
+                Hent
+              </span>
+            </a>
+          ))}
+        </Proeve>
+        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-grey-400">
+          Ord frem for ikoner: et omslag vises som en cirkel på 161 px, og dér
+          lander en stregvægt på 1,4 px under én pixel — under mærkets egen
+          mindstestørrelse. Derfor er søgeren heller ikke med her. Alle seks er
+          sat i samme skriftgrad, ikke i samme bredde: fælles versalhøjde er
+          dét, der får dem til at læses som ét sæt.
+        </p>
       </Blok>
 
       {/* ---------------- Foden ---------------- */}
