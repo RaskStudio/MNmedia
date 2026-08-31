@@ -73,9 +73,20 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="label-mono mt-16 border-t border-grey-800 pt-8 text-grey-600">
-          © {new Date().getFullYear()} {site.name} — Aarhus
-        </p>
+        {/* Styleguiden hører til hernede, ikke i hovedmenuen: den er et
+            arbejdsredskab for os og for Markus, ikke et sted en kunde skal
+            ledes hen. Den er sat med noindex af samme grund. */}
+        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-grey-800 pt-8">
+          <p className="label-mono text-grey-600">
+            © {new Date().getFullYear()} {site.name} — Aarhus
+          </p>
+          <Link
+            href="/styleguide"
+            className="label-mono text-grey-600 transition-colors hover:text-paper"
+          >
+            Styleguide
+          </Link>
+        </div>
       </div>
     </footer>
   );
