@@ -1,15 +1,7 @@
-<!-- MNmedias mærke som faneikon. Samme geometri som Logo.tsx: ændrer du
-     stregmål eller punkter dér, skal denne fil rettes med.
-     Hvid streg på sitets sorte bund — mærket har ingen lys variant med
-     baggrund, fordi fanelinjen selv kan være både lys og mørk. -->
+<!-- Genereret af brand/byg.py ud fra Logo.tsx. Ret ikke i hånden. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <rect width="64" height="64" fill="#0a0a0a"/>
-  <!-- 74 % af bredden: den samme luft mærket har i profilbilledet. -->
   <svg x="8.3" y="19.6" width="47.4" height="24.8" viewBox="0 0 191 100">
-    <g fill="none" stroke="#ffffff" stroke-width="17" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8">
-      <path d="M11 120V-24L62 88L106 -9V120"/>
-      <path d="M106 -9L182 101"/>
-      <path d="M182 -20V120"/>
-    </g>
+    <g fill="none" stroke="#ffffff" stroke-width="17" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8"><path d="M11 120V-24L62 88L106 -9V120"/><path d="M106 -9L182 101"/><path d="M182 -20V120"/></g>
   </svg>
 </svg>
