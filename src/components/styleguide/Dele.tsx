@@ -28,18 +28,21 @@ export function Blok({
   id: string;
 }) {
   return (
-    <section id={id} className="border-t border-grey-800 py-section">
-      <div className="mx-auto w-full max-w-320 px-6 md:px-10">
-        <p className="label-mono mb-5 flex items-center gap-4 text-grey-600">
-          <span>{nr}</span>
-          <span>{titel}</span>
-          <span aria-hidden className="h-px flex-1 bg-grey-800" />
-        </p>
-        {intro && (
-          <p className="mb-14 max-w-2xl text-lead text-grey-400">{intro}</p>
-        )}
-        {children}
-      </div>
+    // Blokken har ingen egen yderramme: den ligger i styleguidens grid ved
+    // siden af indholdsoversigten, og spalten er sat dér.
+    //
+    // scroll-mt holder overskriften fri af den faste header, når man hopper
+    // hertil fra oversigten. Uden den lander afsnittet bag headeren.
+    <section id={id} className="scroll-mt-28 border-t border-grey-800 py-section">
+      <p className="label-mono mb-5 flex items-center gap-4 text-grey-600">
+        <span>{nr}</span>
+        <span>{titel}</span>
+        <span aria-hidden className="h-px flex-1 bg-grey-800" />
+      </p>
+      {intro && (
+        <p className="mb-14 max-w-2xl text-lead text-grey-400">{intro}</p>
+      )}
+      {children}
     </section>
   );
 }
