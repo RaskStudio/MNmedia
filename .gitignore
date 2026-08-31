@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Guiden bygges af brand/guide/saml.py — kilderne er versioneret, ikke resultatet
+brand/guide/designguide.html

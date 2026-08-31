@@ -16,7 +16,7 @@ Hvert format findes i tre udgaver:
 
 - **`-hvid`** — hvid streg, gennemsigtig bund. Til mørke flader og til billeder med ro i.
 - **`-sort`** — sort streg, gennemsigtig bund. Til hvidt papir og lyse flader.
-- **`-hvid-paa-sort`** — hvid streg med sort firkant bagved. Til profilbillede, faneikon og alle de steder, hvor du ikke selv bestemmer bunden.
+- **`-hvid-paa-sort`** — hvid streg med sort firkant bagved. Til profilbillede, faneikon og alle de steder, hvor du ikke selv bestemmer bunden. Luften er bygget ind i filen, fordi firkanten er det: låsen har en halv mærkehøjde hele vejen rundt, og mærket alene står på et kvadrat og fylder 74 % af bredden.
 
 Og i to opsætninger: **`-laas`** (mærket med ordet MEDIA) og **`-maerke`**
 (monogrammet alene). Låsen er standarden. Mærket alene bruges kun, hvor der
@@ -37,6 +37,19 @@ sammen, og så er der aldrig en kopi tilbage, der viser et gammelt mærke.
 Det kræver Python med `fontTools` og `Pillow`, netadgang (Archivo hentes, så
 MEDIA kan lægges ud i konturer) og Google Chrome til PNG og PDF. Mangler
 Chrome, skrives SVG'erne alligevel, og resten springes over med en besked.
+
+## Designguiden
+
+`brand/guide/` bygger den guide, Markus kan hente filerne fra:
+
+```
+python3 brand/guide/saml.py
+```
+
+Den læser de samme tal ud af `Logo.tsx` og pakker filerne fra `svg/`, `pdf/`
+og `png/` ind i siden, så de kan hentes direkte. Kør `byg.py` først, hvis
+tegningen har ændret sig — ellers pakker guiden de gamle filer ind.
+Resultatet, `designguide.html`, er ikke versioneret; kilderne er.
 
 ## Reglerne
 

@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1375.2 720.0" width="1375.2" height="720.0">
 <clipPath id="versalbaand"><rect x="0" y="0" width="1375.2" height="720.0"/></clipPath>
-<g clip-path="url(#versalbaand)"><g transform="scale(7.2000)"><g fill="none" stroke="#ffffff" stroke-width="17" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8"><path d="M11 120V-24L62 88L106 -9V120"/><path d="M106 -9L182 101"/><path d="M182 -20V120"/></g></g></g>
+<g transform="translate(0.0 0.0)"><g clip-path="url(#versalbaand)"><g transform="scale(7.2000)"><g fill="none" stroke="#ffffff" stroke-width="17" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8"><path d="M11 120V-24L62 88L106 -9V120"/><path d="M106 -9L182 101"/><path d="M182 -20V120"/></g></g></g>
+</g>
 </svg>

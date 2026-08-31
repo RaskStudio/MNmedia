@@ -44,6 +44,10 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # så ret den anden.
 ORD, VAEGT, BREDDE_AKSE, SPAERRING, GAB, MAERKE_EM = "MEDIA", 500, 80, 0.15, 0.5, 0.72
 
+# Hvor stor en del af en firkant mærket fylder — faneikon, profilbillede og de
+# udgaver, der har firkanten med i filen.
+IKON_ANDEL = 0.74
+
 INK, PAPER = "#0a0a0a", "#ffffff"
 
 # Delebilledet: skriftgraden låsen sættes i, og luften ned til mono-linjen.
@@ -119,9 +123,32 @@ def maerke_baner(farve, streg_id=None):
 
 
 def byg_svg(farve, baggrund, kun_maerke, baner, ord_b, upem):
+    """Én udgave af mærket.
+
+    Uden baggrund er lærredet stramt om stregerne — filen skal kunne sættes
+    hvor som helst, og luften styres af den, der bruger den.
+
+    MED baggrund følger firkanten med i filen, og så skal luften også følge
+    med: uden den rører mærket kanten, og filen bryder den luftregel, resten
+    af guiden beskriver. Mærket alene får et kvadratisk lærred, fordi det er
+    dét, et profilbillede og et faneikon skal fylde.
+    """
     maerke_b = MAERKE_EM * M_B / M_H
-    b = (maerke_b if kun_maerke else maerke_b + GAB + ord_b) * EM
-    h = MAERKE_EM * EM
+    kunst_b = (maerke_b if kun_maerke else maerke_b + GAB + ord_b) * EM
+    kunst_h = MAERKE_EM * EM
+
+    if not baggrund:
+        b, h, ox, oy = kunst_b, kunst_h, 0, 0
+    elif kun_maerke:
+        # Kvadratisk, mærket på 74 % af bredden — samme luft som faneikonet.
+        b = h = kunst_b / IKON_ANDEL
+        ox, oy = (b - kunst_b) / 2, (h - kunst_h) / 2
+    else:
+        # En halv mærkehøjde hele vejen rundt — guidens egen luftregel.
+        pude = MAERKE_EM * EM / 2
+        b, h = kunst_b + pude * 2, kunst_h + pude * 2
+        ox = oy = pude
+
     ud = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {b:.1f} {h:.1f}" '
         f'width="{b:.1f}" height="{h:.1f}">',
@@ -129,26 +156,28 @@ def byg_svg(farve, baggrund, kun_maerke, baner, ord_b, upem):
         # versalbåndet, og det er klippet, der giver de flade snit for- og
         # foroven. Uden det bliver mærket til to spidser.
         f'<clipPath id="versalbaand"><rect x="0" y="0" '
-        f'width="{maerke_b * EM:.1f}" height="{h:.1f}"/></clipPath>',
+        f'width="{maerke_b * EM:.1f}" height="{kunst_h:.1f}"/></clipPath>',
     ]
     if baggrund:
         ud.append(f'<rect width="{b:.1f}" height="{h:.1f}" fill="{baggrund}"/>')
     ud.append(
+        f'<g transform="translate({ox:.1f} {oy:.1f})">'
         f'<g clip-path="url(#versalbaand)">'
         f'<g transform="scale({MAERKE_EM * EM / M_H:.4f})">{maerke_baner(farve)}</g></g>'
     )
     if not kun_maerke:
         # Grundlinjen ligger i bunden; y vendes, fordi skrifter regner opad.
-        ox, s = (maerke_b + GAB) * EM, EM / upem
+        wx, sk = (maerke_b + GAB) * EM, EM / upem
         ud.append(
-            f'<g fill="{farve}" transform="translate({ox:.1f} {h:.1f}) '
-            f'scale({s:.4f} -{s:.4f})">'
+            f'<g fill="{farve}" transform="translate({wx:.1f} {kunst_h:.1f}) '
+            f'scale({sk:.4f} -{sk:.4f})">'
             + "".join(
                 f'<path transform="translate({gx * upem:.1f} 0)" d="{d}"/>'
                 for d, gx in baner
             )
             + "</g>"
         )
+    ud.append("</g>")
     ud.append("</svg>")
     return "\n".join(ud)
 

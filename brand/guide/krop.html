@@ -1,0 +1,286 @@
+<header>
+  <div class="ramme">
+    <p class="mono">MNmedia &middot; Designguide &middot; August 2026</p>
+    <div class="top-laas">__LAAS_STOR__</div>
+    <h1 class="display">Mærket, reglerne<br>og filerne</h1>
+    <p class="brod" style="margin-top:1.75rem">
+      Forslag 01 &ldquo;Smal&rdquo; er valgt. Her er alt, hvad der skal til for at
+      bruge det: mærket i alle udgaver, hvad du henter hvornår, og de få regler
+      der gør, at det bliver ved med at ligne det samme afsender. Filerne kan
+      hentes direkte herfra.
+    </p>
+  </div>
+</header>
+
+<!-- ================= MÆRKET ================= -->
+<section id="maerket">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">01 &middot; Mærket</p>
+      <h2 class="display">Det er tegnet, ikke skrevet</h2>
+      <p class="brod">
+        MN findes ikke i nogen skrift. Det er tre streger, sat op efter faste
+        mål, og det er derfor det kan skaleres fra et broderi til en gavl uden
+        at falde fra hinanden. Tegningen herunder er den originale konstruktion.
+      </p>
+    </div>
+
+    <div class="tegning">__TEGNING__</div>
+
+    <div class="fakta">
+      <div class="fakta-post">
+        <h3 class="display">Ét stregmål</h3>
+        <p>Stregen er 17 mod en versalhøjde på 100 — 17 %. Én værdi styrer hele
+           mærkets vægt. Ændrer du den, ændrer du mærket.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Delt streg</h3>
+        <p>M og N mødes om den lodrette streg i midten. Det er dét, der gør de
+           to bogstaver til ét mærke frem for to bogstaver ved siden af hinanden.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Flade snit</h3>
+        <p>Spidserne er skåret af foroven og forneden. Uden det snit ville
+           geringen løbe ud i en spids, der aldrig kan sættes af rent.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Ordet underordner sig</h3>
+        <p>MEDIA er sat smallere end sitets overskrifter. Det skal stå ved siden
+           af monogrammet, ikke konkurrere med det.</p>
+      </div>
+    </div>
+
+    <div class="maal-boks">
+      <table>
+        <thead>
+          <tr><th>Mål</th><th>Værdi</th><th>Hvorfor det står her</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mærkets tegning</td><td><span class="tal">191 &times; 100</span></td><td>Bredde mod versalhøjde. Alle andre mål er afledt af de to tal.</td></tr>
+          <tr><td>Stregmål</td><td><span class="tal">17</span></td><td>17 % af versalhøjden. Samme streg hele vejen rundt.</td></tr>
+          <tr><td>Delt streg</td><td><span class="tal">x = 106</span></td><td>Hvor M slutter og N begynder.</td></tr>
+          <tr><td>Mærket i låsen</td><td><span class="tal">0,72 em</span></td><td>Højden, målt fra ordets grundlinje.</td></tr>
+          <tr><td>Afstand til ordet</td><td><span class="tal">0,50 em</span></td><td>Skalerer med skriftgraden, så låsen holder sit forhold.</td></tr>
+          <tr><td>Hele låsen</td><td><span class="tal">5,1652 em</span></td><td>Bred som helhed. Brug den, hvis du skal regne plads ud.</td></tr>
+          <tr><td>MEDIA</td><td><span class="tal">Archivo · wdth 80 · 500</span></td><td>Spærring 0,15 em. I filerne er ordet lagt ud i konturer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FILER ================= -->
+<section id="filer">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">02 &middot; Filer</p>
+      <h2 class="display">Hent det du skal bruge</h2>
+      <p class="brod">
+        <strong>SVG</strong> er originalen — den skalerer i det uendelige og er
+        den, en foliemand eller en broderiskærer beder om.
+        <strong>PDF</strong> er samme vektor pakket til tryk.
+        <strong>PNG</strong> er 2400 px bred med gennemsigtig bund, til alt hvor
+        der ikke kan lægges en vektor ind: sociale medier, PowerPoint, Word.
+      </p>
+      <p class="brod">
+        <strong>Låsen</strong> er standarden. <strong>Mærket alene</strong>
+        bruges kun, hvor der ikke er plads til ordet — profilbillede, faneikon,
+        et broderi på et bryst.
+      </p>
+    </div>
+
+    <div class="filer">__FILKORT__</div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <p class="brod ingen-download-besked" style="margin-top:1.75rem">
+      Filerne kan ikke hentes i den her visning. De ligger i repoet under
+      <code>brand/</code> — svg, pdf og png.
+    </p>
+  </div>
+</section>
+
+<!-- ================= REGLER ================= -->
+<section id="regler">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">03 &middot; Reglerne</p>
+      <h2 class="display">Luft, mindstemål og farve</h2>
+    </div>
+
+    <div class="fakta" style="margin-top:0">
+      <div class="fakta-post">
+        <h3 class="display">Luft</h3>
+        <p>Mindst en halv mærkehøjde frit hele vejen rundt. Står mærket 40 px
+           højt, skal der være 20 px til nærmeste tekst, kant eller motiv.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Mindste størrelse</h3>
+        <p>Låsen: 90 px eller 24 mm bred. Mærket alene: 16 px eller 6 mm.
+           Under det lukker stregerne sig om hinanden.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Farve</h3>
+        <p>Sort eller hvid. Den lilla hører til knapper på sitet — aldrig til
+           mærket.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Bund</h3>
+        <p>Den hvide udgave skal have ro bag sig. På et lyst eller uroligt
+           billede skal billedet dæmpes først.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GØR IKKE ================= -->
+<section id="goer-ikke">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">04 &middot; Gør ikke</p>
+      <h2 class="display">Fem ting der slider mærket ned</h2>
+      <p class="brod">
+        Ikke smagsdommeri — hver af dem gør, at mærket holder op med at læses
+        som det samme mærke.
+      </p>
+    </div>
+    <div class="ikke">__IKKE__</div>
+  </div>
+</section>
+
+<!-- ================= FARVER ================= -->
+<section id="farver">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">05 &middot; Farver</p>
+      <h2 class="display">Sort, hvid og én lilla</h2>
+      <p class="brod">
+        Fundamentet er sort og hvid med tre gråtoner imellem. Den lilla er
+        forbeholdt dét, du gerne vil have folk til at trykke på — bruges den
+        til pynt, holder den op med at betyde &ldquo;tryk her&rdquo;.
+      </p>
+    </div>
+    <p class="mono" style="margin-bottom:1.5rem">Fundamentet</p>
+    <dl class="farver">__FARVER__</dl>
+
+    <p class="mono" style="margin:3.25rem 0 1.5rem">Accenten</p>
+    <div class="accent-blok">
+      <div class="farve-flade" style="background:#6e3bff"></div>
+      <div>
+        <h3 class="display">#6E3BFF</h3>
+        <p class="brod" style="margin-top:.75rem">
+          Den bruges ét sted: på dét, folk skal trykke på. På sitet er det
+          knappen &ldquo;Book en uforpligtende snak&rdquo; og den tynde linje,
+          der viser, hvor langt man er nået ned ad siden. Sætter du den på
+          overskrifter, ikoner eller streger, holder den op med at betyde
+          &ldquo;tryk her&rdquo; — og så er der ikke noget tilbage til at sige det.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKRIFTER ================= -->
+<section id="skrifter">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">06 &middot; Skrifter</p>
+      <h2 class="display">Tre roller, tre snit</h2>
+      <p class="brod">
+        Archivo har en bredde-akse, og det er hele pointen: den brede variant
+        giver den plakat-agtige vægt, en almindelig grotesk ikke har. Det er
+        dét, der adskiller sitet fra ethvert andet bureau.
+      </p>
+    </div>
+
+    <div class="snit">
+      <p class="mono">Overskrifter</p>
+      <div class="snit-proeve">
+        <p class="display" style="font-size:clamp(1.8rem,5vw,3rem);max-width:none">Vi bygger brands</p>
+      </div>
+      <p class="snit-spec">Archivo &middot; wdth 112 &middot; vægt 600 &middot; versaler</p>
+    </div>
+
+    <div class="snit">
+      <p class="mono">Brødtekst</p>
+      <div class="snit-proeve">
+        <p style="font-size:1.0625rem;color:var(--grey)">Branding, sociale medier og annoncering — samlet ét sted. Vi står for hele processen, fra idé til færdigt resultat.</p>
+      </div>
+      <p class="snit-spec">Geist &middot; vægt 350 &middot; linjeafstand 1,65</p>
+    </div>
+
+    <div class="snit">
+      <p class="mono">Labels, tal og tællere</p>
+      <div class="snit-proeve">
+        <p style="font-family:var(--mono);font-size:.6875rem;letter-spacing:.22em;text-transform:uppercase;color:var(--grey)">Ydelser &middot; Cases &middot; Om MNmedia &middot; 02 / 03</p>
+      </div>
+      <p class="snit-spec">Geist Mono &middot; vægt 400 &middot; sporing 0,22 em &middot; altid versaler</p>
+    </div>
+
+    <div class="snit">
+      <p class="mono">Ordet i mærket</p>
+      <div class="snit-proeve">
+        <p class="laas-o" style="font-size:1.75rem">media</p>
+      </div>
+      <p class="snit-spec">Archivo &middot; wdth 80 &middot; vægt 500 &middot; sporing 0,15 em — smallere end overskrifterne, med vilje</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SØGEREN ================= -->
+<section id="soegeren">
+  <div class="ramme">
+    <div class="sek-hoved">
+      <p class="mono">07 &middot; Søgeren</p>
+      <h2 class="display">Hjørnerne er ikke pynt</h2>
+      <p class="brod">
+        Fire vinkler, der markerer et felt uden at lukke en kasse om det.
+        Betydningen er hentet fra dit eget værktøj: det er sådan en søger
+        afgrænser dét, der er i billedet. Derfor er der én regel.
+      </p>
+    </div>
+
+    <div class="tegning" style="display:flex;align-items:center;justify-content:center;padding:clamp(2.5rem,6vw,4.5rem)">
+      <div class="soeger" style="padding:1.5rem 2rem">
+        <span class="hj hj-tv"></span><span class="hj hj-th"></span>
+        <span class="hj hj-bv"></span><span class="hj hj-bh"></span>
+        <p class="mono" style="color:var(--grey)">De markerer noget, man ser på</p>
+      </div>
+    </div>
+
+    <div class="fakta">
+      <div class="fakta-post">
+        <h3 class="display">Ja</h3>
+        <p>Om optaget materiale, om billedplader, og om det ene sted per side,
+           hvor vi beder om mødet.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Nej</h3>
+        <p>Om mærket. Lå de også om afsenderen, holdt de op med at betyde noget.
+           De sad i det midlertidige logo — de er taget ud.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Nej</h3>
+        <p>Om hvert kort og hvert felt. Sættes de alle steder, bliver de til
+           mønstertapet.</p>
+      </div>
+      <div class="fakta-post">
+        <h3 class="display">Uden for motivet</h3>
+        <p>På billeder skal vinklerne ligge uden for, med negativ afstand. Hvide
+           hårstreger forsvinder mod himmel og lyst træ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ramme">
+    <p class="mono">Originalen</p>
+    <p class="brod" style="margin-top:1rem">
+      Tegningen findes ét sted: <code>src/components/layout/Logo.tsx</code> i
+      sitets repo. Alle filer i denne guide er genereret ud fra den med
+      <code>python3 brand/byg.py</code>. Ændrer geometrien sig, køres scriptet,
+      og så følger ikoner, delebillede og trykfiler med — så der aldrig ligger
+      en kopi tilbage, der viser et gammelt mærke.
+    </p>
+    <p class="mono" style="margin-top:2.5rem">MNmedia &middot; Aarhus</p>
+  </div>
+</footer>
