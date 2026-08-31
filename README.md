@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MNmedia
 
-## Getting Started
-
-First, run the development server:
+Sitet for MNmedia — Next.js 16, Tailwind 4, hostet på Vercel.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Hvor tingene ligger
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Sti | Hvad |
+| --- | --- |
+| `src/app/` | Siderne. Fem offentlige, plus `/styleguide` og `/studio`. |
+| `src/components/` | Komponenterne. `shared/` er byggestenene, `layout/` er header og fod. |
+| `src/content/` | Tekst, der ikke er i CMS'et — ydelser, om-siden, kontaktoplysninger. |
+| `src/sanity/` | Datalaget for cases. |
+| `brand/` | Logofiler, grafik til sociale profiler, og scripterne der bygger dem. |
+| `scripts/` | Billed- og videobygning fra `../raw-assets`, samt engangs-importen til Sanity. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## De tre dokumenter, der betyder noget
 
-## Learn More
+- **`/styleguide`** på sitet — mærket, farver, skrifter, komponenter og
+  reglerne bag dem. Linket i sidefoden. Det er opslagsværket.
+- **`SANITY.md`** — hvordan cases kommer i CMS'et, og hvad der bevidst ikke
+  gør. Skal køres færdig; se trin 6.
+- **`brand/README.md`** — logofilerne, hvad de bruges til, og hvordan de
+  genskabes.
 
-To learn more about Next.js, take a look at the following resources:
+## Kommandoer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| | |
+| --- | --- |
+| `npm run dev` | Udviklingsserver |
+| `npm run build` | Byg |
+| `npm run lint` | ESLint |
+| `npm run brand` | Genskaber alle logofiler og sociale formater ud fra `Logo.tsx` |
+| `npm run sanity:import` | Flytter cases fra koden ind i Sanity. Engangs. |
+| `node scripts/build-assets.mjs` | Bygger billeder og klip fra `../raw-assets` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Miljøvariabler
 
-## Deploy on Vercel
+Kopiér `.env.example` til `.env.local`. Ingen af dem er påkrævet for at køre
+sitet lokalt: uden Sanity vises de cases, der ligger i koden, og uden Resend
+siger kontaktformularen ærligt, at beskeden ikke kunne sendes, og henviser til
+mail og telefon.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## To ting, der er værd at vide
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Originalerne ligger uden for repoet.** `../raw-assets` er 1,8 GB rå
+kamerafiler, som `scripts/build-assets.mjs` komprimerer ned til det, sitet
+faktisk bruger — typisk 1-2 % af kildestørrelsen. Alt i `public/` deployes
+råt, så originalerne må ikke ligge der.
+
+**Mærkets geometri findes ét sted:** `src/components/layout/Logo.tsx`. Ikon,
+favicon, delebillede og alle filerne i `brand/` er genereret ud fra de tal.
+Ændrer du dem, kører du `npm run brand`.

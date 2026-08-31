@@ -8,7 +8,7 @@ import { ArrowRight } from "@/components/shared/Button";
 import { StatBlock, ServiceTags } from "@/components/shared/StatBlock";
 import { Testimonial } from "@/components/shared/Testimonial";
 import { ClosingCta } from "@/components/shared/ClosingCta";
-import { cases } from "@/content/cases";
+import { hentCases } from "@/sanity/hent";
 
 export const metadata: Metadata = {
   title: "Cases",
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
     "Vi hjælper virksomheder med at styrke deres brand, skabe synlighed og tiltrække flere kunder gennem strategisk content og målrettet annoncering.",
 };
 
-const udtalelser = cases.flatMap((c) => (c.udtalelse ? [c.udtalelse] : []));
+export default async function CasesPage() {
+  const cases = await hentCases();
+  const udtalelser = cases.flatMap((c) => (c.udtalelse ? [c.udtalelse] : []));
 
-export default function CasesPage() {
   return (
     <>
       <PageHero
@@ -38,8 +39,8 @@ export default function CasesPage() {
             <FadeIn as="li" key={c.slug}>
               <article className="grid gap-10 lg:grid-cols-2 lg:gap-20">
                 <Billede
-                  src={c.cover}
-                  alt={`Content produceret for ${c.kunde}`}
+                  src={c.cover.url}
+                  alt={c.cover.alt}
                   ratio="aspect-4/5"
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className={i % 2 === 1 ? "lg:order-2" : undefined}

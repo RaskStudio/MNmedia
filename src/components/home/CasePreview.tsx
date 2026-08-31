@@ -4,9 +4,11 @@ import { FadeIn } from "@/components/shared/FadeIn";
 import { ArrowRight } from "@/components/shared/Button";
 import { StatBlock, ServiceTags } from "@/components/shared/StatBlock";
 import { Billede } from "@/components/shared/Billede";
-import { forsideCases } from "@/content/cases";
+import { hentForsideCases } from "@/sanity/hent";
 
-export function CasePreview() {
+export async function CasePreview() {
+  const forsideCases = await hentForsideCases();
+
   return (
     <Section className="border-t border-grey-800">
       <div className="flex flex-wrap items-end justify-between gap-6">
@@ -34,8 +36,8 @@ export function CasePreview() {
             >
               <div className="relative">
                 <Billede
-                  src={c.cover}
-                  alt={`Content produceret for ${c.kunde}`}
+                  src={c.cover.url}
+                  alt={c.cover.alt}
                   // 4:5 er formatet billederne er skudt i — vi beskærer ikke
                   // hans komposition væk for at ramme et bredt felt.
                   ratio="aspect-4/5"

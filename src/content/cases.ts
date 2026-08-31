@@ -1,12 +1,31 @@
 /**
- * Seed-data for cases. Formen matcher 1:1 det Sanity-skema vi bygger i fase 3,
- * så skiftet til CMS bliver et query-skift — ikke en omskrivning af komponenter.
+ * Typerne for en case — og indtil videre også selve indholdet.
+ *
+ * TYPERNE bliver her. De er den form, komponenterne arbejder med, og
+ * src/sanity/hent.ts oversætter Sanitys svar til dem. Det var dét, der gjorde
+ * skiftet til CMS til et query-skift frem for en omskrivning.
+ *
+ * `cases`-arrayet er derimod en RAMPE. Det bruges kun, så længe Sanity ikke
+ * er konfigureret, så sitet kan bygge og deploye, før projektet findes.
+ * Når cases er importeret (se SANITY.md), skal arrayet slettes — to kilder
+ * til de samme cases er præcis dét, opsætningen er lavet for at undgå.
+ *
+ * `kundeLogoer` bliver derimod liggende. Se noten ved den.
  */
 
 export type Ydelse =
   "Branding" | "Sociale medier" | "Video og foto" | "Annoncering";
 
 export type Fakta = { tal: string; label: string };
+
+/**
+ * Et billede med sin egen beskrivelse.
+ *
+ * Beskrivelsen hører til billedet, ikke til casen. Seks billeder med samme
+ * tekst — «Content produceret for RS Tømrer» — hjælper ingen, der får siden
+ * læst højt. Derfor er `alt` et felt i CMS'et, og derfor bærer typen det med.
+ */
+export type Billede = { url: string; alt: string };
 
 export type Case = {
   slug: string;
@@ -17,10 +36,10 @@ export type Case = {
   fakta: Fakta[];
   visPaaForsiden: boolean;
   /** 4:5 — samme format stillbillederne er skudt i. Se scripts/build-assets.mjs */
-  cover: string;
+  cover: Billede;
   /** 16:9 til toppen af case-siden */
-  bred: string;
-  galleri: string[];
+  bred: Billede;
+  galleri: Billede[];
   udtalelse?: { citat: string; navn: string; titel: string };
 };
 
@@ -40,13 +59,13 @@ export const cases: Case[] = [
       { tal: "1.000+", label: "interaktioner" },
     ],
     visPaaForsiden: true,
-    cover: "/cases/rs-tomrer/cover.webp",
-    bred: "/cases/rs-tomrer/bred.webp",
+    cover: { url: "/cases/rs-tomrer/cover.webp", alt: "Stillbillede fra content produceret for RS Tømrer" },
+    bred: { url: "/cases/rs-tomrer/bred.webp", alt: "Bredt stillbillede fra content produceret for RS Tømrer" },
     galleri: [
-      "/cases/rs-tomrer/01.webp",
-      "/cases/rs-tomrer/02.webp",
-      "/cases/rs-tomrer/03.webp",
-      "/cases/rs-tomrer/04.webp",
+      { url: "/cases/rs-tomrer/01.webp", alt: "Stillbillede 1 fra content produceret for RS Tømrer" },
+      { url: "/cases/rs-tomrer/02.webp", alt: "Stillbillede 2 fra content produceret for RS Tømrer" },
+      { url: "/cases/rs-tomrer/03.webp", alt: "Stillbillede 3 fra content produceret for RS Tømrer" },
+      { url: "/cases/rs-tomrer/04.webp", alt: "Stillbillede 4 fra content produceret for RS Tømrer" },
     ],
     udtalelse: {
       citat:
@@ -69,13 +88,13 @@ export const cases: Case[] = [
       // TODO: leads-tal mangler fra Markus
     ],
     visPaaForsiden: true,
-    cover: "/cases/mc-tag/cover.webp",
-    bred: "/cases/mc-tag/bred.webp",
+    cover: { url: "/cases/mc-tag/cover.webp", alt: "Stillbillede fra content produceret for MC TAG" },
+    bred: { url: "/cases/mc-tag/bred.webp", alt: "Bredt stillbillede fra content produceret for MC TAG" },
     galleri: [
-      "/cases/mc-tag/01.webp",
-      "/cases/mc-tag/02.webp",
-      "/cases/mc-tag/03.webp",
-      "/cases/mc-tag/04.webp",
+      { url: "/cases/mc-tag/01.webp", alt: "Stillbillede 1 fra content produceret for MC TAG" },
+      { url: "/cases/mc-tag/02.webp", alt: "Stillbillede 2 fra content produceret for MC TAG" },
+      { url: "/cases/mc-tag/03.webp", alt: "Stillbillede 3 fra content produceret for MC TAG" },
+      { url: "/cases/mc-tag/04.webp", alt: "Stillbillede 4 fra content produceret for MC TAG" },
     ],
   },
   {
@@ -88,13 +107,13 @@ export const cases: Case[] = [
     ydelser: ["Branding", "Sociale medier", "Video og foto"],
     fakta: [],
     visPaaForsiden: false,
-    cover: "/cases/ao-byggeri/cover.webp",
-    bred: "/cases/ao-byggeri/bred.webp",
+    cover: { url: "/cases/ao-byggeri/cover.webp", alt: "Stillbillede fra content produceret for AO Byggeri" },
+    bred: { url: "/cases/ao-byggeri/bred.webp", alt: "Bredt stillbillede fra content produceret for AO Byggeri" },
     galleri: [
-      "/cases/ao-byggeri/01.webp",
-      "/cases/ao-byggeri/02.webp",
-      "/cases/ao-byggeri/03.webp",
-      "/cases/ao-byggeri/04.webp",
+      { url: "/cases/ao-byggeri/01.webp", alt: "Stillbillede 1 fra content produceret for AO Byggeri" },
+      { url: "/cases/ao-byggeri/02.webp", alt: "Stillbillede 2 fra content produceret for AO Byggeri" },
+      { url: "/cases/ao-byggeri/03.webp", alt: "Stillbillede 3 fra content produceret for AO Byggeri" },
+      { url: "/cases/ao-byggeri/04.webp", alt: "Stillbillede 4 fra content produceret for AO Byggeri" },
     ],
     udtalelse: {
       citat:
@@ -104,8 +123,6 @@ export const cases: Case[] = [
     },
   },
 ];
-
-export const forsideCases = cases.filter((c) => c.visPaaForsiden).slice(0, 2);
 
 /** Kundelogoer til karrusellen — hvide mærker på transparent baggrund. */
 export const kundeLogoer = [

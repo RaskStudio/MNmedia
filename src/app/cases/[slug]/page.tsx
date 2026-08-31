@@ -8,9 +8,10 @@ import { ArrowRight } from "@/components/shared/Button";
 import { StatBlock, ServiceTags } from "@/components/shared/StatBlock";
 import { Testimonial } from "@/components/shared/Testimonial";
 import { ClosingCta } from "@/components/shared/ClosingCta";
-import { cases } from "@/content/cases";
+import { hentCase, hentCases } from "@/sanity/hent";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const cases = await hentCases();
   return cases.map((c) => ({ slug: c.slug }));
 }
 
@@ -18,7 +19,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/cases/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const c = cases.find((x) => x.slug === slug);
+  const c = await hentCase(slug);
   if (!c) return {};
 
   return {
@@ -29,10 +30,10 @@ export async function generateMetadata({
 
 export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
   const { slug } = await params;
-  const c = cases.find((x) => x.slug === slug);
+  const c = await hentCase(slug);
   if (!c) notFound();
 
-  const andre = cases.filter((x) => x.slug !== c.slug);
+  const andre = (await hentCases()).filter((x) => x.slug !== c.slug);
 
   return (
     <>
@@ -60,8 +61,8 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
       <div className="px-6 md:px-10">
         <div className="mx-auto w-full max-w-320">
           <Billede
-            src={c.bred}
-            alt={`Content produceret for ${c.kunde}`}
+            src={c.bred.url}
+            alt={c.bred.alt}
             ratio="aspect-16/9"
             sizes="(min-width: 1280px) 1280px, 100vw"
             priority
@@ -100,10 +101,10 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
           <Eyebrow>Fra optagelserne</Eyebrow>
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {c.galleri.map((billede, i) => (
-              <FadeIn as="li" key={billede} delay={i * 90}>
+              <FadeIn as="li" key={billede.url} delay={i * 90}>
                 <Billede
-                  src={billede}
-                  alt={`Content produceret for ${c.kunde}`}
+                  src={billede.url}
+                  alt={billede.alt}
                   ratio="aspect-4/5"
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   corners={false}
