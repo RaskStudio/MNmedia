@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { site } from "@/content/site";
 
 /**
@@ -72,12 +70,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="da"
       className={`${archivo.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {/* Header, indhold og sidefod ligger i (site)/layout.tsx. Root-layoutet
+          holder kun det, ALLE ruter deler — skrifterne, farverne og
+          strukturdataene — så /studio kan få hele skærmen for sig selv. */}
       <body className="flex min-h-full flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        {/* Kornlaget ligger øverst og fanger ingen klik — se globals.css */}
-        <div aria-hidden className="grain" />
+        {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}

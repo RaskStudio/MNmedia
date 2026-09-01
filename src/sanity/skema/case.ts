@@ -112,6 +112,19 @@ export const caseType = defineType({
       validation: (r) => r.max(4),
     }),
     defineField({
+      name: "orden",
+      title: "Rækkefølge",
+      type: "number",
+      group: "tal",
+      // Uden det her felt står casene efter oprettelsestidspunkt. Ved en
+      // samlet import er de tidspunkter nærmest ens, og rækkefølgen bliver
+      // reelt tilfældig — og den betyder noget: den øverste case er den, de
+      // fleste ser.
+      description:
+        "Lavest står øverst. Skriv 1 på den, der skal vises først, 2 på den næste og så videre.",
+      validation: (r) => r.required().integer().min(1),
+    }),
+    defineField({
       name: "visPaaForsiden",
       title: "Vis på forsiden",
       type: "boolean",

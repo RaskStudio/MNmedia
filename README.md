@@ -14,16 +14,16 @@ npm run dev
 | `src/app/` | Siderne. Fem offentlige, plus `/styleguide` og `/studio`. |
 | `src/components/` | Komponenterne. `shared/` er byggestenene, `layout/` er header og fod. |
 | `src/content/` | Tekst, der ikke er i CMS'et — ydelser, om-siden, kontaktoplysninger. |
-| `src/sanity/` | Datalaget for cases. |
+| `src/sanity/` | Datalaget for cases, og skemaet studiet bygger på. |
 | `brand/` | Logofiler, grafik til sociale profiler, og scripterne der bygger dem. |
-| `scripts/` | Billed- og videobygning fra `../raw-assets`, samt engangs-importen til Sanity. |
+| `scripts/` | Billed- og videobygning fra `../raw-assets`. |
 
 ## De tre dokumenter, der betyder noget
 
 - **`/styleguide`** på sitet — mærket, farver, skrifter, komponenter og
   reglerne bag dem. Linket i sidefoden. Det er opslagsværket.
-- **`SANITY.md`** — hvordan cases kommer i CMS'et, og hvad der bevidst ikke
-  gør. Skal køres færdig; se trin 6.
+- **`SANITY.md`** — hvordan Markus lægger en case ind, hvad der bevidst ikke
+  er i CMS'et, og hvad der stadig mangler at blive sat op.
 - **`brand/README.md`** — logofilerne, hvad de bruges til, og hvordan de
   genskabes.
 
@@ -35,15 +35,14 @@ npm run dev
 | `npm run build` | Byg |
 | `npm run lint` | ESLint |
 | `npm run brand` | Genskaber alle logofiler og sociale formater ud fra `Logo.tsx` |
-| `npm run sanity:import` | Flytter cases fra koden ind i Sanity. Engangs. |
 | `node scripts/build-assets.mjs` | Bygger billeder og klip fra `../raw-assets` |
 
 ## Miljøvariabler
 
-Kopiér `.env.example` til `.env.local`. Ingen af dem er påkrævet for at køre
-sitet lokalt: uden Sanity vises de cases, der ligger i koden, og uden Resend
-siger kontaktformularen ærligt, at beskeden ikke kunne sendes, og henviser til
-mail og telefon.
+Kopiér `.env.example` til `.env.local`. Sanity-variablerne er påkrævede —
+cases ligger i CMS'et, og der er ingen kopi i koden at falde tilbage på.
+Resend er valgfri: uden nøglen siger kontaktformularen ærligt, at beskeden
+ikke kunne sendes, og henviser til mail og telefon.
 
 ## To ting, der er værd at vide
 

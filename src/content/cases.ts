@@ -1,16 +1,12 @@
 /**
- * Typerne for en case — og indtil videre også selve indholdet.
+ * Formen på en case, og kundelogoerne.
  *
- * TYPERNE bliver her. De er den form, komponenterne arbejder med, og
- * src/sanity/hent.ts oversætter Sanitys svar til dem. Det var dét, der gjorde
- * skiftet til CMS til et query-skift frem for en omskrivning.
+ * Selve casene ligger i Sanity — se src/sanity/hent.ts. Typerne bliver her,
+ * fordi det er dem, komponenterne arbejder med: datalaget oversætter Sanitys
+ * svar til dem, og derfor kendte komponenterne allerede formen, da indholdet
+ * flyttede.
  *
- * `cases`-arrayet er derimod en RAMPE. Det bruges kun, så længe Sanity ikke
- * er konfigureret, så sitet kan bygge og deploye, før projektet findes.
- * Når cases er importeret (se SANITY.md), skal arrayet slettes — to kilder
- * til de samme cases er præcis dét, opsætningen er lavet for at undgå.
- *
- * `kundeLogoer` bliver derimod liggende. Se noten ved den.
+ * `kundeLogoer` bliver liggende med vilje. Se noten ved den.
  */
 
 export type Ydelse =
@@ -42,87 +38,6 @@ export type Case = {
   galleri: Billede[];
   udtalelse?: { citat: string; navn: string; titel: string };
 };
-
-export const cases: Case[] = [
-  {
-    slug: "rs-tomrer",
-    kunde: "RS Tømrer",
-    kortBeskrivelse:
-      "Sociale medier og annoncering der gav markant mere synlighed og konkrete henvendelser.",
-    langBeskrivelse:
-      "RS Tømrer ønskede at styrke deres brand online og skabe flere henvendelser omkring renoveringer og tilbygninger. Gennem personlige kundeinterview, projektvideoer og målrettet annoncering skabte vi markant mere synlighed, troværdighed og flere kunder.",
-    ydelser: ["Branding", "Sociale medier", "Video og foto", "Annoncering"],
-    fakta: [
-      { tal: "300.000+", label: "visninger" },
-      { tal: "10 mio.+", label: "kr. i opgaver" },
-      { tal: "100+", label: "leads" },
-      { tal: "1.000+", label: "interaktioner" },
-    ],
-    visPaaForsiden: true,
-    cover: { url: "/cases/rs-tomrer/cover.webp", alt: "Stillbillede fra content produceret for RS Tømrer" },
-    bred: { url: "/cases/rs-tomrer/bred.webp", alt: "Bredt stillbillede fra content produceret for RS Tømrer" },
-    galleri: [
-      { url: "/cases/rs-tomrer/01.webp", alt: "Stillbillede 1 fra content produceret for RS Tømrer" },
-      { url: "/cases/rs-tomrer/02.webp", alt: "Stillbillede 2 fra content produceret for RS Tømrer" },
-      { url: "/cases/rs-tomrer/03.webp", alt: "Stillbillede 3 fra content produceret for RS Tømrer" },
-      { url: "/cases/rs-tomrer/04.webp", alt: "Stillbillede 4 fra content produceret for RS Tømrer" },
-    ],
-    udtalelse: {
-      citat:
-        "Det bedste ved samarbejdet er, at vi ikke længere skal bruge tid på at finde på idéer eller tænke over vores sociale medier. Markus har sat en klar retning for vores online tilstedeværelse og tager ansvar for hele processen – fra idé og optagelser til redigering og annoncering. Det giver os ro til at fokusere på det, vi er bedst til.",
-      navn: "Rasmus Stampe",
-      titel: "Indehaver, RS Tømrer",
-    },
-  },
-  {
-    slug: "mc-tag",
-    kunde: "MC TAG",
-    kortBeskrivelse:
-      "En tydeligere position online gennem brandstrategi, personligt content og annoncering.",
-    langBeskrivelse:
-      "MC TAG ønskede at styrke deres brand og skabe en tydeligere position online. Gennem en målrettet brandstrategi, personligt content og annoncering hjælper vi med at skabe en stærkere online tilstedeværelse, hvor virksomhedens værdier og kvalitet kommer til udtryk. Samarbejdet omfatter blandt andet projektvideoer, bag-om-virksomheden-indhold og løbende udvikling af deres sociale medier.",
-    ydelser: ["Branding", "Sociale medier", "Video og foto", "Annoncering"],
-    fakta: [
-      { tal: "500.000+", label: "visninger" },
-      { tal: "1.000+", label: "interaktioner" },
-      // TODO: leads-tal mangler fra Markus
-    ],
-    visPaaForsiden: true,
-    cover: { url: "/cases/mc-tag/cover.webp", alt: "Stillbillede fra content produceret for MC TAG" },
-    bred: { url: "/cases/mc-tag/bred.webp", alt: "Bredt stillbillede fra content produceret for MC TAG" },
-    galleri: [
-      { url: "/cases/mc-tag/01.webp", alt: "Stillbillede 1 fra content produceret for MC TAG" },
-      { url: "/cases/mc-tag/02.webp", alt: "Stillbillede 2 fra content produceret for MC TAG" },
-      { url: "/cases/mc-tag/03.webp", alt: "Stillbillede 3 fra content produceret for MC TAG" },
-      { url: "/cases/mc-tag/04.webp", alt: "Stillbillede 4 fra content produceret for MC TAG" },
-    ],
-  },
-  {
-    slug: "ao-byggeri",
-    kunde: "AO Byggeri ApS",
-    kortBeskrivelse:
-      "LinkedIn som primær platform for en virksomhed hvor relationer og troværdighed afgør alt.",
-    langBeskrivelse:
-      "AO Byggeri arbejder primært med større erhvervsprojekter, hvor relationer og troværdighed spiller en afgørende rolle. Derfor har samarbejdet haft fokus på LinkedIn som den primære platform, hvor vi gennem projektopdateringer, virksomhedssamarbejder og fagligt indhold styrker virksomhedens synlighed og position i branchen.",
-    ydelser: ["Branding", "Sociale medier", "Video og foto"],
-    fakta: [],
-    visPaaForsiden: false,
-    cover: { url: "/cases/ao-byggeri/cover.webp", alt: "Stillbillede fra content produceret for AO Byggeri" },
-    bred: { url: "/cases/ao-byggeri/bred.webp", alt: "Bredt stillbillede fra content produceret for AO Byggeri" },
-    galleri: [
-      { url: "/cases/ao-byggeri/01.webp", alt: "Stillbillede 1 fra content produceret for AO Byggeri" },
-      { url: "/cases/ao-byggeri/02.webp", alt: "Stillbillede 2 fra content produceret for AO Byggeri" },
-      { url: "/cases/ao-byggeri/03.webp", alt: "Stillbillede 3 fra content produceret for AO Byggeri" },
-      { url: "/cases/ao-byggeri/04.webp", alt: "Stillbillede 4 fra content produceret for AO Byggeri" },
-    ],
-    udtalelse: {
-      citat:
-        "Vi havde brug for en samarbejdspartner, der forstod vores branche og kunne styrke vores professionelle profil over for erhvervskunder. Gennem en målrettet strategi på LinkedIn har vi fået en langt mere aktiv og troværdig tilstedeværelse, som afspejler den virksomhed, vi gerne vil være.",
-      navn: "Anders Olesen",
-      titel: "Indehaver, AO Byggeri ApS",
-    },
-  },
-];
 
 /** Kundelogoer til karrusellen — hvide mærker på transparent baggrund. */
 export const kundeLogoer = [

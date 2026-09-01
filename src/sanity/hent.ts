@@ -1,28 +1,19 @@
 import type { SanityImageSource } from "@sanity/image-url";
 
-import {
-  cases as froCases,
-  type Billede,
-  type Case,
-  type Fakta,
-  type Ydelse,
-} from "@/content/cases";
+import type { Billede, Case, Fakta, Ydelse } from "@/content/cases";
 import { sanity } from "./client";
 import { konfigureret } from "./env";
 import { billedeUrl } from "./billede";
 
 /**
- * Datalaget for cases. Ét sted henter sitet dem, og ét sted afgøres det,
- * hvor de kommer fra.
+ * Datalaget for cases. Ét sted henter sitet dem.
  *
- * Så længe Sanity ikke er konfigureret, kommer de fra frødataene i
- * src/content/cases.ts, og sitet opfører sig præcis som før. Det er en
- * rampe, ikke en reserve — når cases er importeret, skal frødataene slettes,
- * og så bliver `konfigureret` den eneste vej igennem. To kilder til de samme
- * cases er dét, resten af projektet er bygget for at undgå.
+ * Der er ingen reserve. Under migreringen lå der en kopi af casene i koden,
+ * så sitet kunne bygge før Sanity fandtes — den er væk nu. To kilder til de
+ * samme cases kan blive uenige, og så opdager ingen hvilken der vandt.
  *
- * Komponenterne ser samme form uanset kilden: `Case` med billeder som
- * URL-strenge. Derfor kunne skiftet blive et query-skift.
+ * Komponenterne ser `Case` med billeder som URL-strenge, præcis som da
+ * indholdet lå i koden. Det var dét, der gjorde skiftet til et query-skift.
  */
 
 /** Formen, som Sanity leverer den — billeder er objekter, ikke stier. */
@@ -64,7 +55,10 @@ const FELTER = `
  */
 export const CASE_MAERKE = "cases";
 
-const ALLE = `*[_type == "case"] | order(_createdAt asc){${FELTER}}`;
+// Rækkefølgen er Markus'. _createdAt er kun en nødplan, hvis to cases skulle
+// få samme tal — så står de i det mindste ikke og bytter plads mellem to
+// besøg.
+const ALLE = `*[_type == "case"] | order(orden asc, _createdAt asc){${FELTER}}`;
 
 /**
  * Ét billede med sin beskrivelse.
@@ -101,9 +95,14 @@ function tilCase(c: SanityCase): Case {
   };
 }
 
-/** Alle cases, i den rækkefølge de er oprettet. */
+/** Alle cases, i den rækkefølge Markus har sat. */
 export async function hentCases(): Promise<Case[]> {
-  if (!konfigureret) return froCases;
+  if (!konfigureret) {
+    throw new Error(
+      "Sanity er ikke konfigureret. Kopiér .env.example til .env.local og " +
+        "udfyld NEXT_PUBLIC_SANITY_PROJECT_ID — se SANITY.md.",
+    );
+  }
 
   const raa = await sanity().fetch<SanityCase[]>(
     ALLE,
