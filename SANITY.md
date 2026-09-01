@@ -55,20 +55,37 @@ midten, og fokuspunktet ville være pynt.
 ## Det, der stadig mangler
 
 **Webhooken.** Uden den udgiver Markus en case, og der sker ingenting, før
-nogen deployer. `SANITY_WEBHOOK_SECRET` er allerede sat i Vercel — hent den
-med `npx vercel env pull` og opret så webhooken i
+nogen deployer.
+
+Hemmeligheden er en delt streng: Sanity underskriver hvert kald med den, og
+sitet tjekker underskriften med den samme værdi. Er de ikke ens, afvises
+kaldet med 401 — det er dét, der forhindrer en fremmed i at finde adressen og
+tvinge sitet til at genopfriske sig selv i en uendelighed.
+
+**Find på den, når du opretter webhooken, og læg den derefter i Vercel.**
+Ikke omvendt: Vercel giver ikke krypterede værdier tilbage, så en hemmelighed,
+der kun står dér, kan du ikke slå op igen.
+
+Opret webhooken i
 [sanity.io/manage](https://www.sanity.io/manage/project/dgmcy88b) under
 API → Webhooks:
 
 | Felt | Værdi |
 | --- | --- |
-| URL | `https://mnmedia.dk/api/revalider` |
+| URL | `https://mn-media-seven.vercel.app/api/revalider` — flyt den til mnmedia.dk, når domænet er flyttet |
 | Dataset | `production` |
 | Trigger on | Create, Update, Delete |
 | Filter | `_type == "case"` |
-| Secret | værdien af `SANITY_WEBHOOK_SECRET` |
+| Secret | en streng du finder på. Fx `openssl rand -hex 24` |
 | HTTP method | POST |
 | API version | `v2026-08-31` |
+
+Læg så den samme streng i Vercel og deploy, så den kommer med:
+
+```
+npx vercel env rm SANITY_WEBHOOK_SECRET production
+npx vercel env add SANITY_WEBHOOK_SECRET production
+```
 
 Prøv den bagefter: ret en overskrift i studiet, udgiv, og genindlæs siden.
 Ændringen skal være der ved **første** genindlæsning — det kostede en runde at
