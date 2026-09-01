@@ -38,9 +38,16 @@ export async function POST(request: NextRequest) {
     return Response.json({ genopfrisket: false, grund: "ikke en case" });
   }
 
-  // "max" giver stale-while-revalidate: den gamle side vises videre, mens den
-  // nye hentes i baggrunden. Den besøgende venter altså aldrig på Sanity.
-  revalidateTag(CASE_MAERKE, "max");
+  // `expire: 0` frem for "max". "max" giver stale-while-revalidate: den gamle
+  // side vises videre, mens den nye hentes i baggrunden — så den, der
+  // genindlæser FØRST efter en udgivelse, ser stadig det gamle. Målt: første
+  // kald gav den gamle tekst, andet kald den nye.
+  //
+  // Den første er næsten altid Markus, der lige har trykket Publish og vil se
+  // sin ændring. Ser han det gamle, tror han, det er i stykker. Prisen er, at
+  // ét enkelt kald venter på Sanity — et par hundrede millisekunder på et
+  // site med den her trafik.
+  revalidateTag(CASE_MAERKE, { expire: 0 });
 
   return Response.json({ genopfrisket: true, maerke: CASE_MAERKE });
 }

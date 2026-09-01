@@ -71,6 +71,9 @@ API → Webhooks:
 | API version | `v2026-08-31` |
 
 Prøv den bagefter: ret en overskrift i studiet, udgiv, og genindlæs siden.
+Ændringen skal være der ved **første** genindlæsning — det kostede en runde at
+få rigtigt, så hvis den først dukker op ved anden genindlæsning, er der noget
+galt.
 
 **Fokuspunkterne.** De importerede billeder har ingen. De ser rigtige ud nu,
 fordi beskæringen tilfældigvis rammer, men det er held. Sæt dem, mens du
