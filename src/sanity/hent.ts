@@ -107,7 +107,12 @@ export async function hentCases(): Promise<Case[]> {
   const raa = await sanity().fetch<SanityCase[]>(
     ALLE,
     {},
-    { next: { tags: [CASE_MAERKE] } },
+    // `cache: "force-cache"` er ikke overflødigt ved siden af mærket.
+    // Caching er opt-in i Next 16: uden den hentes dataene én gang under
+    // build og bages ind i siden uden at blive skrevet i datacachen — og så
+    // har revalidateTag intet at gøre ugyldigt. Mærket alene er en etiket på
+    // noget, der aldrig blev gemt.
+    { cache: "force-cache", next: { tags: [CASE_MAERKE] } },
   );
   return raa.map(tilCase);
 }
