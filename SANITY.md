@@ -83,7 +83,7 @@ API → Webhooks:
 
 | Felt | Værdi |
 | --- | --- |
-| URL | `https://mn-media-seven.vercel.app/api/revalider` — flyt den til mn-media.dk, når domænet er flyttet |
+| URL | `https://mn-media.dk/api/revalider` |
 | Dataset | `production` |
 | Trigger on | Create, Update, Delete |
 | Filter | `_type == "case"` |
