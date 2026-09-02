@@ -2,7 +2,7 @@ export const site = {
   name: "MNmedia",
   tagline:
     "Branding, sociale medier og annoncering for virksomheder der leverer.",
-  url: "https://mnmedia.dk",
+  url: "https://mn-media.dk",
   email: "markus@nikolaisen.dk",
   phone: "+45 42 75 33 60",
   phoneHref: "+4542753360",

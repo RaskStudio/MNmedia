@@ -67,7 +67,7 @@ export async function sendKontakt(
   try {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      from: process.env.KONTAKT_FRA ?? "MNmedia <kontakt@mnmedia.dk>",
+      from: process.env.KONTAKT_FRA ?? "MNmedia <kontakt@mn-media.dk>",
       to: site.email,
       replyTo: email,
       subject: `Ny henvendelse fra ${navn}${virksomhed ? ` — ${virksomhed}` : ""}`,
