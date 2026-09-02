@@ -66,6 +66,17 @@ tvinge sitet til at genopfriske sig selv i en uendelighed.
 Ikke omvendt: Vercel giver ikke krypterede værdier tilbage, så en hemmelighed,
 der kun står dér, kan du ikke slå op igen.
 
+Lav den med denne kommando i terminalen:
+
+```
+openssl rand -hex 24
+```
+
+Den SKRIVER en tilfældig streng på 48 tegn — noget i retning af
+`9f3a1c...`. Det er dén streng, der skal i Secret-feltet. Ikke kommandoen
+selv. Kopiér den, mens du har den: hverken Sanity eller Vercel viser den
+igen bagefter.
+
 Opret webhooken i
 [sanity.io/manage](https://www.sanity.io/manage/project/dgmcy88b) under
 API → Webhooks:
@@ -76,7 +87,7 @@ API → Webhooks:
 | Dataset | `production` |
 | Trigger on | Create, Update, Delete |
 | Filter | `_type == "case"` |
-| Secret | en streng du finder på. Fx `openssl rand -hex 24` |
+| Secret | en lang tilfældig streng — se herunder |
 | HTTP method | POST |
 | API version | `v2026-08-31` |
 
