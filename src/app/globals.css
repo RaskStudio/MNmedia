@@ -81,18 +81,24 @@
    --------------------------------------------------------------- */
 @utility headline {
   font-family: var(--font-headline);
-  /* Danske sammensatte ord ("samarbejdspartner") er lange nok til at sprænge
-     en telefonskærm. To niveauer af nødløsning, i den rækkefølge:
-       1. hyphens sætter en bindestreg. Chrome vælger ikke altid det pæneste
-          punkt ("samarbejdspart-ner"), men en delt streg er stadig bedre end
-          et ord der bare hakkes over.
-       2. break-word bryder uden bindestreg og er sidste udvej mod at teksten
-          løber ud over kanten.
-     Begge bør kun ramme under ~360 px. Bemærk at break-word deler ordet dér
-     hvor det står frem for at flytte det ned på egen linje — se AboutBlock,
-     hvor den derfor er slået fra på den ene overskrift med et meget langt ord. */
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /* INGEN automatisk orddeling. Den stod på auto og delte ord, der sagtens
+     kunne være på næste linje: «Klar til at skab-e resultater?» — og «skabe»
+     er fem bogstaver. Målt på tværs af alle sider ved 320, 360, 393 og 430 px
+     ramte det syv overskrifter.
+
+     Fejlen så forskellig ud i de to browsere, hvilket er grunden til at den
+     kunne overleve så længe: Safari har danske orddelingsmønstre og satte en
+     synlig bindestreg («SAMARBEJDSPART-NER», «BU-REAU»), mens Chrome uden
+     mønstre hakkede ordet over uden streg. Samme fejl, to udtryk, og kun det
+     ene ligner noget, der er galt.
+
+     Med manual sætter alle overskrifter rent ved 393 px og op, uden at noget
+     løber over — kontrolmålt. break-word bliver som sidste udvej mod overløb
+     på de smalleste skærme; den skal ikke bruges som ombrydning, kun som
+     nødbremse. Har en overskrift et ord, der er for langt til en telefon, er
+     svaret en grad mindre skrift på den overskrift — se AboutBlock. */
+  -webkit-hyphens: manual;
+  hyphens: manual;
   overflow-wrap: break-word;
   font-variation-settings: "wdth" 112;
   font-weight: 600;

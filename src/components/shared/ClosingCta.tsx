@@ -28,7 +28,12 @@ export function ClosingCta({
       <FadeIn className="relative mx-auto max-w-3xl px-8 py-14 text-center sm:px-14 sm:py-16">
         <Hjoerner size="size-6" className="text-grey-600" />
 
-        {eyebrow && <p className="label-mono mb-6 text-accent">{eyebrow}</p>}
+        {/* Ikke accent. Lilla er forbeholdt den primære CTA — knappen
+            herunder — og en label i samme farve stjæler dens signal: to
+            lilla ting i samme felt, hvoraf kun den ene kan trykkes. Farven
+            faldt desuden under kontrastkravet (3,5:1 mod 4,5:1 ved 11 px).
+            Se farverollerne ved tokenerne i globals.css. */}
+        {eyebrow && <p className="label-mono mb-6 text-grey-400">{eyebrow}</p>}
         <h2 className="headline text-h1 text-balance">{overskrift}</h2>
         {undertekst && (
           <p className="mx-auto mt-6 max-w-xl text-lead text-grey-400">

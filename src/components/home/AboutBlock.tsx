@@ -14,13 +14,24 @@ export function AboutBlock() {
           "En" efterladt alene på første linje. Med fuld bredde deler
           text-balance den i to hele linjer omkring tankestregen.
 
-          Under sm er to ting slået fra, begge på grund af det ene lange ord:
-          balanceringen, som bryder midt i "samarbejdspartner" for at gøre
-          linjerne lige lange, og den globale break-word, som bryder ordet dér
-          hvor det står frem for at flytte det ned på egen linje. Med dem fra
-          og en lidt mindre grad kan ordet være på en telefonskærm i ét stykke.
-          Det er den eneste overskrift på sitet der har brug for det. */}
-      <h2 className="headline text-h1 sm:text-balance">
+          Loftet på skriftgraden er den eneste af sin slags uden for heroen,
+          og det er sat efter måling, ikke skøn: "En samarbejdspartner" fylder
+          14.98 em i Archivo wdth 112 med sitets sporing. Spalten på en telefon
+          er 100vw minus px-6 i begge sider; de 4.5rem er de 3rem polstring
+          plus 1.5rem luft, så versalerne ikke lander på kanten.
+
+          Uden loftet brydes linjen, og fordi hele sitets orddeling nu er slået
+          fra (se .headline i globals.css), er det break-word der overtager —
+          altså et ord hakket midt over. Med loftet står de to linjer hele
+          vejen ned til 320 px. Det bider kun under ~431 px; derover er det
+          clamp'en i --text-h1, der bestemmer.
+
+          Ændrer teksten sig, skal de 14.98 måles om — det er den længste af de
+          to tiltænkte linjers bredde i em, målt i browseren. */}
+      <h2
+        className="headline text-h1 sm:text-balance"
+        style={{ fontSize: "min(var(--text-h1), (100vw - 4.5rem) / 14.98)" }}
+      >
         {omForside.overskrift}
       </h2>
 
