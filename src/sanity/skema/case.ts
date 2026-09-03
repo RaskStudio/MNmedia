@@ -222,6 +222,42 @@ export const caseType = defineType({
     }),
   ],
   preview: {
-    select: { title: "kunde", subtitle: "kortBeskrivelse", media: "cover" },
+    select: {
+      title: "kunde",
+      undertekst: "kortBeskrivelse",
+      media: "cover",
+      slug: "slug.current",
+      kort: "kortBeskrivelse",
+      lang: "langBeskrivelse",
+      cover: "cover.asset",
+      bred: "bred.asset",
+    },
+    /**
+     * Listen siger, om casen er på sitet — og hvis ikke, hvad der mangler.
+     *
+     * Sitet viser kun cases, der har alt (se src/sanity/hent.ts). Uden den
+     * her besked trykker man Publish, der sker ingenting på sitet, og der er
+     * ingen måde at se hvorfor. Det er sket, og det så ud som om CMS'et var
+     * i stykker.
+     */
+    prepare({ title, undertekst, media, slug, kort, lang, cover, bred }) {
+      const mangler = [
+        !title && "kunde",
+        !slug && "adresse",
+        !kort && "kort beskrivelse",
+        !lang && "lang beskrivelse",
+        !cover && "coverbillede",
+        !bred && "bredt topbillede",
+      ].filter(Boolean);
+
+      return {
+        title: title || "Uden navn",
+        media,
+        subtitle:
+          mangler.length > 0
+            ? `Ikke på sitet — mangler ${mangler.join(", ")}`
+            : undertekst,
+      };
+    },
   },
 });
