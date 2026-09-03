@@ -61,10 +61,47 @@ Sanity om det format, sitet skal bruge, og Sanity beskærer omkring
 fokuspunktet. Overlod vi det til `object-cover`, ville beskæringen altid ramme
 midten, og fokuspunktet ville være pynt.
 
-## Det, der stadig mangler
+## Webhooken — den kører
 
-**Webhooken.** Uden den udgiver Markus en case, og der sker ingenting, før
-nogen deployer.
+Uden den udgiver Markus en case, og der sker ingenting, før nogen deployer.
+Den er oprettet og leverer.
+
+| | |
+| --- | --- |
+| Navn | `mnmedia` |
+| URL | `https://mn-media-seven.vercel.app/api/revalider` |
+| Datasæt | `production` |
+
+Tjek at den stadig virker:
+
+```
+npx sanity hook logs mnmedia
+```
+
+Linjerne skal sige `success` og `200`. Vil du hellere prøve den i praksis:
+ret en overskrift i studiet, udgiv, og genindlæs siden. Ændringen skal være
+der ved **første** genindlæsning — det kostede en runde at få rigtigt, så
+dukker den først op ved anden, er der noget galt.
+
+Selve ruten kan du banke på uden at røre indhold:
+
+```
+curl -X POST -d '{"_type":"case"}' https://mn-media.dk/api/revalider
+```
+
+`401 Ugyldig signatur` er det rigtige svar — den afviser et kald uden
+underskrift, og hemmeligheden er altså på plads i begge ender. Svarer den
+`500 Webhooken er ikke sat op`, mangler `SANITY_WEBHOOK_SECRET` i Vercel.
+
+**URL'en peger på vercel.app-adressen, ikke på mn-media.dk.** Begge svarer
+det samme, så den virker — men det står der ved en tilfældighed, ikke
+med vilje. Den bliver stående, fordi `sanity hook` kun kan create og delete,
+ikke update: at flytte den betyder at slette webhooken og lave en ny, og så
+skal der findes en ny hemmelighed og lægges i Vercel igen. Prisen er et
+vindue, hvor genopfriskning er død, for at rette en adresse der virker. Gør
+det næste gang hemmeligheden alligevel skal skiftes.
+
+## Hvis webhooken skal laves om
 
 Hemmeligheden er en delt streng: Sanity underskriver hvert kald med den, og
 sitet tjekker underskriften med den samme værdi. Er de ikke ens, afvises
@@ -96,7 +133,7 @@ API → Webhooks:
 | Dataset | `production` |
 | Trigger on | Create, Update, Delete |
 | Filter | `_type == "case"` |
-| Secret | en lang tilfældig streng — se herunder |
+| Secret | strengen fra `openssl` ovenfor |
 | HTTP method | POST |
 | API version | `v2026-08-31` |
 
@@ -107,14 +144,20 @@ npx vercel env rm SANITY_WEBHOOK_SECRET production
 npx vercel env add SANITY_WEBHOOK_SECRET production
 ```
 
-Prøv den bagefter: ret en overskrift i studiet, udgiv, og genindlæs siden.
-Ændringen skal være der ved **første** genindlæsning — det kostede en runde at
-få rigtigt, så hvis den først dukker op ved anden genindlæsning, er der noget
-galt.
+## Det, der stadig mangler
 
-**Fokuspunkterne.** De importerede billeder har ingen. De ser rigtige ud nu,
-fordi beskæringen tilfældigvis rammer, men det er held. Sæt dem, mens du
-alligevel er i studiet.
+**Fokuspunkterne.** Ingen af de importerede billeder har et — 0 ud af 18,
+talt i datasættet. De ser rigtige ud nu, fordi beskæringen tilfældigvis
+rammer, men det er held: samme billede vises i både 4:5 og 16:9, og uden et
+fokuspunkt beskærer Sanity om midten. Sæt dem, mens du alligevel er i
+studiet. Se punkt 6 i opskriften øverst.
+
+Sådan tæller du dem selv:
+
+```
+npx sanity documents query --api-version 2026-08-31 \
+  '*[_type=="case"]{kunde,"cover":defined(cover.hotspot),"bred":defined(bred.hotspot)}'
+```
 
 ## Adgang
 
