@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Button, ArrowRight } from "@/components/shared/Button";
 import { Hjoerner } from "@/components/shared/Frame";
@@ -80,17 +81,6 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden">
-      {/* Posterbilledet er det første, man ser — på mobil fylder det hele
-          skærmen. Uden det her opdager browseren det først inde i <video>
-          og henter det med samme prioritet som JavaScript-chunksene.
-          React løfter selv link-tagget op i <head>. */}
-      <link
-        rel="preload"
-        as="image"
-        href={slides[0].poster}
-        fetchPriority="high"
-      />
-
       {/* På desktop er heroen et grid: tekst til venstre, klippet indrammet
           til højre. På mobil falder klippet ud af flowet og fylder skærmen,
           fordi viewporten dér selv er 9:16 — samme proportioner som klippet.
@@ -110,6 +100,49 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
           {/* Klippene ligger i en indre ramme med overflow-hidden. Hjørnerne
               skal uden for den — ellers klipper netop den ramme dem væk. */}
           <div className="absolute inset-0 overflow-hidden lg:border lg:border-grey-800">
+            {/* Stillbillederne ligger BAG klippene og bærer det første
+                indtryk, indtil videoen har billeder at vise.
+                
+                De var før et poster-attribut, altså én fil i én størrelse til
+                alle: 190 KiB webp, hentet af både en telefon på 360 px og en
+                skrivebordsskærm, der kun viser klippet i 303 px bredde. Som
+                next/image får hver skærm sin bredde, og AVIF tager resten —
+                se noten om formatet i next.config.ts.
+                
+                priority kun på det første: det er det eneste, der er på
+                skærmen ved indlæsning, og det er også det eneste, der findes
+                på mobil.
+                
+                De 66vw på mobil er med vilje mindre end de 100vw, billedet
+                fylder — og grænsen er sat efter klippet, ikke efter bytes.
+                Videoen er 720 px bred. På en telefon med DPR 3 strækkes den
+                1,6 gange for at fylde skærmen, og et stillbillede i fuld
+                oversampling ville altså stå SKARPERE end det, det er
+                stedfortræder for: skarpt i ét sekund, blødt når klippet
+                overtager. Det ville læses som en fejl.
+
+                66vw lander samme telefon på 640 px, altså 1,8 gange — samme
+                blødhed som klippet. At filen samtidig bliver mindre end
+                halvdelen (190 → 42-92 KiB) er en gevinst oveni, ikke grunden.
+                Uden grænsen ville den telefon bede om 1200 px og få 224 KiB —
+                mere end i dag, for en skarphed klippet ikke indfrier. */}
+            {visible.map((slide, i) => (
+              <Image
+                key={slide.poster}
+                src={slide.poster}
+                alt=""
+                aria-hidden
+                fill
+                priority={i === 0}
+                quality={52}
+                sizes="(min-width: 1024px) 26vw, 66vw"
+                className={cn(
+                  "object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  i === index ? "opacity-100" : "opacity-0",
+                )}
+              />
+            ))}
+
             {visible.map((slide, i) => (
               <video
                 key={slide.src}
@@ -128,7 +161,6 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
                 // helt, flytter LCP sig ikke længere. Klippet er ude af den
                 // kritiske vej, ikke bare skubbet.
                 preload="none"
-                poster={slide.poster}
                 muted
                 playsInline
                 loop

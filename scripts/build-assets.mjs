@@ -185,7 +185,12 @@ async function klip({ kilde, fraMappe, ud, start, laengde }) {
     join(OUT, `${ud}.mp4`),
   ]);
 
-  // Posterbilledet vises med det samme, så der aldrig står en sort firkant
+  // Posterbilledet vises med det samme, så der aldrig står en sort firkant.
+  //
+  // Filen her er en MASTER, ikke det, browseren henter: heroen viser den
+  // gennem next/image (se Hero.tsx), som skalerer og koder om til AVIF per
+  // skærm. Derfor kvalitet 85 og ikke 68 — den skal have noget at give af,
+  // når den kodes om. Den større fil koster kun plads i repoet.
   const poster = join(OUT, `${ud}-poster.jpg`);
   await run("ffmpeg", [
     "-v",
@@ -202,7 +207,7 @@ async function klip({ kilde, fraMappe, ud, start, laengde }) {
     poster,
   ]);
   await sharp(poster)
-    .webp({ quality: 68 })
+    .webp({ quality: 85 })
     .toFile(join(OUT, `${ud}-poster.webp`));
   await rm(poster);
 }
