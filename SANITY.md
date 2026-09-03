@@ -25,6 +25,15 @@ flyttet, fordi kun cases vokser med hver ny kunde.
 7. Udtalelse, hvis der er en. Ellers udelad den.
 8. **Publish.**
 
+**En case dukker først op, når den er færdig.** Sitet viser kun cases, der har
+kunde, adresse, begge beskrivelser og begge billeder. Mangler ét af dem, står
+casen i studiet, men ikke på sitet — den kommer af sig selv, når feltet er
+udfyldt.
+
+Det er med vilje: Sanity advarer om tomme felter, men forhindrer ikke
+udgivelse. Uden filteret kunne en halvfærdig case tage hele /cases ned med en
+fejlside.
+
 ## Hvad der ikke er i CMS'et — og hvorfor
 
 | Indhold | Hvorfor det bliver i koden |

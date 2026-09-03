@@ -55,10 +55,31 @@ const FELTER = `
  */
 export const CASE_MAERKE = "cases";
 
-// Rækkefølgen er Markus'. _createdAt er kun en nødplan, hvis to cases skulle
-// få samme tal — så står de i det mindste ikke og bytter plads mellem to
-// besøg.
-const ALLE = `*[_type == "case"] | order(orden asc, _createdAt asc){${FELTER}}`;
+/**
+ * Kun cases, der har alt det, siderne skal bruge.
+ *
+ * Sanitys `required()` advarer i studiet, men den FORHINDRER ikke udgivelse.
+ * Uden filteret her kan en halvfærdig case tage hele /cases ned: mangler det
+ * brede topbillede, kaster billed-URL'en, og siden svarer 500. Det skete —
+ * en case udgivet med kun et navn og et cover.
+ *
+ * Filteret er ikke bare en fejlsikring, det er også den rigtige opførsel:
+ * en case uden billeder er ikke færdig og skal ikke vises. Den dukker op af
+ * sig selv, når felterne er udfyldt.
+ *
+ * Rækkefølgen er Markus'. _createdAt er kun en nødplan, hvis to cases skulle
+ * få samme tal — så står de i det mindste ikke og bytter plads mellem to
+ * besøg.
+ */
+const KOMPLET = `_type == "case"
+  && defined(slug.current)
+  && defined(kunde)
+  && defined(kortBeskrivelse)
+  && defined(langBeskrivelse)
+  && defined(cover.asset)
+  && defined(bred.asset)`;
+
+const ALLE = `*[${KOMPLET}] | order(orden asc, _createdAt asc){${FELTER}}`;
 
 /**
  * Ét billede med sin beskrivelse.
@@ -85,7 +106,7 @@ function tilCase(c: SanityCase): Case {
     kunde: c.kunde,
     kortBeskrivelse: c.kortBeskrivelse,
     langBeskrivelse: c.langBeskrivelse,
-    ydelser: c.ydelser,
+    ydelser: c.ydelser ?? [],
     fakta: c.fakta ?? [],
     visPaaForsiden: c.visPaaForsiden ?? false,
     cover: tilBillede(c.cover, "staaende", c.kunde),
