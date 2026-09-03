@@ -197,7 +197,7 @@ export default function StyleguidePage() {
       <div className="mx-auto w-full max-w-320 px-6 md:px-10">
         {/* ---------------- Toppen ---------------- */}
         <header className="pt-36 pb-section md:pt-44">
-          <p className="label-mono text-grey-600">MNmedia · Styleguide</p>
+          <p className="label-mono text-grey-400">MNmedia · Styleguide</p>
           <div className="mt-12 mb-10 flex h-14 md:h-20">
             <Maerke />
           </div>
@@ -264,7 +264,7 @@ export default function StyleguidePage() {
                       {["Mål", "Værdi", "Hvorfor det står her"].map((h) => (
                         <th
                           key={h}
-                          className="label-mono border-b border-grey-800 py-3 pr-6 text-left font-normal text-grey-600"
+                          className="label-mono border-b border-grey-800 py-3 pr-6 text-left font-normal text-grey-400"
                         >
                           {h}
                         </th>
@@ -393,13 +393,13 @@ export default function StyleguidePage() {
                   token="--color-grey-600"
                   navn="Dyb grå"
                   hex="#4A4A52"
-                  brug="Labels, tællere og mono-tekst."
+                  brug="Søgerens vinkler og tekniske tegninger. Aldrig tekst — 2,25:1."
                 />
                 <Farve
                   token="--color-grey-400"
                   navn="Grå"
                   hex="#8A8A92"
-                  brug="Brødtekst og alt sekundært."
+                  brug="Brødtekst, labels og tællere. Den lyseste grå, der bærer tekst."
                 />
                 <Farve
                   token="--color-paper"
@@ -426,7 +426,7 @@ export default function StyleguidePage() {
                     betyde “tryk her”, og så er der ikke noget tilbage til at
                     sige det.
                   </p>
-                  <p className="label-mono mt-5 text-grey-600">
+                  <p className="label-mono mt-5 text-grey-400">
                     Hover: #5A2EE0 · var(--color-accent-hover)
                   </p>
                 </div>
@@ -490,7 +490,7 @@ export default function StyleguidePage() {
                     className="grid items-baseline gap-3 border-b border-grey-800 py-8 md:grid-cols-[minmax(0,1fr)_18rem]"
                   >
                     <div>{r.e}</div>
-                    <p className="label-mono text-grey-600">
+                    <p className="label-mono text-grey-400">
                       {r.k}
                       <span className="mt-2 block normal-case tracking-normal">
                         {r.n}
@@ -624,7 +624,7 @@ export default function StyleguidePage() {
                     className="flex w-32 flex-col items-center gap-3 text-center"
                   >
                     <Icon name={i.navn} className="size-7 text-accent" />
-                    <span className="label-mono text-grey-600">{i.brug}</span>
+                    <span className="label-mono text-grey-400">{i.brug}</span>
                   </div>
                 ))}
               </Proeve>
@@ -746,7 +746,7 @@ export default function StyleguidePage() {
                   <div className="w-full">
                     <div className="h-px bg-grey-800" />
                     <div className="py-section">
-                      <p className="label-mono text-grey-600">
+                      <p className="label-mono text-grey-400">
                         Sektionens indhold
                       </p>
                     </div>
@@ -861,7 +861,7 @@ export default function StyleguidePage() {
                       />
                       <div className="text-center">
                         <p className="text-sm font-medium">{p.navn}</p>
-                        <p className="label-mono mt-1 text-grey-600">
+                        <p className="label-mono mt-1 text-grey-400">
                           {p.brug}
                         </p>
                       </div>
@@ -909,7 +909,7 @@ export default function StyleguidePage() {
                     />
                     <div>
                       <h4 className="text-sm font-medium">{b.navn}</h4>
-                      <p className="label-mono mt-2 text-grey-600">
+                      <p className="label-mono mt-2 text-grey-400">
                         {b.maal} · sikker zone {b.zone}
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-grey-400">
@@ -950,7 +950,7 @@ export default function StyleguidePage() {
                       alt={`Highlight-omslag: ${h}`}
                       className="size-24 rounded-full border border-grey-800 transition-colors group-hover:border-accent"
                     />
-                    <span className="label-mono text-grey-600 transition-colors group-hover:text-paper">
+                    <span className="label-mono text-grey-400 transition-colors group-hover:text-paper">
                       Hent
                     </span>
                   </a>
@@ -967,7 +967,7 @@ export default function StyleguidePage() {
 
             {/* ---------------- Foden ---------------- */}
             <section className="border-t border-grey-800 py-section">
-              <p className="label-mono text-grey-600">Originalen</p>
+              <p className="label-mono text-grey-400">Originalen</p>
               <p className="mt-6 max-w-2xl leading-relaxed text-grey-400">
                 Mærkets tegning findes ét sted:{" "}
                 <code className="font-mono text-paper">
@@ -986,7 +986,7 @@ export default function StyleguidePage() {
                   Til forsiden <ArrowRight />
                 </Button>
               </div>
-              <p className="label-mono mt-16 border-t border-grey-800 pt-8 text-grey-600">
+              <p className="label-mono mt-16 border-t border-grey-800 pt-8 text-grey-400">
                 {site.name} · Aarhus
               </p>
             </section>

@@ -34,7 +34,7 @@ export function Blok({
     // scroll-mt holder overskriften fri af den faste header, når man hopper
     // hertil fra oversigten. Uden den lander afsnittet bag headeren.
     <section id={id} className="scroll-mt-28 border-t border-grey-800 py-section">
-      <p className="label-mono mb-5 flex items-center gap-4 text-grey-600">
+      <p className="label-mono mb-5 flex items-center gap-4 text-grey-400">
         <span>{nr}</span>
         <span>{titel}</span>
         <span aria-hidden className="h-px flex-1 bg-grey-800" />
@@ -50,7 +50,7 @@ export function Blok({
 /** Mindre overskrift inde i en blok. */
 export function Under({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="label-mono mt-16 mb-6 border-t border-grey-800 pt-6 text-grey-600 first:mt-0 first:border-0 first:pt-0">
+    <h3 className="label-mono mt-16 mb-6 border-t border-grey-800 pt-6 text-grey-400 first:mt-0 first:border-0 first:pt-0">
       {children}
     </h3>
   );
@@ -99,7 +99,7 @@ export function Spec({
       <Proeve className={className} midt={midt}>
         {children}
       </Proeve>
-      <p className="label-mono text-grey-600">{note}</p>
+      <p className="label-mono text-grey-400">{note}</p>
     </div>
   );
 }
@@ -118,7 +118,7 @@ export function Regler({
             <p
               className={cn(
                 "label-mono mb-3",
-                p.ja ? "text-paper" : "text-grey-600",
+                p.ja ? "text-paper" : "text-grey-400",
               )}
             >
               {p.ja ? "Ja" : "Nej"}
@@ -155,7 +155,7 @@ export function Farve({
         style={{ background: `var(${token})` }}
       />
       <p className="mt-4 text-sm font-medium">{navn}</p>
-      <p className="label-mono mt-1 text-grey-600">{hex}</p>
+      <p className="label-mono mt-1 text-grey-400">{hex}</p>
       <p className="mt-2 text-sm leading-relaxed text-grey-400">{brug}</p>
     </div>
   );

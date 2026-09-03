@@ -30,7 +30,7 @@ export default function StudioSide() {
   if (!konfigureret) {
     return (
       <main className="mx-auto w-full max-w-2xl px-6 py-40">
-        <p className="label-mono text-grey-600">Sanity</p>
+        <p className="label-mono text-grey-400">Sanity</p>
         <h1 className="mt-6 headline text-h1">Studiet er ikke sat op endnu</h1>
         <p className="mt-6 leading-relaxed text-grey-400">
           Der mangler et projekt at forbinde til.{" "}

@@ -122,7 +122,7 @@ export default function YdelserPage() {
                 />
                 <div className="flex items-center gap-3">
                   <Icon name={step.icon} className="size-5 text-accent" />
-                  <span className="text-xs tracking-[0.2em] text-grey-600">
+                  <span className="text-xs tracking-[0.2em] text-grey-400">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>

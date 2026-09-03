@@ -96,7 +96,7 @@ export function Indhold({ afsnit }: { afsnit: Afsnit[] }) {
       )}
     >
       <div className="lg:sticky lg:top-32">
-        <p className="label-mono mb-4 hidden text-grey-600 lg:block">Indhold</p>
+        <p className="label-mono mb-4 hidden text-grey-400 lg:block">Indhold</p>
 
         <ul
           className={cn(
@@ -119,17 +119,14 @@ export function Indhold({ afsnit }: { afsnit: Afsnit[] }) {
                     "lg:-ml-px lg:border-l lg:py-2.5 lg:pl-4",
                     her
                       ? "text-paper lg:border-paper"
-                      : "text-grey-600 hover:text-grey-400 lg:border-transparent",
+                      : "text-grey-400 hover:text-paper lg:border-transparent",
                   )}
                 >
                   <span className="lg:hidden">{a.titel}</span>
                   <span className="hidden lg:inline">
-                    <span
-                      className={cn(her ? "text-grey-400" : "text-grey-600")}
-                    >
-                      {a.nr}
-                    </span>{" "}
-                    {a.titel}
+                    {/* Nummeret holder sig dæmpet, også når titlen lyser op
+                        ved hover — det er en markering, ikke en overskrift. */}
+                    <span className="text-grey-400">{a.nr}</span> {a.titel}
                   </span>
                 </a>
               </li>

@@ -23,20 +23,39 @@ const linjer = ["Vi bygger brands", "for virksomheder", "der leverer"];
 
 export function Hero({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [erDesktop, setErDesktop] = useState(false);
+  const [maaHente, setMaaHente] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Under lg viser vi kun det første klip — resten er spildt data på 4G.
+  // Bemærk at den starter på false, altså mobil. Det er ikke ligegyldigt:
+  // serveren render det, der står i første gennemløb, og står der true, ligger
+  // ALLE tre klip i den udsendte HTML. Browseren henter så alle tre
+  // posterbilleder — 313 KiB — og hydreringen smider de to af dem væk igen.
+  // På en telefon er de to plakater 123 KiB, der aldrig kommer på skærmen.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const update = () => setIsMobile(mq.matches);
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setErDesktop(mq.matches);
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  // Klippene henter først, når resten af siden står. Se noten ved <video>.
   useEffect(() => {
-    if (isMobile || slides.length < 2) return;
+    const luk = () => setMaaHente(true);
+    if (document.readyState === "complete") {
+      // Siden var allerede hentet færdig, da heroen blev monteret — så falder
+      // load aldrig. rAF frem for et kald her i effekten: sat direkte tvinger
+      // det en ekstra synkron gengivelse, før browseren har tegnet heroen.
+      const id = requestAnimationFrame(luk);
+      return () => cancelAnimationFrame(id);
+    }
+    window.addEventListener("load", luk, { once: true });
+    return () => window.removeEventListener("load", luk);
+  }, []);
+
+  useEffect(() => {
+    if (!erDesktop || slides.length < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const timer = setInterval(
@@ -44,22 +63,34 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
       SLIDE_MS,
     );
     return () => clearInterval(timer);
-  }, [isMobile, slides.length]);
+  }, [erDesktop, slides.length]);
 
   // Spol det aktive klip tilbage, så hvert slide starter forfra
   useEffect(() => {
+    if (!maaHente) return;
     const video = videoRefs.current[index];
     if (!video) return;
     video.currentTime = 0;
     void video.play().catch(() => {
       /* autoplay afvist — posterbilledet står tilbage, hvilket er fint */
     });
-  }, [index]);
+  }, [index, maaHente]);
 
-  const visible = isMobile ? slides.slice(0, 1) : slides;
+  const visible = erDesktop ? slides : slides.slice(0, 1);
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden">
+      {/* Posterbilledet er det første, man ser — på mobil fylder det hele
+          skærmen. Uden det her opdager browseren det først inde i <video>
+          og henter det med samme prioritet som JavaScript-chunksene.
+          React løfter selv link-tagget op i <head>. */}
+      <link
+        rel="preload"
+        as="image"
+        href={slides[0].poster}
+        fetchPriority="high"
+      />
+
       {/* På desktop er heroen et grid: tekst til venstre, klippet indrammet
           til højre. På mobil falder klippet ud af flowet og fylder skærmen,
           fordi viewporten dér selv er 9:16 — samme proportioner som klippet.
@@ -85,13 +116,22 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
                 ref={(el) => {
                   videoRefs.current[i] = el;
                 }}
-                // Kun første klip hentes ved sideindlæsning; resten når de skal bruges
-                preload={i === 0 ? "auto" : "none"}
+                // Ingen autoPlay og ingen preload. Med preload="auto" gik de
+                // 1,7 MB klip på ledningen SAMTIDIG med skrifter, CSS og
+                // JavaScript — 88 % af sidens vægt, hentet før noget af det,
+                // nogen skal læse. Målt på mobil kostede det 0,8 s af Largest
+                // Contentful Paint.
+                //
+                // Nu bærer posterbilledet det første indtryk, og klippet
+                // hentes af effekten ovenfor, når window.load er faldet — det
+                // vil sige når resten står. Kontrolmålt: blokerer man .mp4
+                // helt, flytter LCP sig ikke længere. Klippet er ude af den
+                // kritiske vej, ikke bare skubbet.
+                preload="none"
                 poster={slide.poster}
                 muted
                 playsInline
                 loop
-                autoPlay={i === 0}
                 aria-label={slide.alt}
                 className={cn(
                   "absolute inset-0 size-full object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
@@ -124,7 +164,10 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
               bund. På mobil fylder klippet hele skærmen, så der er intet
               "uden for" — dér ville de ligge oven på billedet og forsvinde,
               og derfor er de slået fra. */}
-          {!isMobile && <Hjoerner inset="-inset-3" className="text-grey-600" />}
+          <Hjoerner
+            inset="-inset-3"
+            className="hidden text-grey-600 lg:block"
+          />
         </div>
 
         <div className="relative lg:order-1">
@@ -162,7 +205,7 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
               det spiller — samme aflæsning som i et klipprogram. */}
           {slides.length > 1 && (
             <div className="mt-12 hidden items-center gap-5 lg:flex">
-              <span className="label-mono text-grey-600 tabular-nums">
+              <span className="label-mono text-grey-400 tabular-nums">
                 {String(index + 1).padStart(2, "0")} /{" "}
                 {String(slides.length).padStart(2, "0")}
               </span>

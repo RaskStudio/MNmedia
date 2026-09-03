@@ -18,7 +18,7 @@ export function StatBlock({
           <dt className="sr-only">{f.label}</dt>
           <dd>
             <span className="headline block text-2xl md:text-3xl">{f.tal}</span>
-            <span className="label-mono mt-2 block text-grey-600">
+            <span className="label-mono mt-2 block text-grey-400">
               {f.label}
             </span>
           </dd>

@@ -74,7 +74,7 @@ export function BilledePlads({
           ratio,
         )}
       >
-        <span className="label-mono text-grey-600">{label}</span>
+        <span className="label-mono text-grey-400">{label}</span>
       </div>
       <Hjoerner inset="-inset-2 md:-inset-3" className="text-grey-600" />
     </div>

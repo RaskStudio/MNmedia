@@ -25,7 +25,7 @@ export default function KontaktPage() {
 
           <dl className="mt-14 space-y-8 text-sm">
             <div>
-              <dt className="text-xs tracking-[0.2em] text-grey-600 uppercase">
+              <dt className="text-xs tracking-[0.2em] text-grey-400 uppercase">
                 E-mail
               </dt>
               <dd className="mt-2">
@@ -38,7 +38,7 @@ export default function KontaktPage() {
               </dd>
             </div>
             <div>
-              <dt className="text-xs tracking-[0.2em] text-grey-600 uppercase">
+              <dt className="text-xs tracking-[0.2em] text-grey-400 uppercase">
                 Telefon
               </dt>
               <dd className="mt-2">
@@ -51,7 +51,7 @@ export default function KontaktPage() {
               </dd>
             </div>
             <div>
-              <dt className="text-xs tracking-[0.2em] text-grey-600 uppercase">
+              <dt className="text-xs tracking-[0.2em] text-grey-400 uppercase">
                 Adresse
               </dt>
               <dd className="mt-2 leading-relaxed text-grey-400">

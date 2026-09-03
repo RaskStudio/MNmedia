@@ -12,7 +12,7 @@ const initial: KontaktState = { status: "idle" };
 // klæder det redaktionelle udtryk bedre end fire rammer under hinanden — og
 // den aktive linje er tydeligere end en ramme der skifter kant.
 const felt =
-  "w-full border-b bg-transparent px-0 py-3 text-base text-paper placeholder:text-grey-600 transition-colors focus:outline-none";
+  "w-full border-b bg-transparent px-0 py-3 text-base text-paper placeholder:text-grey-400 transition-colors focus:outline-none";
 
 function Felt({
   label,
@@ -48,7 +48,7 @@ function Felt({
     <div>
       <label htmlFor={navn} className="label-mono mb-3 block text-grey-400">
         {label}
-        {!required && <span className="text-grey-600"> (valgfrit)</span>}
+        {!required && <span className="text-grey-400"> (valgfrit)</span>}
       </label>
       {rows ? (
         <textarea
@@ -138,7 +138,7 @@ export function KontaktForm() {
 
       <Submit />
 
-      <p className="text-xs leading-relaxed text-grey-600">
+      <p className="text-xs leading-relaxed text-grey-400">
         Dine oplysninger bruges udelukkende til at besvare din henvendelse og
         deles ikke med tredjepart.
       </p>

@@ -9,6 +9,13 @@
   --color-paper: #ffffff;
   --color-ink: #0a0a0a;
   --color-ink-soft: #16161a;
+  /* De tre grå har hver sin rolle, og grænsen mellem dem er læsbarhed:
+     kun grey-400 holder 4,5:1 mod bunden og er derfor den eneste, der må
+     bære tekst — også labels, tællere og placeholders. grey-600 tegner
+     søgerens vinkler, hårstreger ved hover og de tekniske tegninger i
+     styleguiden. grey-800 er skillelinjer. Sætter du en label i grey-600,
+     får du 2,25:1 — det er halvdelen af kravet, og det var præcis den fejl
+     Lighthouse fangede i sidefoden. */
   --color-grey-400: #8a8a92;
   --color-grey-600: #4a4a52;
   --color-grey-800: #232328;

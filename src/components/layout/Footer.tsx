@@ -15,7 +15,7 @@ export function Footer() {
           </div>
 
           <nav aria-label="Sidefod">
-            <h2 className="label-mono mb-5 text-grey-600">Menu</h2>
+            <h2 className="label-mono mb-5 text-grey-400">Menu</h2>
             <ul className="space-y-3 text-sm">
               {[...nav, { label: "Kontakt", href: "/kontakt" }].map((item) => (
                 <li key={item.href}>
@@ -31,7 +31,7 @@ export function Footer() {
           </nav>
 
           <div>
-            <h2 className="label-mono mb-5 text-grey-600">Kontakt</h2>
+            <h2 className="label-mono mb-5 text-grey-400">Kontakt</h2>
             <ul className="space-y-3 text-sm text-grey-400">
               <li>
                 <a
@@ -77,12 +77,12 @@ export function Footer() {
             arbejdsredskab for os og for Markus, ikke et sted en kunde skal
             ledes hen. Den er sat med noindex af samme grund. */}
         <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-grey-800 pt-8">
-          <p className="label-mono text-grey-600">
+          <p className="label-mono text-grey-400">
             © {new Date().getFullYear()} {site.name} — Aarhus
           </p>
           <Link
             href="/styleguide"
-            className="label-mono text-grey-600 transition-colors hover:text-paper"
+            className="label-mono text-grey-400 transition-colors hover:text-paper"
           >
             Styleguide
           </Link>

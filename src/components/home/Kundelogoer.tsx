@@ -22,7 +22,7 @@ export function Kundelogoer() {
       className="border-y border-grey-800"
     >
       <div className="mx-auto w-full max-w-320 px-6 py-14 md:px-10 md:py-16">
-        <p className="label-mono mb-12 text-center text-grey-600">
+        <p className="label-mono mb-12 text-center text-grey-400">
           Virksomheder vi arbejder med
         </p>
 
@@ -42,7 +42,11 @@ export function Kundelogoer() {
                   src={logo.fil}
                   alt={logo.navn}
                   fill
-                  sizes="(min-width: 640px) 25vw, 50vw"
+                  // Cellebredden, ikke viewportbredden: rækken har
+                  // sidepolstring og mellemrum, så 25vw/50vw overvurderer
+                  // hver celle med 40-60 px og får browseren til at hente et
+                  // trin større logo end den skal bruge.
+                  sizes="(min-width: 1280px) 258px, (min-width: 768px) calc(25vw - 62px), (min-width: 640px) calc(25vw - 54px), calc(50vw - 44px)"
                   className="object-contain opacity-60 transition-opacity duration-300 hover:opacity-100"
                 />
               </div>
