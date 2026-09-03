@@ -52,36 +52,23 @@ const hero = [
   },
 ];
 
-/** Cases. `cover` er 4:5 fordi det er formatet stillbillederne er skudt i —
- *  vi beskærer ikke hans komposition væk for at ramme et 16:9-felt. */
-const cases = [
+/** Styleguidens eget eksempelbillede.
+ *
+ * Her lå før hele case-produktionen — cover, bredt topbillede og fire
+ * gallerbilleder per case, 18 filer i alt. Den er væk, fordi cases flyttede
+ * til Sanity: Markus lægger billederne op i studiet, og filerne i public/
+ * blev derfor hverken vist eller vedligeholdt. De lå bare og blev deployet.
+ *
+ * Tilbage er dette ene, fordi styleguiden skal kunne vise 4:5-formatet uden
+ * at hænge på indhold, en anden kan slette. Sikkerhedsnettet for casene er
+ * originalerne i raw-assets og `sanity dataset export` — se SANITY.md.
+ */
+const styleguide = [
   {
-    slug: "rs-tomrer",
-    mappe: "RS tømrer",
-    cover: "DSC06129.jpg",
-    bred: "DSC05911.jpg",
-    // Tre logo-tunge billeder i træk fik galleriet til at ligne en
-    // bilpark. Nu: arbejde, portræt, arbejde, ét brandbillede.
-    galleri: ["DSC00702.jpg", "DSC06108.jpg", "DSC06397.jpg", "DSC06483.jpg"],
-  },
-  {
-    slug: "mc-tag",
-    mappe: "MC TAG",
-    cover: "DSC07481.jpg",
-    bred: "DSC07902.jpg",
-    galleri: ["DSC07914.jpg", "DSC08011.jpg", "DSC07076.jpg", "DSC07490.jpg"],
-  },
-  {
-    slug: "ao-byggeri",
-    mappe: "AO byggeri",
-    cover: "DSC05121.jpg",
-    bred: "DSC05743.jpg",
-    galleri: [
-      "DSC05057.jpg",
-      "DSC05603.jpg",
-      "DSC05666.jpg",
-      "rigtig2-kopi.jpg",
-    ],
+    ud: "styleguide/eksempel-4-5",
+    kilde: "RS tømrer/DSC06129.jpg",
+    b: 720,
+    h: 900,
   },
 ];
 
@@ -109,7 +96,11 @@ const sider = [
   },
   { ud: "sider/annoncering", kilde: "MC TAG/DSC07964.jpg", b: 1200, h: 750 },
   { ud: "sider/branding", kilde: "RS tømrer/DSC06483.jpg", b: 1200, h: 750 },
-  { ud: "sider/om", kilde: "RS tømrer/DSC06367.jpg", b: 1000, h: 1333 },
+  // Bemærk: der er ikke noget om-billede her. Om-siden har et tomt felt,
+  // hvor der skal stå et portræt af Markus, og det billede findes ikke endnu.
+  // Der lå før et her, men det var en håndværker fra RS Tømrers mappe — en
+  // anden mands medarbejder sat ind som "personen bag". Feltet bliver stående
+  // tomt, til Markus leverer sit eget.
 ];
 
 /* ----------------------------------------------------------------- motorer */
@@ -225,23 +216,9 @@ for (const s of sider) {
   console.log("side   ", s.ud);
 }
 
-for (const c of cases) {
-  await billede(join(c.mappe, c.cover), `cases/${c.slug}/cover`, 1100, 1375);
-  await billede(join(c.mappe, c.bred), `cases/${c.slug}/bred`, 1920, 1080);
-  for (const [i, g] of c.galleri.entries()) {
-    await billede(
-      join(c.mappe, g),
-      `cases/${c.slug}/${String(i + 1).padStart(2, "0")}`,
-      900,
-      1125,
-      74,
-    );
-  }
-  console.log(
-    "case   ",
-    c.slug,
-    `(cover + bred + ${c.galleri.length} galleri)`,
-  );
+for (const g of styleguide) {
+  await billede(g.kilde, g.ud, g.b, g.h);
+  console.log("guide  ", g.ud);
 }
 
 for (const h of hero) {

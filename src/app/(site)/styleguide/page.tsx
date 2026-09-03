@@ -699,7 +699,11 @@ export default function StyleguidePage() {
                   note="4:5 · stillbillede · hjørnerne uden for motivet"
                 >
                   <Billede
-                    src="/cases/rs-tomrer/cover.webp"
+                    /* Styleguidens eget eksempelbillede, ikke en case.
+                       Cases bor i Sanity nu, og en styleguide, der henter sit
+                       eksempel derfra, går i stykker den dag Markus sletter
+                       casen. */
+                    src="/styleguide/eksempel-4-5.webp"
                     alt="Eksempel på stillbillede i 4:5"
                     sizes="(min-width: 768px) 18rem, 100vw"
                     className="w-full"
