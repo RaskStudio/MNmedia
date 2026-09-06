@@ -16,7 +16,7 @@ npm run dev
 | `src/content/` | Tekst, der ikke er i CMS'et — ydelser, om-siden, kontaktoplysninger. |
 | `src/sanity/` | Datalaget for cases, og skemaet studiet bygger på. |
 | `brand/` | Logofiler, grafik til sociale profiler, og scripterne der bygger dem. |
-| `scripts/` | Billed- og videobygning fra `../raw-assets`. |
+| `scripts/` | Billed- og videobygning fra `../raw-assets`, og skriften. |
 
 ## De tre dokumenter, der betyder noget
 
@@ -36,6 +36,7 @@ npm run dev
 | `npm run lint` | ESLint |
 | `npm run brand` | Genskaber alle logofiler og sociale formater ud fra `Logo.tsx` |
 | `node scripts/build-assets.mjs` | Bygger billeder og klip fra `../raw-assets` |
+| `python3 scripts/byg-skrift.py` | Henter Archivo og klipper akserne (kræver fonttools) |
 
 ## Miljøvariabler
 
@@ -50,6 +51,11 @@ ikke kunne sendes, og henviser til mail og telefon.
 kamerafiler, som `scripts/build-assets.mjs` komprimerer ned til det, sitet
 faktisk bruger — typisk 1-2 % af kildestørrelsen. Alt i `public/` deployes
 råt, så originalerne må ikke ligge der.
+
+**Overskriftsskriften er selv-hostet.** `src/app/fonts/archivo-mnmedia.woff2`
+er Archivo med akserne klippet ned til de to punkter, sitet bruger — halvdelen
+af den fil, Google udleverer. Den opdaterer sig derfor ikke selv. Skal
+bredde-aksen uden for 80-112, retter du `scripts/byg-skrift.py` og kører den.
 
 **Mærkets geometri findes ét sted:** `src/components/layout/Logo.tsx`. Ikon,
 favicon, delebillede og alle filerne i `brand/` er genereret ud fra de tal.
