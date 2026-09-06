@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/content/site";
 
@@ -11,10 +12,27 @@ import { site } from "@/content/site";
  *  - Geist til brødtekst, fordi den er neutral og læses roligt i lange afsnit.
  *  - Geist Mono til labels, tal og tællere — instrumenterne i Markus' fag.
  */
-const archivo = Archivo({
+/**
+ * Archivo er selv-hostet frem for hentet gennem next/font/google, fordi den
+ * fil, Google udleverer, er dobbelt sÃ¥ stor som den, sitet har brug for.
+ *
+ * Den variable skrift bærer bredde 62-125 og vægt 100-900. Sitet bruger to
+ * punkter på de akser — wdth 112/600 til overskrifter og wdth 80/500 til
+ * ordet i mærket — og resten er data, ingen ser. 88 KiB blev til 52.
+ *
+ * Det er ikke en anden skrift: scripts/byg-skrift.py henter fra samme kilde
+ * som next/font gjorde og klipper kun akserne. Filen er kontrolleret bit for
+ * bit mod den, der lå i byggeriet før. Skal båndet uden for 80-112, så ret
+ * scriptet og kør det igen.
+ *
+ * Det betyder til gengæld at skriften ikke opdaterer sig selv længere. Det
+ * er prisen, og for et snit, der er valgt én gang og bærer identiteten, er
+ * det en billig pris.
+ */
+const archivo = localFont({
+  src: "./fonts/archivo-mnmedia.woff2",
   variable: "--font-display",
-  subsets: ["latin"],
-  axes: ["wdth"],
+  weight: "500 600",
   display: "swap",
 });
 
