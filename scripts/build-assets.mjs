@@ -144,10 +144,20 @@ async function klip({ kilde, fraMappe, ud, start, laengde }) {
   if (!existsSync(ind)) throw new Error(`Mangler kilde: ${ind}`);
   await mkdir(dirname(join(OUT, ud)), { recursive: true });
 
-  // -ss før -i er hurtigt søg. 720x1280 er rigeligt til en hero-loop.
-  // CRF 32 frem for 30: det første klip er droneoptagelser med masser af
-  // løv, som er dyrt at komprimere, og det er den fil hver eneste besøgende
-  // henter. Forskellen er ikke synlig i en muted baggrundsloop.
+  // -ss før -i er hurtigt søg. 720x1280 er rigeligt til en hero-loop — og
+  // både til mobil og desktop: på desktop vises klippet i 303 px bredde,
+  // altså SMALLERE end på en telefon, hvor det fylder hele skærmen. Mobilen
+  // er den krævende af de to, og derfor er der én fil og ikke to.
+  //
+  // CRF 36 frem for 32. Det første klip er droneoptagelser med masser af
+  // løv, som er dyrt at komprimere, og det er den fil, hver eneste besøgende
+  // henter: 1,7 MB, altså 77 % af forsidens vægt. Ved 36 er den 974 KiB.
+  //
+  // Grænsen er fundet ved at sammenligne rammer ved 1179 px, som er hvad en
+  // telefon med DPR 3 faktisk viser. Ved 36 holder lægterne og
+  // ovenlysrammen; ved 38 begynder kanterne at smuldre. Prøvet blev også en
+  // lavere opløsning — 540x960 ved CRF 34 fylder det samme som 720 ved 38,
+  // men ser tydeligt blødere ud. Bits er bedre brugt på pixels her.
   await run("ffmpeg", [
     "-v",
     "error",
@@ -166,7 +176,7 @@ async function klip({ kilde, fraMappe, ud, start, laengde }) {
     "-profile:v",
     "high",
     "-crf",
-    "32",
+    "36",
     "-preset",
     "slow",
     "-pix_fmt",
@@ -182,7 +192,12 @@ async function klip({ kilde, fraMappe, ud, start, laengde }) {
   // gennem next/image (se Hero.tsx), som skalerer og koder om til AVIF per
   // skærm. Derfor kvalitet 85 og ikke 68 — den skal have noget at give af,
   // når den kodes om. Den større fil koster kun plads i repoet.
-  const poster = join(OUT, `${ud}-poster.jpg`);
+  // PNG som mellemstation, ikke JPEG: filen bliver alligevel slettet om lidt,
+  // og en JPEG ville lægge et tabsgivende trin ind, før sharp koder til webp.
+  // Masteren skal have så meget som muligt at give af — next/image koder den
+  // om igen per skærm. Målt: 322 KiB via PNG mod 270 via JPEG for det samme
+  // billede, altså detaljer der ellers var smidt væk før tid.
+  const poster = join(OUT, `${ud}-poster.png`);
   await run("ffmpeg", [
     "-v",
     "error",
