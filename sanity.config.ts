@@ -3,6 +3,9 @@ import { structureTool } from "sanity/structure";
 
 import { apiVersion, datasaet, projektId } from "@/sanity/env";
 import { caseType } from "@/sanity/skema/case";
+import { sektionTyper } from "@/sanity/skema/sektioner";
+import { sideTyper } from "@/sanity/skema/side";
+import { SIDE_TYPER, struktur } from "@/sanity/struktur";
 
 /**
  * Sanity Studio.
@@ -18,6 +21,27 @@ export default defineConfig({
   projectId: projektId,
   dataset: datasaet,
   apiVersion,
-  plugins: [structureTool()],
-  schema: { types: [caseType] },
+  plugins: [structureTool({ structure: struktur })],
+  schema: { types: [caseType, ...sideTyper, ...sektionTyper] },
+
+  document: {
+    /**
+     * Siderne kan hverken oprettes eller slettes.
+     *
+     * Der er fem sider, og de svarer til fem ruter i koden. En sjette ville
+     * være indhold uden en adresse, og en slettet forside ville tage sitet ned
+     * — begge dele uden at nogen sagde det. Strukturen skjuler knapperne;
+     * det her fjerner handlingerne, så de heller ikke kan nås ad omveje.
+     */
+    actions: (forrige, { schemaType }) =>
+      SIDE_TYPER.includes(schemaType)
+        ? forrige.filter(
+            (h) =>
+              !["duplicate", "delete", "unpublish"].includes(h.action ?? ""),
+          )
+        : forrige,
+
+    newDocumentOptions: (forrige) =>
+      forrige.filter((h) => !SIDE_TYPER.includes(h.templateId)),
+  },
 });
