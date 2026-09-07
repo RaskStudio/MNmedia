@@ -16,6 +16,12 @@ export const FORMAT = {
   staaende: { bredde: 1200, hoejde: 1500 },
   /** Toppen af en case. */
   bred: { bredde: 2000, hoejde: 1125 },
+  /** Sidehovedets billede ved siden af teksten. */
+  sidehoved: { bredde: 1400, hoejde: 1050 },
+  /** Toppen af et service-kort. */
+  kort: { bredde: 1200, hoejde: 750 },
+  /** Portræt, stående. */
+  portraet: { bredde: 1000, hoejde: 1333 },
 } as const;
 
 /**
