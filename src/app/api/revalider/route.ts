@@ -3,13 +3,23 @@ import type { NextRequest } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
 import { CASE_MAERKE } from "@/sanity/hent";
+import { SIDE_MAERKE } from "@/sanity/sider";
+
+/** De fem side-dokumenter. Se src/sanity/struktur.ts. */
+const SIDE_TYPER = new Set([
+  "forside",
+  "ydelserSide",
+  "casesSide",
+  "omSide",
+  "kontaktSide",
+]);
 
 /**
  * Webhook fra Sanity.
  *
  * Uden den ville sitet være statisk på en ubrugelig måde: Markus udgiver en
- * case, og der sker ingenting, før nogen deployer. Den her fortæller Next,
- * at de sider, der bruger cases, er blevet gamle.
+ * rettelse, og der sker ingenting, før nogen deployer. Den her fortæller Next,
+ * at det, der bygger på det udgivne, er blevet gammelt.
  *
  * Signaturen tjekkes med `parseBody` fra next-sanity — den bekræfter, at
  * kaldet kommer fra Sanity og ikke fra en tilfældig, der har gættet
@@ -33,9 +43,24 @@ export async function POST(request: NextRequest) {
     return new Response("Ugyldig signatur.", { status: 401 });
   }
 
-  if (body?._type !== "case") {
+  // Hvilket mærke skal gøres ugyldigt? Ruten afgør det ud fra dokumenttypen
+  // frem for at stole på et filter i Sanity. Filteret er én tekststreng i en
+  // webhook-opsætning, ingen ser igen — glemmer man at udvide den, når der
+  // kommer en ny dokumenttype, udgiver Markus noget, og der sker ingenting.
+  // Her står listen ved siden af de mærker, den handler om.
+  const maerke =
+    body?._type === "case"
+      ? CASE_MAERKE
+      : SIDE_TYPER.has(body?._type ?? "")
+        ? SIDE_MAERKE
+        : undefined;
+
+  if (!maerke) {
     // Ikke en fejl — Sanity kan sende andet. Vi svarer pænt og laver intet.
-    return Response.json({ genopfrisket: false, grund: "ikke en case" });
+    return Response.json({
+      genopfrisket: false,
+      grund: `ukendt type: ${body?._type ?? "ingen"}`,
+    });
   }
 
   // `expire: 0` frem for "max". "max" giver stale-while-revalidate: den gamle
@@ -47,7 +72,7 @@ export async function POST(request: NextRequest) {
   // sin ændring. Ser han det gamle, tror han, det er i stykker. Prisen er, at
   // ét enkelt kald venter på Sanity — et par hundrede millisekunder på et
   // site med den her trafik.
-  revalidateTag(CASE_MAERKE, { expire: 0 });
+  revalidateTag(maerke, { expire: 0 });
 
-  return Response.json({ genopfrisket: true, maerke: CASE_MAERKE });
+  return Response.json({ genopfrisket: true, maerke });
 }
