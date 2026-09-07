@@ -19,7 +19,45 @@ import { StatBlock, ServiceTags } from "@/components/shared/StatBlock";
 import { Billede } from "@/components/shared/Billede";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { site } from "@/content/site";
-import { serviceHighlights } from "@/content/ydelser";
+
+/**
+ * Fire rigtige kort til demonstrationen nedenfor.
+ *
+ * En kopi og ikke et opslag i CMS'et: guiden skal vise, hvordan et kort
+ * opfører sig, når teksterne har forskellig længde, og den demonstration må
+ * ikke forsvinde, den dag Markus slår sektionen fra på forsiden. Bliver de
+ * her fire forældede, gør det ikke noget — det er formen, der vises.
+ */
+const demokort: {
+  title: string;
+  description: string;
+  icon: IconName;
+}[] = [
+  {
+    title: "SoMe-administration",
+    description:
+      "Vi håndterer jeres Instagram, Facebook, LinkedIn og TikTok med indhold der passer til jeres virksomhed.",
+    icon: "share",
+  },
+  {
+    title: "Video og content",
+    description:
+      "Vi hjælper med at lave professionelle billeder og video til jeres kanaler. Det gælder lige fra idégenerering, eksekvering og redigering.",
+    icon: "camera",
+  },
+  {
+    title: "Annoncering",
+    description:
+      "Vi opsætter annoncer der rammer jeres målgruppe og skaber henvendelser til jeres virksomhed.",
+    icon: "target",
+  },
+  {
+    title: "Branding",
+    description:
+      "Vi personliggør jeres digitale univers, så I fremstår unikke, professionelle og troværdige online.",
+    icon: "spark",
+  },
+];
 
 export const metadata: Metadata = {
   title: "Styleguide",
@@ -640,7 +678,7 @@ export default function StyleguidePage() {
             fyldtekst ville vise gitteret, men ikke hvordan et kort opfører sig,
             når teksterne er forskellig længde. */}
               <ul className="grid gap-px overflow-hidden bg-grey-800 sm:grid-cols-2 lg:grid-cols-4">
-                {serviceHighlights.map((s) => (
+                {demokort.map((s) => (
                   <li key={s.title} className="flex h-full flex-col bg-ink p-8">
                     <Icon name={s.icon} className="size-7 text-accent" />
                     <h4 className="mt-8 text-h3 font-medium">{s.title}</h4>

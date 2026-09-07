@@ -2,6 +2,8 @@ import { Section } from "@/components/shared/Section";
 import { Hjoerner } from "@/components/shared/Frame";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { Button, ArrowRight } from "@/components/shared/Button";
+import { Overskrift } from "@/components/shared/Overskrift";
+import type { Knap } from "@/sanity/sider";
 
 /**
  * Afsluttende CTA. Genbruges på forside, ydelser, cases og om — kun teksten
@@ -11,14 +13,14 @@ export function ClosingCta({
   eyebrow,
   overskrift,
   undertekst,
-  primaer = { label: "Book en snak", href: "/kontakt" },
+  primaer,
   sekundaer,
 }: {
   eyebrow?: string;
   overskrift: string;
   undertekst?: string;
-  primaer?: { label: string; href: string };
-  sekundaer?: { label: string; href: string };
+  primaer: Knap;
+  sekundaer?: Knap;
 }) {
   return (
     <Section className="border-t border-grey-800">
@@ -34,7 +36,7 @@ export function ClosingCta({
             faldt desuden under kontrastkravet (3,5:1 mod 4,5:1 ved 11 px).
             Se farverollerne ved tokenerne i globals.css. */}
         {eyebrow && <p className="label-mono mb-6 text-grey-400">{eyebrow}</p>}
-        <h2 className="headline text-h1 text-balance">{overskrift}</h2>
+        <Overskrift tekst={overskrift} className="text-h1" />
         {undertekst && (
           <p className="mx-auto mt-6 max-w-xl text-lead text-grey-400">
             {undertekst}

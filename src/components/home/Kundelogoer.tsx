@@ -15,16 +15,14 @@ import { kundeLogoer } from "@/content/cases";
  */
 const BASISHOEJDE = 58;
 
-export function Kundelogoer() {
+export function Kundelogoer({ label }: { label: string }) {
   return (
     <section
       aria-label="Virksomheder vi har arbejdet med"
       className="border-y border-grey-800"
     >
       <div className="mx-auto w-full max-w-320 px-6 py-14 md:px-10 md:py-16">
-        <p className="label-mono mb-12 text-center text-grey-400">
-          Virksomheder vi arbejder med
-        </p>
+        <p className="label-mono mb-12 text-center text-grey-400">{label}</p>
 
         <ul className="grid grid-cols-2 items-center gap-x-10 gap-y-12 sm:grid-cols-4 sm:gap-x-14">
           {kundeLogoer.map((logo) => (

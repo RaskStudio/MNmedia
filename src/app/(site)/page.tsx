@@ -1,65 +1,26 @@
-import { Hero, type HeroSlide } from "@/components/home/Hero";
-import { Kundelogoer } from "@/components/home/Kundelogoer";
-import { ServiceCards } from "@/components/home/ServiceCards";
-import { CasePreview } from "@/components/home/CasePreview";
-import { AboutBlock } from "@/components/home/AboutBlock";
-import { ClosingCta } from "@/components/shared/ClosingCta";
-import { graderLoft } from "@/lib/tekstbredde";
+import type { Metadata } from "next";
+
+import { Sektioner } from "@/components/sektioner/Sektioner";
+import { hentSide } from "@/sanity/sider";
 
 /**
- * Hero-klippene. Filerne bygges af scripts/build-assets.mjs ud fra
- * originalerne i ../raw-assets — rediger manifestet der, ikke filerne her.
+ * Forsiden.
  *
- * `kunde` er bevidst udeladt: klippene kan ikke med sikkerhed henføres til
- * en bestemt kunde ud fra materialet alene, og et forkert kundenavn i
- * heroen er værre end intet kundenavn. Markus kan udfylde dem.
+ * Siden henter sit indhold fra Sanity og gengiver de sektioner, der ligger
+ * der, i den rækkefølge de ligger i. Rækkefølgen og udvalget er Markus',
+ * ikke kodens — se src/components/sektioner/Sektioner.tsx for oversættelsen
+ * fra sektion til komponent.
  */
-const heroSlides: HeroSlide[] = [
-  {
-    src: "/hero/01-tagudskiftning.mp4",
-    poster: "/hero/01-tagudskiftning-poster.webp",
-    alt: "Droneoptagelse af en tagudskiftning under arbejde",
-  },
-  {
-    src: "/hero/02-tilbygning.mp4",
-    poster: "/hero/02-tilbygning-poster.webp",
-    alt: "Tilbygning under opførelse",
-  },
-  {
-    src: "/hero/03-tagarbejde.mp4",
-    poster: "/hero/03-tagarbejde-poster.webp",
-    alt: "Tømrer i gang med tagarbejde",
-  },
-];
 
-/** Overskriften er brudt i linjer i hånden: i brede versaler afgør
- *  ombrydningen rytmen, og den vil vi ikke overlade til viewportbredden. */
-const heroLinjer = ["Vi bygger brands", "for virksomheder", "der leverer"];
+export async function generateMetadata(): Promise<Metadata> {
+  const side = await hentSide("forside");
+  // Ingen title her: root-layoutet sætter forsidens egen, som er den fulde
+  // «MNmedia — Branding, sociale medier og annoncering». Sætter vi den igen,
+  // bliver den kørt gennem skabelonen og ender som «Forside — MNmedia».
+  return { description: side.sidebeskrivelse };
+}
 
-export default function Home() {
-  return (
-    <>
-      <Hero
-        slides={heroSlides}
-        linjer={heroLinjer}
-        // Loftet holder hver linje hel på en telefon. Regnes her frem for i
-        // Hero, fordi udregningen læser en tabel over skriftens bogstavbredder
-        // — den hører til på serveren, ikke i browserens bundt.
-        overskriftGrad={graderLoft(heroLinjer, {
-          sporing: -0.015,
-          grad: "var(--text-display)",
-        })}
-      />
-      <Kundelogoer />
-      <ServiceCards />
-      <CasePreview />
-      <AboutBlock />
-      <ClosingCta
-        overskrift="Klar til at styrke jeres brand online?"
-        undertekst="Lad os tage en uforpligtende snak om, hvordan vi kan hjælpe jer videre."
-        primaer={{ label: "Book en snak", href: "/kontakt" }}
-        sekundaer={{ label: "Se cases", href: "/cases" }}
-      />
-    </>
-  );
+export default async function Forside() {
+  const side = await hentSide("forside");
+  return <Sektioner sektioner={side.sektioner} />;
 }

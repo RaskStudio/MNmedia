@@ -454,12 +454,6 @@ export const kontaktSektion = defineType({
       type: "text",
       rows: 3,
     }),
-    defineField({
-      name: "formularTitel",
-      title: "Overskrift over formularen",
-      type: "string",
-      validation: (r) => r.required(),
-    }),
     skjulFelt(),
   ],
   preview: sektionPreview("Kontakt"),

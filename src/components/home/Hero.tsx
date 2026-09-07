@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, ArrowRight } from "@/components/shared/Button";
 import { Hjoerner } from "@/components/shared/Frame";
 import { cn } from "@/lib/cn";
+import type { Knap } from "@/sanity/sider";
 
 export type HeroSlide = {
   /** Komprimeret 9:16-MP4, ~1-2 MB, uden lyd. Se scripts/build-assets.mjs */
@@ -16,21 +17,53 @@ export type HeroSlide = {
   kunde?: string;
 };
 
+/**
+ * Hero-klippene. Filerne bygges af scripts/build-assets.mjs ud fra
+ * originalerne i ../raw-assets — rediger manifestet der, ikke filerne her.
+ *
+ * `kunde` er bevidst udeladt: klippene kan ikke med sikkerhed henføres til
+ * en bestemt kunde ud fra materialet alene, og et forkert kundenavn i
+ * heroen er værre end intet kundenavn. Markus kan udfylde dem.
+ */
+const heroKlip: HeroSlide[] = [
+  {
+    src: "/hero/01-tagudskiftning.mp4",
+    poster: "/hero/01-tagudskiftning-poster.webp",
+    alt: "Droneoptagelse af en tagudskiftning under arbejde",
+  },
+  {
+    src: "/hero/02-tilbygning.mp4",
+    poster: "/hero/02-tilbygning-poster.webp",
+    alt: "Tilbygning under opførelse",
+  },
+  {
+    src: "/hero/03-tagarbejde.mp4",
+    poster: "/hero/03-tagarbejde-poster.webp",
+    alt: "Tømrer i gang med tagarbejde",
+  },
+];
+
 const SLIDE_MS = 6000;
 
 export function Hero({
-  slides,
   linjer,
+  undertekst,
+  primaer,
+  sekundaer,
   overskriftGrad,
+  slides = heroKlip,
 }: {
-  slides: HeroSlide[];
   /** Overskriften, sat i linjer i hånden: i brede versaler afgør ombrydningen
    *  rytmen, og den vil vi ikke overlade til viewportbredden. */
   linjer: string[];
+  undertekst: string;
+  primaer: Knap;
+  sekundaer?: Knap;
   /** Færdigt loft på skriftgraden, regnet ud af linjernes bredde på serveren.
    *  Det sker ikke her, fordi udregningen slæber en tabel over skriftens
    *  bogstavbredder med sig — den skal ikke i browserens bundt. */
   overskriftGrad: string;
+  slides?: HeroSlide[];
 }) {
   const [index, setIndex] = useState(0);
   const [erDesktop, setErDesktop] = useState(false);
@@ -235,15 +268,14 @@ export function Hero({
             className="animate-lift mt-8 max-w-xl"
             style={{ animationDelay: "440ms" }}
           >
-            <p className="text-lead text-grey-400">
-              Branding, sociale medier og annoncering — samlet ét sted. Vi står
-              for hele processen, fra idé til færdigt resultat.
-            </p>
+            <p className="text-lead text-grey-400">{undertekst}</p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Button href="/kontakt">Book en uforpligtende snak</Button>
-              <Button href="/cases" variant="secondary">
-                Se cases <ArrowRight />
-              </Button>
+              <Button href={primaer.href}>{primaer.label}</Button>
+              {sekundaer && (
+                <Button href={sekundaer.href} variant="secondary">
+                  {sekundaer.label} <ArrowRight />
+                </Button>
+              )}
             </div>
           </div>
 

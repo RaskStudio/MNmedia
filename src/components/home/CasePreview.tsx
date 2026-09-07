@@ -5,22 +5,28 @@ import { ArrowRight } from "@/components/shared/Button";
 import { StatBlock, ServiceTags } from "@/components/shared/StatBlock";
 import { Billede } from "@/components/shared/Billede";
 import { hentForsideCases } from "@/sanity/hent";
+import { Overskrift } from "@/components/shared/Overskrift";
+import type { Sektion } from "@/sanity/sider";
 
-export async function CasePreview() {
+export async function CasePreview({
+  s,
+}: {
+  s: Extract<Sektion, { _type: "caseudvalgSektion" }>;
+}) {
   const forsideCases = await hentForsideCases();
 
   return (
     <Section className="border-t border-grey-800">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <Eyebrow>Resultater</Eyebrow>
-          <h2 className="headline text-h1">Udvalgte cases</h2>
+          {s.eyebrow && <Eyebrow>{s.eyebrow}</Eyebrow>}
+          <Overskrift tekst={s.overskrift} className="text-h1" />
         </div>
         <Link
           href="/cases"
           className="inline-flex items-center gap-2 text-sm text-grey-400 transition-colors hover:text-paper"
         >
-          Se alle cases <ArrowRight />
+          {s.linkLabel} <ArrowRight />
         </Link>
       </div>
 
@@ -56,7 +62,12 @@ export async function CasePreview() {
               </div>
 
               <div className="flex flex-1 flex-col pt-9">
-                <h3 className="headline text-h2">{c.kunde}</h3>
+                <Overskrift
+                  tekst={c.kunde}
+                  className="text-h2"
+                  sporing={-0.01}
+                  grad="var(--text-h2)"
+                />
                 <p className="mt-3 text-sm leading-relaxed text-grey-400">
                   {c.kortBeskrivelse}
                 </p>

@@ -126,7 +126,6 @@ export type Sektion =
       eyebrow?: string;
       overskrift: string;
       undertekst?: string;
-      formularTitel: string;
     };
 
 export type Side = {
