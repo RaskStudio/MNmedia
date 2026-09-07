@@ -9,34 +9,37 @@ npm run dev
 
 ## Hvor tingene ligger
 
-| Sti | Hvad |
-| --- | --- |
-| `src/app/` | Siderne. Fem offentlige, plus `/styleguide` og `/studio`. |
-| `src/components/` | Komponenterne. `shared/` er byggestenene, `layout/` er header og fod. |
-| `src/content/` | Tekst, der ikke er i CMS'et — ydelser, om-siden, kontaktoplysninger. |
-| `src/sanity/` | Datalaget for cases, og skemaet studiet bygger på. |
-| `brand/` | Logofiler, grafik til sociale profiler, og scripterne der bygger dem. |
-| `scripts/` | Billed- og videobygning fra `../raw-assets`, og skriften. |
+| Sti                         | Hvad                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `src/app/`                  | Siderne. Fem offentlige, plus `/styleguide` og `/studio`.                       |
+| `src/components/`           | Komponenterne. `shared/` er byggestenene, `layout/` er header og fod.           |
+| `src/components/sektioner/` | Oversættelsen fra en sektion i CMS'et til noget på skærmen.                     |
+| `src/content/`              | Det, der ikke er i CMS'et — kontaktoplysninger og kundelogoernes optiske skala. |
+| `src/sanity/`               | Datalaget for sider og cases, og skemaet studiet bygger på.                     |
+| `brand/`                    | Logofiler, grafik til sociale profiler, og scripterne der bygger dem.           |
+| `scripts/`                  | Billed- og videobygning fra `../raw-assets`, og skriften.                       |
 
 ## De tre dokumenter, der betyder noget
 
 - **`/styleguide`** på sitet — mærket, farver, skrifter, komponenter og
   reglerne bag dem. Linket i sidefoden. Det er opslagsværket.
-- **`SANITY.md`** — hvordan Markus lægger en case ind, hvad der bevidst ikke
-  er i CMS'et, og hvad der stadig mangler at blive sat op.
+- **`SANITY.md`** — hvordan Markus retter en side og lægger en case ind, hvad
+  der bevidst IKKE er i CMS'et, og hvad der stadig mangler. Læs afsnittet om
+  linjeskift i overskrifter, før du retter en: det er et designværktøj, og det
+  kan ikke gættes.
 - **`brand/README.md`** — logofilerne, hvad de bruges til, og hvordan de
   genskabes.
 
 ## Kommandoer
 
-| | |
-| --- | --- |
-| `npm run dev` | Udviklingsserver |
-| `npm run build` | Byg |
-| `npm run lint` | ESLint |
-| `npm run brand` | Genskaber alle logofiler og sociale formater ud fra `Logo.tsx` |
-| `node scripts/build-assets.mjs` | Bygger billeder og klip fra `../raw-assets` |
-| `python3 scripts/byg-skrift.py` | Henter Archivo og klipper akserne (kræver fonttools) |
+|                                 |                                                                |
+| ------------------------------- | -------------------------------------------------------------- |
+| `npm run dev`                   | Udviklingsserver                                               |
+| `npm run build`                 | Byg                                                            |
+| `npm run lint`                  | ESLint                                                         |
+| `npm run brand`                 | Genskaber alle logofiler og sociale formater ud fra `Logo.tsx` |
+| `node scripts/build-assets.mjs` | Bygger billeder og klip fra `../raw-assets`                    |
+| `python3 scripts/byg-skrift.py` | Henter Archivo og klipper akserne (kræver fonttools)           |
 
 ## Miljøvariabler
 
