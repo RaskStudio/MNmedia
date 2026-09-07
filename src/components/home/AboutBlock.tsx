@@ -2,6 +2,7 @@ import { Section, Eyebrow } from "@/components/shared/Section";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { Button, ArrowRight } from "@/components/shared/Button";
 import { omForside } from "@/content/om";
+import { graderLoft } from "@/lib/tekstbredde";
 
 export function AboutBlock() {
   return (
@@ -14,23 +15,23 @@ export function AboutBlock() {
           "En" efterladt alene på første linje. Med fuld bredde deler
           text-balance den i to hele linjer omkring tankestregen.
 
-          Loftet på skriftgraden er den eneste af sin slags uden for heroen,
-          og det er sat efter måling, ikke skøn: "En samarbejdspartner" fylder
-          14.98 em i Archivo wdth 112 med sitets sporing. Spalten på en telefon
-          er 100vw minus px-6 i begge sider; de 4.5rem er de 3rem polstring
-          plus 1.5rem luft, så versalerne ikke lander på kanten.
+          Loftet på skriftgraden regnes ud af overskriftens egne bogstaver,
+          ikke af et håndmålt tal — se src/lib/tekstbredde.ts. Her stod før
+          14.98, bredden af «En samarbejdspartner», og det holdt kun så længe
+          teksten stod i koden ved siden af tallet.
 
-          Uden loftet brydes linjen, og fordi hele sitets orddeling nu er slået
-          fra (se .headline i globals.css), er det break-word der overtager —
-          altså et ord hakket midt over. Med loftet står de to linjer hele
-          vejen ned til 320 px. Det bider kun under ~431 px; derover er det
-          clamp'en i --text-h1, der bestemmer.
-
-          Ændrer teksten sig, skal de 14.98 måles om — det er den længste af de
-          to tiltænkte linjers bredde i em, målt i browseren. */}
+          Bemærk at overskriften kan brydes i linjer med linjeskift. Gør den
+          det, holdes hver linje hel; gør den ikke, er det bare det længste ORD,
+          der skal kunne stå. Det er forskellen på en komposition og en
+          nødbremse, og valget ligger hos den, der skriver teksten. */}
       <h2
-        className="headline text-h1 sm:text-balance"
-        style={{ fontSize: "min(var(--text-h1), (100vw - 4.5rem) / 14.98)" }}
+        className="headline text-h1 whitespace-pre-line"
+        style={{
+          fontSize: graderLoft(omForside.overskrift, {
+            sporing: -0.012,
+            grad: "var(--text-h1)",
+          }),
+        }}
       >
         {omForside.overskrift}
       </h2>

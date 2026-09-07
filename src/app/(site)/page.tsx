@@ -4,6 +4,7 @@ import { ServiceCards } from "@/components/home/ServiceCards";
 import { CasePreview } from "@/components/home/CasePreview";
 import { AboutBlock } from "@/components/home/AboutBlock";
 import { ClosingCta } from "@/components/shared/ClosingCta";
+import { graderLoft } from "@/lib/tekstbredde";
 
 /**
  * Hero-klippene. Filerne bygges af scripts/build-assets.mjs ud fra
@@ -31,10 +32,24 @@ const heroSlides: HeroSlide[] = [
   },
 ];
 
+/** Overskriften er brudt i linjer i hånden: i brede versaler afgør
+ *  ombrydningen rytmen, og den vil vi ikke overlade til viewportbredden. */
+const heroLinjer = ["Vi bygger brands", "for virksomheder", "der leverer"];
+
 export default function Home() {
   return (
     <>
-      <Hero slides={heroSlides} />
+      <Hero
+        slides={heroSlides}
+        linjer={heroLinjer}
+        // Loftet holder hver linje hel på en telefon. Regnes her frem for i
+        // Hero, fordi udregningen læser en tabel over skriftens bogstavbredder
+        // — den hører til på serveren, ikke i browserens bundt.
+        overskriftGrad={graderLoft(heroLinjer, {
+          sporing: -0.015,
+          grad: "var(--text-display)",
+        })}
+      />
       <Kundelogoer />
       <ServiceCards />
       <CasePreview />

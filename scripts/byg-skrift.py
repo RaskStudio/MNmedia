@@ -41,6 +41,13 @@ UDSNIT = "latin"
 AKSER = {"wght": (500, 600, 600), "wdth": (80, 100, 112)}
 UD = Path("src/app/fonts/archivo-mnmedia.woff2")
 
+# Bogstavbredderne ved overskrifternes punkt på akserne. De bruges til at
+# regne ud, hvor bred en overskrift bliver, FØR den er tegnet — se
+# src/lib/tekstbredde.ts. Tabellen hører til skriften og skal derfor bygges
+# sammen med den; ellers kan de to drive fra hinanden i tavshed.
+OVERSKRIFT = {"wght": 600, "wdth": 112}
+UD_BREDDER = Path("src/lib/bogstavbredder.json")
+
 # Uden en browser-agent svarer Google med truetype frem for woff2.
 AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -69,3 +76,27 @@ skrift.save(UD)
 print(f"{UDSNIT}: {len(raa) / 1024:.1f} KiB → {UD.stat().st_size / 1024:.1f} KiB")
 for tag, (lav, _, hoej) in AKSER.items():
     print(f"  {tag} {lav}-{hoej}")
+
+# --- bogstavbredder til overskrifterne -------------------------------------
+
+fast = TTFont(__import__("io").BytesIO(raa))
+instancer.instantiateVariableFont(fast, OVERSKRIFT, inplace=True)
+enhed = fast["head"].unitsPerEm
+hmtx = fast["hmtx"]
+bredder = {
+    chr(kode): round(hmtx[glyf][0] / enhed, 4)
+    for kode, glyf in fast.getBestCmap().items()
+    if glyf in hmtx.metrics and 32 <= kode < 0x2E80
+}
+UD_BREDDER.parent.mkdir(parents=True, exist_ok=True)
+UD_BREDDER.write_text(
+    __import__("json").dumps(
+        {"akser": OVERSKRIFT, "bredeste": round(max(bredder.values()), 4), "tegn": bredder},
+        ensure_ascii=False,
+        indent=1,
+        sort_keys=True,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+print(f"{UD_BREDDER}: {len(bredder)} tegn")

@@ -39,7 +39,10 @@ export const personenBag = [
 
 /** Om-blokken på forsiden */
 export const omForside = {
-  overskrift: "En samarbejdspartner – ikke bare et bureau",
+  // Linjeskiftet er komposition, ikke tilfældighed: overskriften skal stå i
+  // to hele linjer omkring tankestregen. Loftet på skriftgraden regnes ud af
+  // linjerne (se AboutBlock), så bruddet holder hele vejen ned til 320 px.
+  overskrift: "En samarbejdspartner –\nikke bare et bureau",
   tekst: [
     "MNmedia blev skabt ud fra en simpel tanke: Mange håndværksvirksomheder leverer et fantastisk stykke arbejde, men deres online tilstedeværelse afspejler det ikke.",
     "Derfor hjælper vi virksomheder med at bygge et stærkt brand gennem content, sociale medier og annoncering.",

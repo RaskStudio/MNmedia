@@ -18,11 +18,20 @@ export type HeroSlide = {
 
 const SLIDE_MS = 6000;
 
-/** Overskriften er sat i linjer i hånden: i brede versaler afgør ombrydningen
- *  rytmen, og den vil vi ikke overlade til viewportbredden. */
-const linjer = ["Vi bygger brands", "for virksomheder", "der leverer"];
-
-export function Hero({ slides }: { slides: HeroSlide[] }) {
+export function Hero({
+  slides,
+  linjer,
+  overskriftGrad,
+}: {
+  slides: HeroSlide[];
+  /** Overskriften, sat i linjer i hånden: i brede versaler afgør ombrydningen
+   *  rytmen, og den vil vi ikke overlade til viewportbredden. */
+  linjer: string[];
+  /** Færdigt loft på skriftgraden, regnet ud af linjernes bredde på serveren.
+   *  Det sker ikke her, fordi udregningen slæber en tabel over skriftens
+   *  bogstavbredder med sig — den skal ikke i browserens bundt. */
+  overskriftGrad: string;
+}) {
   const [index, setIndex] = useState(0);
   const [erDesktop, setErDesktop] = useState(false);
   const [maaHente, setMaaHente] = useState(false);
@@ -203,7 +212,12 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
         </div>
 
         <div className="relative lg:order-1">
-          <h1 className="headline text-display">
+          {/* Loftet på graden holder hver linje hel. Se noten ved
+              --text-display i globals.css og src/lib/tekstbredde.ts. */}
+          <h1
+            className="headline text-display"
+            style={{ fontSize: overskriftGrad }}
+          >
             {linjer.map((linje, i) => (
               // Masken klipper linjen af, mens indholdet kører op bagved.
               <span key={linje} className="block overflow-hidden pb-[0.06em]">
