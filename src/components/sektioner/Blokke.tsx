@@ -38,8 +38,8 @@ export function ToSpalter({ s }: { s: Af<"toSpalterSektion"> }) {
  * Nummererede punkter i to udseender.
  *
  * «Bokse» er et gitter med hårstreg imellem — det bærer tre punkter.
- * «Trin» er en række med ikoner og en streg, der binder dem sammen, som en
- * proces læst fra venstre — den bærer fem. Det er samme indhold og to
+ * «Trin» er en række med ikoner, hvor prikker over hvert trin viser, hvor
+ * langt i forløbet det ligger — en proces læst fra venstre. Den bærer fem. Det er samme indhold og to
  * forskellige aflæsninger, og derfor ét felt frem for to sektionstyper.
  */
 export function Punktliste({ s }: { s: Af<"punktlisteSektion"> }) {
@@ -72,12 +72,26 @@ export function Punktliste({ s }: { s: Af<"punktlisteSektion"> }) {
         <ol className="mt-16 grid gap-y-12 sm:grid-cols-2 lg:grid-cols-5 lg:gap-x-6">
           {s.punkter.map((p, i) => (
             <FadeIn as="li" key={p.titel} delay={i * 80}>
-              {/* Linjen ovenover binder trinene sammen visuelt på desktop */}
               <div className="relative border-t border-grey-800 pt-6 lg:pr-6">
+                {/* Hvor langt i forløbet trinet ligger: én prik pr. trin,
+                    udfyldt op til og med dette. Før stod her en kort lilla
+                    streg, lige lang over alle fem — den læste som fem
+                    loadingbarer, der hang på 10 %. Prikkerne sidder på
+                    linjen, og ring-ink skærer linjen fri omkring dem. */}
                 <span
                   aria-hidden
-                  className="absolute -top-px left-0 h-px w-8 bg-accent"
-                />
+                  className="absolute -top-[3px] left-0 flex gap-1.5"
+                >
+                  {s.punkter.map((_, j) => (
+                    <span
+                      key={j}
+                      className={cn(
+                        "size-1.5 rounded-full ring-4 ring-ink",
+                        j <= i ? "bg-accent" : "bg-grey-800",
+                      )}
+                    />
+                  ))}
+                </span>
                 <div className="flex items-center gap-3">
                   {p.ikon && (
                     <Icon name={p.ikon} className="size-5 text-accent" />
