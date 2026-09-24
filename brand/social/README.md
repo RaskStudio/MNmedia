@@ -1,4 +1,4 @@
-# MNmedia — grafik til sociale profiler
+# MN Media — grafik til sociale profiler
 
 Genereret af `brand/social.py` ud fra de samme filer som resten af
 materialet. Ændrer mærket sig, køres `python3 brand/byg.py` og derefter

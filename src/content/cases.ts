@@ -9,8 +9,22 @@
  * `kundeLogoer` bliver liggende med vilje. Se noten ved den.
  */
 
-export type Ydelse =
-  "Branding" | "Sociale medier" | "Video og foto" | "Annoncering";
+/**
+ * De fire områder, MN Media brander sig på — og de eneste mærker, en case kan
+ * have. Listen står her og ikke i skemaet, fordi både skemaet og datalaget
+ * bruger den: skemaet til valgmulighederne, datalaget til rækkefølgen.
+ *
+ * Rækkefølgen er den, mærkerne står i under en case, uanset hvilken
+ * rækkefølge Markus klikker dem af i.
+ */
+export const YDELSER = [
+  "Branding",
+  "Content",
+  "Sociale medier",
+  "Annoncering",
+] as const;
+
+export type Ydelse = (typeof YDELSER)[number];
 
 export type Fakta = { tal: string; label: string };
 

@@ -37,8 +37,10 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
 
   return (
     <>
-      <section className="px-6 pt-36 pb-14 md:px-10 md:pt-44">
-        <div className="mx-auto w-full max-w-320">
+      {/* Polstringen inde i max-w-320, som i Section — så flugter hoved og
+          billede med header og sektionerne på brede skærme. */}
+      <section className="pt-36 pb-14 md:pt-44">
+        <div className="mx-auto w-full max-w-320 px-6 md:px-10">
           <Link
             href="/cases"
             className="inline-flex items-center gap-2 text-sm text-grey-400 transition-colors hover:text-paper"
@@ -58,13 +60,13 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
         </div>
       </section>
 
-      <div className="px-6 md:px-10">
-        <div className="mx-auto w-full max-w-320">
+      <div>
+        <div className="mx-auto w-full max-w-320 px-6 md:px-10">
           <Billede
             src={c.bred.url}
             alt={c.bred.alt}
             ratio="aspect-16/9"
-            sizes="(min-width: 1280px) 1280px, 100vw"
+            sizes="(min-width: 1280px) 1200px, 100vw"
             priority
             className="w-full"
           />

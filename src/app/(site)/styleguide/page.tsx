@@ -62,7 +62,7 @@ const demokort: {
 export const metadata: Metadata = {
   title: "Styleguide",
   description:
-    "MNmedias visuelle system: mærket, farver, skrifter, komponenter og reglerne bag dem.",
+    "MN Medias visuelle system: mærket, farver, skrifter, komponenter og reglerne bag dem.",
   // Guiden er et arbejdsredskab, ikke en salgsside. Den skal kunne findes fra
   // sidefoden, men ikke konkurrere med ydelser og cases i en søgning.
   robots: { index: false, follow: false },
@@ -235,7 +235,7 @@ export default function StyleguidePage() {
       <div className="mx-auto w-full max-w-320 px-6 md:px-10">
         {/* ---------------- Toppen ---------------- */}
         <header className="pt-36 pb-section md:pt-44">
-          <p className="label-mono text-grey-400">MNmedia · Styleguide</p>
+          <p className="label-mono text-grey-400">MN Media · Styleguide</p>
           <div className="mt-12 mb-10 flex h-14 md:h-20">
             <Maerke />
           </div>
@@ -696,6 +696,19 @@ export default function StyleguidePage() {
                 de er flex-kolonner i et grid, ikke fordi teksterne er lige
                 lange.
               </p>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-grey-400">
+                Ydelsessidens store kort med billede følger antallet: tre står
+                tre på række fra{" "}
+                <code className="font-mono text-paper">lg</code>, fire står to
+                og to og først fire på række fra{" "}
+                <code className="font-mono text-paper">xl</code>, hvor hvert
+                kort har 282 px. Ved{" "}
+                <code className="font-mono text-paper">lg</code> ville det være
+                218 px — for smalt til punktlisten. Fire kort skaleres ned med
+                rækken: mindre luft, ikon og titel, og billedet går fra 16:10
+                til 4:3, så det ikke bliver en strimmel. Det sidste kort står
+                aldrig alene på en ny linje.
+              </p>
 
               <Under>Tal og tags</Under>
               <div className="grid gap-8 lg:grid-cols-2">
@@ -716,7 +729,7 @@ export default function StyleguidePage() {
                   note="ServiceTags · hårstregskant, mono, ingen flade"
                 >
                   <ServiceTags
-                    ydelser={["Branding", "Sociale medier", "Video og foto"]}
+                    ydelser={["Branding", "Content", "Sociale medier"]}
                   />
                 </Spec>
               </div>

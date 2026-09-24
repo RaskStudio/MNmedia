@@ -18,7 +18,9 @@ export function StatBlock({
           <dt className="sr-only">{f.label}</dt>
           <dd>
             <span className="headline block text-2xl md:text-3xl">{f.tal}</span>
-            <span className="label-mono mt-2 block text-grey-400">
+            {/* Labelen står allerede i <dt> til skærmlæsere — uden
+                aria-hidden her blev den læst op to gange. */}
+            <span aria-hidden className="label-mono mt-2 block text-grey-400">
               {f.label}
             </span>
           </dd>

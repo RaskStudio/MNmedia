@@ -27,10 +27,13 @@ export function PageHero({
   ) : null;
 
   return (
-    <section className="px-6 pt-36 pb-section md:px-10 md:pt-44">
+    // Polstringen ligger INDE i max-w-320, som i Section. Lå den uden om,
+    // stod undersidernes hoved 40 px længere ude til venstre end header og
+    // sektioner på skærme over 1360 px.
+    <section className="pt-36 pb-section md:pt-44">
       <div
         className={cn(
-          "mx-auto grid w-full max-w-320 items-center gap-14",
+          "mx-auto grid w-full max-w-320 items-center gap-14 px-6 md:px-10",
           visuelt && "lg:grid-cols-[1.1fr_1fr] lg:gap-20",
         )}
       >

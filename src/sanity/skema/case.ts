@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { YDELSER } from "@/content/cases";
+
 /**
  * En case.
  *
@@ -12,13 +14,6 @@ import { defineArrayMember, defineField, defineType } from "sanity";
  * hjælpetekst for en udvikler: det er stedet, hvor reglen for feltet står,
  * så han ikke skal huske den eller ringe efter den.
  */
-
-const YDELSER = [
-  "Branding",
-  "Sociale medier",
-  "Video og foto",
-  "Annoncering",
-] as const;
 
 export const caseType = defineType({
   name: "case",
@@ -73,10 +68,11 @@ export const caseType = defineType({
       title: "Ydelser",
       type: "array",
       group: "tal",
-      description: "Hvad samarbejdet omfattede.",
+      description:
+        "Hvad samarbejdet omfattede. Kun de fire områder kan vælges, og de står altid i samme rækkefølge på sitet.",
       of: [defineArrayMember({ type: "string" })],
       options: { list: [...YDELSER], layout: "grid" },
-      validation: (r) => r.required().min(1),
+      validation: (r) => r.required().min(1).unique(),
     }),
     defineField({
       name: "fakta",

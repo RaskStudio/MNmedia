@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   MNmedia design-tokens
+   MN Media design-tokens
    Sort/hvid som fundament, lilla udelukkende til primære CTA'er.
    Ændrer du en farve her, ændrer den sig på hele sitet.
    --------------------------------------------------------------- */
@@ -130,15 +130,27 @@ body {
 /* ---------------------------------------------------------------
    Filmkorn. Et fladt #08080a-lærred ser digitalt og billigt ud; et
    næsten umærkeligt kornlag får det til at ligne graderet materiale.
-   SVG'en er inline som data-URI — ingen ekstra netværkskald.
+
+   Kornet er et færdigt billede, public/korn.webp (8 KB, caches), og ikke
+   længere en SVG med feTurbulence. SVG-filteret blev regnet ud af browseren,
+   hver gang laget skulle tegnes — og under scroll skete det i vandrette
+   striber. Indtil en stribe var færdig, manglede kornet dér, og da kornet er
+   det, der løfter bunden en anelse over #0a0a0a, stod der et skel tværs over
+   heroen: mørk over, lysere under. Det var stregen, Markus så. Et billede
+   skal kun afkodes, ikke regnes ud.
+
+   Flisen er SVG'en renderet med sharp på sort og gemt som webp q60 —
+   ved 5 % opacitet kan tabet ikke ses. will-change giver laget sit eget
+   komposit-lag, så det tegnes én gang og ikke røres af resten af siden.
    --------------------------------------------------------------- */
 .grain {
   position: fixed;
   inset: 0;
   z-index: 100;
   pointer-events: none;
+  will-change: transform;
   opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("/korn.webp");
   background-size: 160px 160px;
 }
 

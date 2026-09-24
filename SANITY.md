@@ -11,7 +11,7 @@ der bliver i koden, står i tabellen længere nede sammen med grunden.
 
 ## Sådan retter Markus en side
 
-I studiet står fem sider øverst — Forside, Ydelser, Cases, Om MNmedia,
+I studiet står fem sider øverst — Forside, Ydelser, Cases, Om MN Media,
 Kontakt — og casene nedenunder for sig. Siderne er faste: der er hverken en
 «opret ny» eller en «slet». Det er med vilje. Sitet har fem adresser, skrevet
 i koden, og en sjette side ville være indhold, der aldrig kom nogen steder.
@@ -54,8 +54,10 @@ Værktøjet bestemmer kun, hvor rytmen ligger.
 1. `/studio` → **Cases** → nyt dokument.
 2. Kunde, og tryk **Generate** ved adressen.
 3. Kort beskrivelse (én sætning), lang beskrivelse.
-4. Ydelser, tal og rækkefølge. Fire tal står pænest; laveste rækkefølge
-   øverst.
+4. Ydelser, tal og rækkefølge. Ydelserne er en fast liste — Branding,
+   Content, Sociale medier, Annoncering, de fire områder MN Media brander sig
+   på — og de vises altid i den rækkefølge, uanset hvilken han klikker dem af
+   i. Fire tal står pænest; laveste rækkefølge øverst.
 5. Cover (4:5), bredt topbillede (16:9) og fire gallerbilleder.
 6. **Sæt et fokuspunkt på hvert billede.** Klik billedet → Hotspot → træk
    cirklen hen på det, der skal blive i billedet. Det er dét, der afgør, hvor

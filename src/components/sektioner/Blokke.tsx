@@ -4,7 +4,8 @@ import { FadeIn } from "@/components/shared/FadeIn";
 import { Icon } from "@/components/shared/Icon";
 import { Billede } from "@/components/shared/Billede";
 import { BilledePlads } from "@/components/shared/PageHero";
-import type { Sektion } from "@/sanity/sider";
+import { cn } from "@/lib/cn";
+import { smalleKort, type Sektion } from "@/sanity/sider";
 
 /**
  * De sektioner, der før stod som JSX inde i siderne.
@@ -98,34 +99,103 @@ export function Punktliste({ s }: { s: Af<"punktlisteSektion"> }) {
   );
 }
 
-/** De tre store kort med billede, beskrivelse og en liste under. */
+/**
+ * Services-gitteret følger antallet af kort, så det sidste aldrig står alene
+ * på en ny linje. Markus lagde et fjerde kort ind og fik 3 + 1; går han
+ * tilbage til tre, skal de stå som før, uden at nogen rører koden.
+ *
+ * Fire står først på én række fra xl. Containeren er 1200 px indvendigt, og
+ * fire kort med 24 px mellemrum giver 282 px hver — nok til en punktliste
+ * som «Kommunikationsretning» på én linje. Ved lg ville de få 218 px, og
+ * dér står de i stedet to og to.
+ *
+ * `sizes` følger med, fordi den skal passe til kolonnerne: et kort, der er
+ * en fjerdedel bredt, skal ikke hente et billede til en tredjedel.
+ */
+const SERVICES_GITTER: Record<number, { kolonner: string; sizes: string }> = {
+  2: {
+    kolonner: "md:grid-cols-2",
+    sizes: "(min-width: 768px) 50vw, 100vw",
+  },
+  3: {
+    kolonner: "lg:grid-cols-3",
+    sizes: "(min-width: 1024px) 33vw, 100vw",
+  },
+  4: {
+    kolonner: "md:grid-cols-2 xl:grid-cols-4",
+    sizes: "(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw",
+  },
+};
+
+/** De store kort med billede, beskrivelse og en liste under. Tre eller fire. */
 export function Services({ s }: { s: Af<"servicesSektion"> }) {
+  const gitter = SERVICES_GITTER[s.services.length] ?? SERVICES_GITTER[3];
+  // Fire kort er smallere på én række, og kortet skaleres ned med dem.
+  // Luft, ikon og titel først fra xl — to og to på en tablet har pladsen til
+  // det store kort. Billedet er derimod 4:3 på ALLE bredder: det er beskåret
+  // sådan i URL'en (sider.ts), og ratioen skal følge beskæringen.
+  const smal = smalleKort(s.services.length);
+
   return (
     <Section className="border-t border-grey-800">
       {s.eyebrow && <Eyebrow>{s.eyebrow}</Eyebrow>}
       <Overskrift tekst={s.overskrift} className="max-w-2xl text-h1" />
 
-      <ul className="mt-14 grid gap-6 lg:grid-cols-3">
+      {/* Kortene deler rækker med subgrid: billede, ikon, titel, beskrivelse
+          og liste er fem rækker, som alle kort i samme række står på. Så
+          bliver beskrivelsesfeltet lige højt i alle kort, og stregen over
+          listen står i samme højde — også når én beskrivelse er en linje
+          længere end de andre. Uden det fulgte stregen hver sin tekst.
+          gap-y-0 på subgrid'ene: ellers arver de gitterets 24 px mellem
+          hver af de fem rækker. */}
+      <ul className={cn("mt-14 grid gap-6", gitter.kolonner)}>
         {s.services.map((t, i) => (
-          <FadeIn as="li" key={t.titel} delay={i * 100}>
-            <article className="flex h-full flex-col overflow-hidden border border-grey-800">
+          <FadeIn
+            as="li"
+            key={t.titel}
+            delay={i * 100}
+            className="row-span-5 grid grid-rows-subgrid gap-y-0"
+          >
+            <article className="row-span-5 grid grid-rows-subgrid gap-y-0 overflow-hidden border border-grey-800">
               <Billede
                 src={t.billede.url}
                 alt={t.billede.alt}
-                ratio="aspect-16/10"
-                sizes="(min-width: 1024px) 33vw, 100vw"
+                ratio={smal ? "aspect-4/3" : "aspect-16/10"}
+                sizes={gitter.sizes}
                 // Billedet flugter med kortets kant, så der er intet
                 // "uden for" at sætte vinklerne i — de er slået fra her.
                 corners={false}
                 billedeClassName="border-b border-grey-800"
               />
-              <div className="flex flex-1 flex-col p-8">
-                <Icon name={t.ikon} className="size-7 text-accent" />
-                <h3 className="mt-6 text-h3 font-medium">{t.titel}</h3>
+              <div
+                className={cn(
+                  "row-span-4 grid grid-rows-subgrid gap-y-0 p-8",
+                  smal && "xl:p-6",
+                )}
+              >
+                <Icon
+                  name={t.ikon}
+                  className={cn("size-7 text-accent", smal && "xl:size-6")}
+                />
+                {/* h3-skalaens bund (1,25 rem) i det smalle kort: den fulde
+                    grad er 24 px ved xl og fylder for meget af 234 px. */}
+                <h3
+                  className={cn(
+                    "mt-6 text-h3 font-medium",
+                    smal && "xl:mt-5 xl:text-[1.25rem]",
+                  )}
+                >
+                  {t.titel}
+                </h3>
                 <p className="mt-3 text-sm leading-relaxed text-grey-400">
                   {t.beskrivelse}
                 </p>
-                <ul className="mt-8 space-y-3 border-t border-grey-800 pt-6 text-sm">
+                <ul
+                  className={cn(
+                    "mt-8 space-y-3 border-t border-grey-800 pt-6 text-sm",
+                    smal && "xl:mt-6 xl:space-y-2.5 xl:pt-5",
+                  )}
+                >
                   {t.punkter.map((punkt) => (
                     <li key={punkt} className="flex items-center gap-3">
                       <span

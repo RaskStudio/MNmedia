@@ -16,7 +16,7 @@ import { SIDE_TYPER, struktur } from "@/sanity/struktur";
  */
 export default defineConfig({
   name: "mnmedia",
-  title: "MNmedia",
+  title: "MN Media",
   basePath: "/studio",
   projectId: projektId,
   dataset: datasaet,

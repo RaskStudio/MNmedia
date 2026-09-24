@@ -20,6 +20,12 @@ export const FORMAT = {
   sidehoved: { bredde: 1400, hoejde: 1050 },
   /** Toppen af et service-kort. */
   kort: { bredde: 1200, hoejde: 750 },
+  /**
+   * Toppen af et service-kort, når der er fire. De står smallere, og i 16:10
+   * blev billedet en strimmel over en høj tekstspalte. 4:3 giver det højde
+   * nok til at være et motiv.
+   */
+  kortSmal: { bredde: 1200, hoejde: 900 },
   /** Portræt, stående. */
   portraet: { bredde: 1000, hoejde: 1333 },
 } as const;

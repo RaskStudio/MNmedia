@@ -1,4 +1,4 @@
-# MNmedia — logofiler
+# MN Media — logofiler
 
 Forslag **01 Smal**, godkendt af Markus. Tegningen findes ét sted som kilde:
 `src/components/layout/Logo.tsx`. Alt i denne mappe er genereret ud fra den —

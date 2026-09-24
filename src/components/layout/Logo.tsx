@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 /**
- * MNmedias mærke — forslag 01 "Smal", godkendt af Markus.
+ * MN Medias mærke — forslag 01 "Smal", godkendt af Markus.
  *
  * Monogrammet er tegnet, ikke sat i en skrift: tre midterlinjer der streges op
  * med ét stregmål, så gerings-samlingerne selv giver de spidse vinkler. M og N
@@ -118,7 +118,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
-      aria-label="MNmedia — til forsiden"
+      aria-label="MN Media — til forsiden"
       className={cn(
         "inline-flex text-lg text-paper transition-opacity duration-300 hover:opacity-70",
         className,

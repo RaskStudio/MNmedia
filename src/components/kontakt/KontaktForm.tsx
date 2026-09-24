@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { sendKontakt, type KontaktState } from "@/app/actions/send-kontakt";
 import { ButtonElement } from "@/components/shared/Button";
@@ -83,6 +83,15 @@ function Submit() {
 
 export function KontaktForm() {
   const [state, formAction] = useActionState(sendKontakt, initial);
+  const form = useRef<HTMLFormElement>(null);
+
+  // Efter en afvist indsendelse flyttes fokus til det første felt med en
+  // fejl. Ellers bliver det stående på knappen, og en skærmlæser- eller
+  // tastaturbruger skal selv lede efter, hvad der mangler.
+  useEffect(() => {
+    if (!state.fieldErrors) return;
+    form.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }, [state]);
 
   if (state.status === "success") {
     return (
@@ -99,7 +108,7 @@ export function KontaktForm() {
   }
 
   return (
-    <form action={formAction} className="space-y-8" noValidate>
+    <form ref={form} action={formAction} className="space-y-8" noValidate>
       <Felt
         label="Navn"
         navn="navn"

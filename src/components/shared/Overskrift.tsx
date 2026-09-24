@@ -35,12 +35,21 @@ export function Overskrift({
   sporing?: number;
   className?: string;
 }) {
+  // Et mellemrum efter sidste ord er usynligt i studiet, men det tæller med,
+  // når loftet regnes ud: linjen bliver et mellemrum bredere, end den er, og
+  // overskriften en anelse mindre. Det er sket — derfor renses hver linje.
+  const ren = tekst
+    .split("\n")
+    .map((linje) => linje.trim())
+    .join("\n")
+    .trim();
+
   return (
     <Tag
       className={cn("headline whitespace-pre-line", className)}
-      style={{ fontSize: graderLoft(tekst, { sporing, grad }) }}
+      style={{ fontSize: graderLoft(ren, { sporing, grad }) }}
     >
-      {tekst}
+      {ren}
     </Tag>
   );
 }

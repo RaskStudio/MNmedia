@@ -1,7 +1,7 @@
 export const site = {
-  name: "MNmedia",
+  name: "MN Media",
   tagline:
-    "Branding, sociale medier og annoncering for virksomheder der leverer.",
+    "Branding, sociale medier og annoncering for virksomheder, der leverer.",
   url: "https://mn-media.dk",
   email: "markus@nikolaisen.dk",
   phone: "+45 42 75 33 60",
@@ -22,5 +22,5 @@ export const site = {
 export const nav = [
   { label: "Ydelser", href: "/ydelser" },
   { label: "Cases", href: "/cases" },
-  { label: "Om MNmedia", href: "/om" },
+  { label: "Om MN Media", href: "/om" },
 ] as const;

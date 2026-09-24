@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "./Logo";
 import { Hjoerner } from "@/components/shared/Frame";
 import { Button } from "@/components/shared/Button";
@@ -14,6 +14,29 @@ export function Header() {
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const burger = useRef<HTMLButtonElement>(null);
+
+  // Luk menuen, når adressen skifter — også når det ikke sker via et tryk i
+  // menuen, fx iPhonens swipe tilbage. Sat under render frem for i en effect:
+  // så når den gamle side aldrig at blive tegnet med menuen åben over sig.
+  const [menuSti, setMenuSti] = useState(pathname);
+  if (pathname !== menuSti) {
+    setMenuSti(pathname);
+    setOpen(false);
+  }
+
+  // Et tryk i menuen lukker den altid. Peger linket på den side, man står på,
+  // er der ingen navigation: Next bevarer scroll-positionen, menuen lukker
+  // over præcis det sted, man var, og det ligner at intet skete. Det var
+  // fejlen Markus mødte på «Om» — han stod på om-siden. Derfor hopper vi selv
+  // til toppen, efter at scroll-låsen er sluppet.
+  const vaelg = (href: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setOpen(false);
+    if (href !== pathname || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+      return;
+    e.preventDefault();
+    requestAnimationFrame(() => window.scrollTo({ top: 0 }));
+  };
 
   // Ét scroll-lyt til begge formål: baggrunden der falder på plads, og
   // afspilningslinjen. To separate lyttere ville læse layout to gange pr. frame.
@@ -33,17 +56,40 @@ export function Header() {
     };
   }, []);
 
-  // Lås baggrundsscroll mens fullscreen-menuen er åben
+  // Mens fullscreen-menuen er åben, er siden bag den ude af spil: ingen
+  // scroll, og main og sidefod er inert, så Tab ikke fører fokus ind i
+  // indhold, der ligger usynligt under overlayet.
   useEffect(() => {
+    const bag = document.querySelectorAll("main, footer");
     document.body.style.overflow = open ? "hidden" : "";
+    bag.forEach((el) => el.toggleAttribute("inert", open));
     return () => {
       document.body.style.overflow = "";
+      bag.forEach((el) => el.removeAttribute("inert"));
     };
   }, [open]);
 
+  // Menuen findes kun under md. Drejes en iPad til landskab med menuen åben,
+  // forsvinder både overlay og burger — men open blev stående, og dermed
+  // scroll-låsen. Siden kunne ikke scrolles, og der var intet at lukke med.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const mq = window.matchMedia("(min-width: 768px)");
+    const luk = () => mq.matches && setOpen(false);
+    luk();
+    mq.addEventListener("change", luk);
+    return () => mq.removeEventListener("change", luk);
+  }, [open]);
+
+  // Escape lukker og sender fokus tilbage til burgeren. Ellers ligger fokus
+  // på et link, der lige er blevet skjult, og falder til body.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      burger.current?.focus();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -99,6 +145,7 @@ export function Header() {
         </div>
 
         <button
+          ref={burger}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -138,11 +185,12 @@ export function Header() {
           <ul className="flex flex-col gap-2">
             {nav.map((item) => (
               <li key={item.href}>
-                {/* Luk ved klik frem for via en effect på pathname: navigation
-                    er hændelsen, og så undgår vi en ekstra render-runde. */}
                 <Link
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={vaelg(item.href)}
+                  aria-current={
+                    pathname.startsWith(item.href) ? "page" : undefined
+                  }
                   className="headline block border-b border-grey-800 py-5 text-3xl"
                 >
                   {item.label}
@@ -153,7 +201,7 @@ export function Header() {
         </nav>
         <Button
           href="/kontakt"
-          onClick={() => setOpen(false)}
+          onClick={vaelg("/kontakt")}
           className="mt-10 w-full"
         >
           Kontakt os

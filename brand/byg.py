@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genskaber alle afledte udgaver af MNmedias mærke.
+"""Genskaber alle afledte udgaver af MN Medias mærke.
 
     python3 brand/byg.py            (køres fra web/)
 

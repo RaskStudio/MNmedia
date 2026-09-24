@@ -27,7 +27,7 @@ const seoFelter = [
     type: "string",
     group: "seo",
     description:
-      "Står i browserfanen og som overskrift i Google. Sitets navn sættes automatisk bagefter, så skriv kun sidens eget navn — «Ydelser», ikke «Ydelser — MNmedia».",
+      "Står i browserfanen og som overskrift i Google. Sitets navn sættes automatisk bagefter, så skriv kun sidens eget navn — «Ydelser», ikke «Ydelser — MN Media».",
     validation: (r) => r.required().max(60),
   }),
   defineField({
@@ -125,7 +125,7 @@ export const ydelserSideType = sideType({
 
 export const omSideType = sideType({
   name: "omSide",
-  title: "Om MNmedia",
+  title: "Om MN Media",
   beskrivelse: "Om-sidens sektioner, oppefra og ned.",
   sektioner: [
     "sidehovedSektion",

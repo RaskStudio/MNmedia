@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bygger det grafiske til MNmedias sociale profiler.
+"""Bygger det grafiske til MN Medias sociale profiler.
 
     python3 brand/social.py            (køres fra web/)
 
@@ -228,7 +228,7 @@ def highlights():
 
 def laesmig():
     linjer = [
-        "# MNmedia — grafik til sociale profiler",
+        "# MN Media — grafik til sociale profiler",
         "",
         "Genereret af `brand/social.py` ud fra de samme filer som resten af",
         "materialet. Ændrer mærket sig, køres `python3 brand/byg.py` og derefter",

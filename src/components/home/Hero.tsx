@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import type { Knap } from "@/sanity/sider";
 
 export type HeroSlide = {
-  /** Komprimeret 9:16-MP4, ~1-2 MB, uden lyd. Se scripts/build-assets.mjs */
+  /** Komprimeret 9:16-MP4, højst ~1 MB, uden lyd. Se scripts/build-assets.mjs */
   src: string;
   /** Stillbillede vist med det samme, så der aldrig er sort skærm. */
   poster: string;
@@ -27,19 +27,26 @@ export type HeroSlide = {
  */
 const heroKlip: HeroSlide[] = [
   {
-    src: "/hero/01-tagudskiftning.mp4",
-    poster: "/hero/01-tagudskiftning-poster.webp",
-    alt: "Droneoptagelse af en tagudskiftning under arbejde",
+    src: "/hero/01-laegter.mp4",
+    poster: "/hero/01-laegter-poster.webp",
+    alt: "Droneoptagelse af et tag under renovering, hvor tømrere lægger nye lægter på det grønne undertag",
   },
   {
-    src: "/hero/02-tilbygning.mp4",
-    poster: "/hero/02-tilbygning-poster.webp",
-    alt: "Tilbygning under opførelse",
+    src: "/hero/02-tagnedrivning.mp4",
+    poster: "/hero/02-tagnedrivning-poster.webp",
+    alt: "Håndværkere i hvide beskyttelsesdragter på stilladset, mens det gamle tag tages af en bygning ved kirkegården",
   },
   {
-    src: "/hero/03-tagarbejde.mp4",
-    poster: "/hero/03-tagarbejde-poster.webp",
-    alt: "Tømrer i gang med tagarbejde",
+    src: "/hero/03-klubhus.mp4",
+    poster: "/hero/03-klubhus-poster.webp",
+    alt: "Droneoptagelse af Aarhus Fremads klubhus ved fodboldbanerne, fra råhus til færdigt tag med ovenlys",
+  },
+  {
+    // 6,4 s og ikke 10 — kilden er tekstet på begge sider af vinduet. Se
+    // manifestet. Den må derfor ikke stå forrest, hvor mobilen looper den.
+    src: "/hero/04-terrasse.mp4",
+    poster: "/hero/04-terrasse-poster.webp",
+    alt: "Hvidt pudset hus med ny trætrappe, terrasse og udestue med sprossede glasdøre",
   },
 ];
 
@@ -72,9 +79,9 @@ export function Hero({
 
   // Bemærk at den starter på false, altså mobil. Det er ikke ligegyldigt:
   // serveren render det, der står i første gennemløb, og står der true, ligger
-  // ALLE tre klip i den udsendte HTML. Browseren henter så alle tre
-  // posterbilleder — 313 KiB — og hydreringen smider de to af dem væk igen.
-  // På en telefon er de to plakater 123 KiB, der aldrig kommer på skærmen.
+  // ALLE klip i den udsendte HTML. Browseren henter så alle posterbillederne,
+  // og hydreringen smider alle andre end det første væk igen. Målt, da der
+  // var tre klip: 123 KiB på en telefon, der aldrig kom på skærmen.
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const update = () => setErDesktop(mq.matches);
@@ -97,27 +104,47 @@ export function Hero({
     return () => window.removeEventListener("load", luk);
   }, []);
 
+  // På mobil er der kun ét slide, men index bliver stående fra desktop. Uden
+  // den her ville en iPad, der drejes til portræt midt på klip 3, skjule det
+  // eneste slide, der er tilbage — og timeren er stoppet, så det rettede sig
+  // aldrig. Heroen stod sort.
+  const aktiv = erDesktop ? index : 0;
+
+  // index i afhængighederne er med vilje: et klik på tidslinjen skal starte
+  // en hel periode forfra, ellers skifter klippet et halvt sekund efter, mens
+  // sporet lige er begyndt at fylde op.
   useEffect(() => {
     if (!erDesktop || slides.length < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const timer = setInterval(
+    const timer = setTimeout(
       () => setIndex((i) => (i + 1) % slides.length),
       SLIDE_MS,
     );
-    return () => clearInterval(timer);
-  }, [erDesktop, slides.length]);
+    return () => clearTimeout(timer);
+  }, [erDesktop, slides.length, index]);
 
-  // Spol det aktive klip tilbage, så hvert slide starter forfra
+  // Spol det aktive klip tilbage, så hvert slide starter forfra — og sæt de
+  // andre på pause. De står ved opacity 0, men en video, der ikke er sat på
+  // pause, bliver ved med at dekode: efter én runde kørte alle fire samtidig.
+  // Med reduceret bevægelse spiller intet; posterbilledet står.
   useEffect(() => {
     if (!maaHente) return;
-    const video = videoRefs.current[index];
-    if (!video) return;
-    video.currentTime = 0;
-    void video.play().catch(() => {
-      /* autoplay afvist — posterbilledet står tilbage, hvilket er fint */
+    const stille = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return;
+      if (i !== aktiv || stille) {
+        video.pause();
+        return;
+      }
+      video.currentTime = 0;
+      void video.play().catch(() => {
+        /* autoplay afvist — posterbilledet står tilbage, hvilket er fint */
+      });
     });
-  }, [index, maaHente]);
+  }, [aktiv, maaHente, erDesktop]);
 
   const visible = erDesktop ? slides : slides.slice(0, 1);
 
@@ -180,7 +207,7 @@ export function Hero({
                 sizes="(min-width: 1024px) 26vw, 66vw"
                 className={cn(
                   "object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                  i === index ? "opacity-100" : "opacity-0",
+                  i === aktiv ? "opacity-100" : "opacity-0",
                 )}
               />
             ))}
@@ -209,7 +236,7 @@ export function Hero({
                 aria-label={slide.alt}
                 className={cn(
                   "absolute inset-0 size-full object-cover transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                  i === index ? "opacity-100" : "opacity-0",
+                  i === aktiv ? "opacity-100" : "opacity-0",
                 )}
               >
                 <source src={slide.src} type="video/mp4" />

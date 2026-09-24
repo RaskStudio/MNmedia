@@ -15,8 +15,8 @@ import { hentSide } from "@/sanity/sider";
 export async function generateMetadata(): Promise<Metadata> {
   const side = await hentSide("forside");
   // Ingen title her: root-layoutet sætter forsidens egen, som er den fulde
-  // «MNmedia — Branding, sociale medier og annoncering». Sætter vi den igen,
-  // bliver den kørt gennem skabelonen og ender som «Forside — MNmedia».
+  // «MN Media — Branding, sociale medier og annoncering». Sætter vi den igen,
+  // bliver den kørt gennem skabelonen og ender som «Forside — MN Media».
   return { description: side.sidebeskrivelse };
 }
 

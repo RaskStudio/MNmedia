@@ -197,22 +197,35 @@ type RaaSektion =
     });
 
 /** Sanitys form → komponenternes. Kun billederne skal reelt laves om. */
+/**
+ * Står services-kortene fire på række, er de smalle og får et højere billede.
+ * Reglen bruges to steder, som skal følges ad: her, hvor billedet beskæres i
+ * URL'en, og i Services (Blokke.tsx), hvor ratioen sættes. Kommer de ud af
+ * trit, beskæres billedet i ét format og vises i et andet.
+ */
+export const smalleKort = (antal: number) => antal === 4;
+
 function tilSektion(raa: RaaSektion): Sektion {
   switch (raa._type) {
     case "sidehovedSektion":
       return { ...raa, billede: tilBillede(raa.billede, "sidehoved") };
     case "personenBagSektion":
       return { ...raa, portraet: tilBillede(raa.portraet, "portraet") };
-    case "servicesSektion":
+    case "servicesSektion": {
+      // Fire kort står smallere og får et højere billede. Samme regel som
+      // gitteret i Services (Blokke.tsx) — beskæringen sker her i URL'en, så
+      // billedformatet kan ikke vælges i komponenten alene.
+      const format = smalleKort(raa.services.length) ? "kortSmal" : "kort";
       return {
         ...raa,
         services: raa.services.map((t) => ({
           ...t,
           // Billedet er påkrævet i skemaet, og kortet giver ingen mening uden
           // — derfor en tom placeholder frem for at udelade feltet.
-          billede: tilBillede(t.billede, "kort") ?? { url: "", alt: "" },
+          billede: tilBillede(t.billede, format) ?? { url: "", alt: "" },
         })),
       };
+    }
     default:
       return raa;
   }
@@ -223,8 +236,8 @@ function tilSektion(raa: RaaSektion): Sektion {
  *
  * Kaster, hvis dokumentet ikke findes. Det er med vilje og af samme grund som
  * ved cases: en tom side, der ser bevidst ud, er værre end en fejl, nogen
- * opdager. Findes dokumentet ikke, er indholdet ikke lagt ind — se
- * scripts/saa-sider.mjs.
+ * opdager. Findes dokumentet ikke, peger miljøet på et forkert datasæt, eller
+ * dokumentet er slettet — og så er vejen tilbage en backup, se SANITY.md.
  */
 export async function hentSide(navn: SideNavn): Promise<Side> {
   if (!konfigureret) {
@@ -246,8 +259,8 @@ export async function hentSide(navn: SideNavn): Promise<Side> {
 
   if (!raa) {
     throw new Error(
-      `Siden «${navn}» findes ikke i Sanity. Kør scripts/saa-sider.mjs for at ` +
-        "lægge indholdet ind — se SANITY.md.",
+      `Siden «${navn}» findes ikke i Sanity. Tjek NEXT_PUBLIC_SANITY_DATASET, ` +
+        "eller gendan fra en backup — se «Backup» i SANITY.md.",
     );
   }
 

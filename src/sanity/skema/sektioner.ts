@@ -217,7 +217,7 @@ export const toSpalterSektion = defineType({
   title: "Overskrift og tekst",
   type: "object",
   // Overskrift til venstre, brødtekst til højre. Bruges der, hvor et
-  // synspunkt skal foldes ud — «Hvorfor MNmedia?», «Vi producerer ikke bare
+  // synspunkt skal foldes ud — «Hvorfor MN Media?», «Vi producerer ikke bare
   // content».
   fields: [overskriftFelt(), afsnitFelt("Tekst"), skjulFelt()],
   preview: sektionPreview("Overskrift og tekst"),
@@ -326,7 +326,8 @@ export const servicesSektion = defineType({
       name: "services",
       title: "Services",
       type: "array",
-      description: "Tre store kort med billede, beskrivelse og en liste under.",
+      description:
+        "Kort med billede, beskrivelse og en liste under. Tre eller fire: fire står side om side på en stor skærm og bliver lidt mindre, tre bliver større.",
       of: [
         defineArrayMember({
           type: "object",
@@ -379,7 +380,7 @@ export const servicesSektion = defineType({
           preview: { select: { title: "titel", media: "billede" } },
         }),
       ],
-      validation: (r) => r.required().min(1),
+      validation: (r) => r.required().min(1).max(4),
     }),
     skjulFelt(),
   ],

@@ -19,7 +19,7 @@ const SIDER = [
   { id: "forside", type: "forside", titel: "Forside" },
   { id: "ydelserSide", type: "ydelserSide", titel: "Ydelser" },
   { id: "casesSide", type: "casesSide", titel: "Cases" },
-  { id: "omSide", type: "omSide", titel: "Om MNmedia" },
+  { id: "omSide", type: "omSide", titel: "Om MN Media" },
   { id: "kontaktSide", type: "kontaktSide", titel: "Kontakt" },
 ] as const;
 

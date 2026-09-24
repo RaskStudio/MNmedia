@@ -1,6 +1,12 @@
 import type { SanityImageSource } from "@sanity/image-url";
 
-import type { Billede, Case, Fakta, Ydelse } from "@/content/cases";
+import {
+  YDELSER,
+  type Billede,
+  type Case,
+  type Fakta,
+  type Ydelse,
+} from "@/content/cases";
 import { sanity } from "./client";
 import { konfigureret } from "./env";
 import { billedeUrl } from "./billede";
@@ -24,7 +30,9 @@ type SanityCase = {
   kunde: string;
   kortBeskrivelse: string;
   langBeskrivelse: string;
-  ydelser: Ydelse[];
+  // Som strenge og ikke Ydelse: dokumentet kan være gemt, før listen blev
+  // strammet — se iRaekkefoelge.
+  ydelser: string[] | null;
   fakta: Fakta[] | null;
   visPaaForsiden: boolean | null;
   cover: SanityBillede;
@@ -99,6 +107,16 @@ function tilBillede(
   };
 }
 
+/**
+ * Mærkerne i den faste rækkefølge fra YDELSER. Studiet gemmer dem i den
+ * rækkefølge, de er klikket af i, og så ville to cases med de samme ydelser
+ * stå forskelligt. En værdi, der ikke er på listen længere, falder fra her
+ * frem for at stå på sitet med en stavemåde, ingen har valgt.
+ */
+function iRaekkefoelge(ydelser: string[]): Ydelse[] {
+  return YDELSER.filter((y) => ydelser.includes(y));
+}
+
 /** Oversætter Sanitys form til den, komponenterne allerede kender. */
 function tilCase(c: SanityCase): Case {
   return {
@@ -106,7 +124,7 @@ function tilCase(c: SanityCase): Case {
     kunde: c.kunde,
     kortBeskrivelse: c.kortBeskrivelse,
     langBeskrivelse: c.langBeskrivelse,
-    ydelser: c.ydelser ?? [],
+    ydelser: iRaekkefoelge(c.ydelser ?? []),
     fakta: c.fakta ?? [],
     visPaaForsiden: c.visPaaForsiden ?? false,
     cover: tilBillede(c.cover, "staaende", c.kunde),

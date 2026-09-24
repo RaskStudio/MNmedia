@@ -1,6 +1,6 @@
-# MNmedia
+# MN Media
 
-Sitet for MNmedia — Next.js 16, Tailwind 4, hostet på Vercel.
+Sitet for MN Media — Next.js 16, Tailwind 4, hostet på Vercel.
 
 ```bash
 npm install

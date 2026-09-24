@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description:
-    "MNmedia hjælper virksomheder med at bygge et stærkt brand gennem content, sociale medier og annoncering. Baseret i Aarhus.",
+    "MN Media hjælper virksomheder med at bygge et stærkt brand gennem content, sociale medier og annoncering. Baseret i Aarhus.",
   openGraph: {
     type: "website",
     locale: "da_DK",
