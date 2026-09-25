@@ -76,19 +76,21 @@ const hero = [
     alt: "Droneoptagelse af Aarhus Fremads klubhus ved fodboldbanerne, fra råhus til færdigt tag med ovenlys",
   },
   {
-    // Stadion Allé. Tekstet næsten hele vejen, og der er INTET rent vindue
-    // på ti sekunder: det længste løber fra klippet ved 14,24 s til omkring
-    // 20,9 s, hvor "I udestuen har vi fået ..." kommer på. Derfor 6,4 s og
-    // ikke 10. Det holder, fordi desktop alligevel kun viser seks sekunder af
-    // klip 2 og frem — men klippet må IKKE flyttes forrest, hvor mobilen
-    // looper det. Og SLIDE_MS må ikke komme over 6,4 s.
-    // Pergolaen ved 30,13-36,85 s er det andet rene vindue; den blev valgt
-    // fra, fordi huset og trappen siger mere om arbejdet end havemøblerne.
-    ud: "hero/04-terrasse",
+    // Stadion Allé. Markus ønskede 25/9 sekunderne med Rasmus, tømreren der
+    // fører ordet i filmen. Han er med fra 0 til klippet ved 6,89 s, hvor
+    // der skiftes til huset: 0-1,55 s taler han til kameraet, 1,55-5,6 s er
+    // en sort-hvid selfie foran huset, og 5,6-6,89 s står han i døren. Den
+    // første og sidste indstilling har indbrændt tekst ("Det er ikke første
+    // gang, vi står her!" / "Der er sket meget siden sidst."). Det er Markus'
+    // valg, og der findes ikke et stykke med Rasmus uden tekst, der er langt
+    // nok. Han er også med ved 21-23, 28-30 og 44-47 s, men i kortere stykker.
+    // 6,8 s, så vinduet slutter før klippet. Klippet må IKKE flyttes forrest,
+    // hvor mobilen looper det, og SLIDE_MS må ikke komme over 6,8 s.
+    ud: "hero/04-rasmus",
     kilde: "Videoer/Stadion allé, video.mp4",
-    start: 14.3,
-    laengde: 6.4,
-    alt: "Hvidt pudset hus med ny trætrappe, terrasse og udestue med sprossede glasdøre",
+    start: 0,
+    laengde: 6.8,
+    alt: "Tømreren Rasmus fortæller foran huset på Stadion Allé, som de har renoveret",
   },
   // "makrelvej real" er valgt fra. Den er en rundvisning med en fortæller,
   // der taler hele vejen, og underteksterne står der næsten uafbrudt — det

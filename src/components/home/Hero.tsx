@@ -42,11 +42,11 @@ const heroKlip: HeroSlide[] = [
     alt: "Droneoptagelse af Aarhus Fremads klubhus ved fodboldbanerne, fra råhus til færdigt tag med ovenlys",
   },
   {
-    // 6,4 s og ikke 10 — kilden er tekstet på begge sider af vinduet. Se
+    // Rasmus' intro, 6,8 s og ikke 10: ved 6,89 s klippes der til huset. Se
     // manifestet. Den må derfor ikke stå forrest, hvor mobilen looper den.
-    src: "/hero/04-terrasse.mp4",
-    poster: "/hero/04-terrasse-poster.webp",
-    alt: "Hvidt pudset hus med ny trætrappe, terrasse og udestue med sprossede glasdøre",
+    src: "/hero/04-rasmus.mp4",
+    poster: "/hero/04-rasmus-poster.webp",
+    alt: "Tømreren Rasmus fortæller foran huset på Stadion Allé, som de har renoveret",
   },
 ];
 
