@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TagManager, TagManagerNoscript } from "@/components/layout/TagManager";
 import { IkkeFundet } from "@/components/shared/IkkeFundet";
 
 /**
@@ -14,12 +15,14 @@ export const metadata: Metadata = { title: "Siden findes ikke" };
 export default function NotFound() {
   return (
     <>
+      <TagManagerNoscript />
       <Header />
       <main className="flex-1">
         <IkkeFundet />
       </main>
       <Footer />
       <div aria-hidden className="grain" />
+      <TagManager />
     </>
   );
 }

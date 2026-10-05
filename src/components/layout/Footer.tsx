@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { Cookieindstillinger } from "./Cookiebanner";
 import { nav, site } from "@/content/site";
 
 export function Footer() {
@@ -80,12 +81,25 @@ export function Footer() {
           <p className="label-mono text-grey-400">
             © {new Date().getFullYear()} {site.name} — Aarhus
           </p>
-          <Link
-            href="/styleguide"
-            className="label-mono text-grey-400 transition-colors hover:text-paper"
-          >
-            Styleguide
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            <Link
+              href="/cookies"
+              className="label-mono text-grey-400 transition-colors hover:text-paper"
+            >
+              Cookies og privatliv
+            </Link>
+            {/* Det skal være lige så let at fortryde et ja som at give det —
+                derfor ligger knappen på alle sider og ikke kun på cookiesiden. */}
+            <Cookieindstillinger className="label-mono text-grey-400 transition-colors hover:text-paper">
+              Cookieindstillinger
+            </Cookieindstillinger>
+            <Link
+              href="/styleguide"
+              className="label-mono text-grey-400 transition-colors hover:text-paper"
+            >
+              Styleguide
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

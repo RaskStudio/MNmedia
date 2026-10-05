@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TagManager, TagManagerNoscript } from "@/components/layout/TagManager";
 
 /**
  * Rammen om det offentlige site: header, indhold, sidefod og kornlaget.
@@ -15,11 +16,13 @@ import { Footer } from "@/components/layout/Footer";
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <>
+      <TagManagerNoscript />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
       {/* Kornlaget ligger øverst og fanger ingen klik — se globals.css */}
       <div aria-hidden className="grain" />
+      <TagManager />
     </>
   );
 }

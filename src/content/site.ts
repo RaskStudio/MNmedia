@@ -3,6 +3,9 @@ export const site = {
   tagline:
     "Branding, sociale medier og annoncering for virksomheder, der leverer.",
   url: "https://mn-media.dk",
+  /** Google Tag Manager-containeren. Markus styrer selv, hvad der ligger i den. */
+  gtmId: "GTM-WM6G4XC2",
+  cvr: "42084751",
   email: "markus@nikolaisen.dk",
   phone: "+45 42 75 33 60",
   phoneHref: "+4542753360",
