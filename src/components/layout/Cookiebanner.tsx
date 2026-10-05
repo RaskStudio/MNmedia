@@ -19,11 +19,14 @@ const SERVER = "server";
  * Cookiebanneret. Vises, indtil den besøgende har valgt, og igen når nogen
  * beder om at ændre valget.
  *
- * To ting er bevidste og må ikke «forbedres»:
- *  - «Kun nødvendige» og «Acceptér alle» er ens knapper. Det skal være lige
- *    så let at sige nej som ja, så ingen af dem får den lilla farve.
- *  - Banneret spærrer ikke for siden. Man kan læse og klikke rundt uden at
- *    vælge; så længe der ikke er valgt, er alt afvist.
+ * «Acceptér alle» er lilla og «Kun nødvendige» hvid og udfyldt. Det er
+ * Anders' valg (5/10-2026): ja-knappen må gerne trække, men nej-knappen skal
+ * være lige så stor og lige så let at ramme — den må ikke blive til en grå
+ * tekstlinje. Datatilsynet kræver, at det er lige så let at afvise som at
+ * acceptere.
+ *
+ * Banneret spærrer ikke for siden. Man kan læse og klikke rundt uden at
+ * vælge; så længe der ikke er valgt, er alt afvist.
  */
 export function Cookiebanner() {
   const raa = useSyncExternalStore(abonner, laesRaa, () => SERVER);
@@ -102,14 +105,14 @@ export function Cookiebanner() {
       ) : (
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <ButtonElement
-            variant="secondary"
+            variant="light"
             className="px-5! py-3!"
             onClick={() => vaelg(false, false)}
           >
             Kun nødvendige
           </ButtonElement>
           <ButtonElement
-            variant="secondary"
+            variant="primary"
             className="px-5! py-3!"
             onClick={() => vaelg(true, true)}
           >

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "light" | "secondary" | "ghost";
 
 // Padding hører til varianten, ikke basen: to konkurrerende px-utilities ville
 // afgøres af rækkefølgen i det genererede stylesheet, hvilket er skrøbeligt.
@@ -15,6 +15,9 @@ const base =
 const variants: Record<Variant, string> = {
   // Lilla er reserveret til denne ene knap — det er dét, der giver den vægt.
   primary: "bg-accent text-paper hover:bg-accent-hover px-7 py-3.5",
+  // Hvid og udfyldt: lige så tydelig som den lilla, uden at låne dens farve.
+  // Bruges til «Kun nødvendige» i cookiebanneret.
+  light: "bg-paper text-ink hover:bg-paper/85 px-7 py-3.5",
   secondary:
     "border border-grey-800 text-paper hover:border-grey-400 px-7 py-3.5",
   ghost: "text-grey-400 hover:text-paper py-1",
